@@ -1,5 +1,7 @@
-var app = require('express')();
+//var app = require('express')();
 //var http = require('http').Server(app);
+var express = require('express');
+var app = express();
 var io = require('socket.io')(http);
 
 app.set('port', (process.env.PORT || 5000));
@@ -23,6 +25,6 @@ io.on('connection', function(socket){
   
 });
 
-app.listen(3000, function(){
-  console.log('listening on *:3000');
+app.listen(app.get('port'), function(){
+  console.log("Node app is running at localhost:" + app.get('port'));
 });

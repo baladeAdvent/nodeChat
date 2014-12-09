@@ -22,6 +22,11 @@
     </form>
 
 	<script>
+		if (typeof jQuery != 'undefined') {
+		// jQuery is loaded => print the version
+		alert(jQuery.fn.jquery);
+		}
+
 		var host = location.origin.replace(/^http/,'ws');
 		var ws = new WebSocket(host);
 		

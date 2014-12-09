@@ -5,7 +5,7 @@ var app = express();
 var p = (process.env.PORT || 5000);
 
 app.get('/', function(request, response){
-	response.send('Hello World');
+	response.sendFile(__dirname + '/index.html');
 });
 
 var server = app.listen(p, function(){

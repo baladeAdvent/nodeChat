@@ -22,6 +22,7 @@
     </form>
 
 	<script>
+	$(document).ready(function(){
 		if (typeof jQuery != 'undefined') {
 		// jQuery is loaded => print the version
 		alert(jQuery.fn.jquery);
@@ -41,6 +42,8 @@
 		ws.on('chat message', function(msg){
 			$('#messages').append($('<li>').text(msg)	);
 		});
+	});
+	
 	</script>
   </body>
 </html>

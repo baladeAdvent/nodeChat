@@ -15,7 +15,3 @@ var io = sio.listen(server);
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
-
-io.sockets.on('connection'),function(socket){
-	console.log('Connection');
-});

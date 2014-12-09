@@ -22,11 +22,6 @@
     </form>
 
 	<script>
-	jQuery(document).ready(function(){
-		if (typeof jQuery != 'undefined') {
-		// jQuery is loaded => print the version
-		alert(jQuery.fn.jquery);
-		}
 
 		var host = location.origin.replace(/^http/,'ws');
 		var ws = new WebSocket(host);
@@ -42,7 +37,6 @@
 		ws.on('chat message', function(msg){
 			jQuery('#messages').append($('<li>').text(msg)	);
 		});
-	});
 	
 	</script>
   </body>

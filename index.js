@@ -4,8 +4,8 @@ var sio = require('socket.io');
 var app = express();
 var p = (process.env.PORT || 5000);
 
-app.get('/', function(request, result){
-	res.send('Hello World');
+app.get('/', function(request, response){
+	response.send('Hello World');
 });
 
 var server = app.listen(p, function(){

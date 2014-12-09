@@ -1,18 +1,17 @@
 var express = require('express');
 var http = require('http');
 var sio = require('socket.io');
+var app = express();
+var p = (process.env.PORT || 5000);
 
-var server = express.createServer();
-
-var port =  3000 || process.env.PORT;
-
-server.listen(port);
-var io = sio.listen(server);
-
-server.get('/',fucntion(request, response){
-	res.sendFile(__dirname + '/index.html');
+app.get('/', function(request, result){
+	res.send('Hello World');
 });
 
-io.socket.on('connection',function(socket){
-	console.log('Connection on: ' + port);
+var server = app.listen(p, function(){
+	var host = server.address().address;
+	var port = server.address().port;
+	
+	console.log('Example app listening at http://%s:%s', host, port);
 });
+

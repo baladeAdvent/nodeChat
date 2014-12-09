@@ -14,6 +14,10 @@
   "engines": {
     "node": "0.10.x"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@heroku.com:fierce-forest-1260.git"
+  },
   "keywords": [
     "node",
     "heroku",

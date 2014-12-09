@@ -23,6 +23,17 @@
 	<script>
 		var host = location.origin.replace(/^http/,'ws')
 		var ws = new WebSocket(host);
+		
+		$('form').submit(function(){
+			var mField = $('#m');
+			socket.emit('chat message', mField.val());
+			mField.val('');
+			return false;
+		});
+		
+		ws.on('chat message', function(msg){
+			$('#messages').append($('<li>').text(msg));
+		});
 	</script>
   </body>
 </html>

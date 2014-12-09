@@ -16,7 +16,14 @@ console.log('websocket server created');
 
 wss.on("connection", function(ws){
 	console.log('websocket connection open');
+	/////////////
 	
+	ws.('chat message', function(msg){
+		ws.emit('chat message', msg);
+		console.log('message: ' + msg);
+	});
+	
+	/////////////
 	ws.on("close", function(){
 		console.log('websocket connection closed');
 	});

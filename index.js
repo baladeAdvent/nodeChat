@@ -1,21 +1,21 @@
 var express = require('express');
-var http = require('http');
-var sio = require('socket.io');
+
 var app = express();
-var p = (process.env.PORT || 5000);
+var http = require('http');
+var server = http.createServer(app);
 
-app.get('/', function(request, response){
-	response.sendFile(__dirname + '/index.html');
+var sio = require('socket.io');
+var port = (process.env.PORT || 5000);
+
+server.listen(port);
+var io = sio.listen(server);
+	io.set('transports', ['xhr-polling']);
+	io.set('polling duration', 10);
+
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection',function(socket){
-	console.log('A user connected');
+io.sockets.on('connection'),function(socket){
+	console.log('Connection');
 });
-
-var server = app.listen(p, function(){
-	var host = server.address().address;
-	var port = server.address().port;
-	
-	console.log('Example app listening at http://%s:%s', host, port);
-});
-

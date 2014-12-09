@@ -8,6 +8,10 @@ app.get('/', function(request, response){
 	response.sendFile(__dirname + '/index.html');
 });
 
+io.on('connection',function(socket){
+	console.log('A user connected');
+});
+
 var server = app.listen(p, function(){
 	var host = server.address().address;
 	var port = server.address().port;

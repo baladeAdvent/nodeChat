@@ -21,8 +21,10 @@
     </form>
 
 	<script>
-
-		var host = location.origin.replace(/^http/,'ws');
+	$(document).ready(function(){
+		
+		var host = location.origin.replace(/^https/,'ws');
+		console.log(host);
 		var ws = new WebSocket(host);
 		
 		$('form').submit(function(evt){
@@ -32,15 +34,15 @@
 			ws.send('chat message: ' + mField.val());
 			mField.val('');
 			evt.preventDefault;
+			return false;
 		});
 		
 		ws.onmessage = function(event){
 			$('#messages').append($('<li>').text(event.data));
 		}
-		//ws.on('chat message', function(msg){
-		//	jQuery('#messages').append($('<li>').text(msg)	);
-		//});
-	
+		
+	});
+
 	</script>
   </body>
 </html>

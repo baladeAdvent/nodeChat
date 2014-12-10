@@ -18,10 +18,9 @@ wss.on("connection", function(ws){
 	console.log('websocket connection open');
 	/////////////
 	
-	ws.on('chat message', function(msg){
-		ws.emit('chat message', msg);
-		console.log('message: ' + msg);
-	});
+	ws.onmessage = function(event){
+		console.log(event);
+	};
 	
 	/////////////
 	ws.on("close", function(){

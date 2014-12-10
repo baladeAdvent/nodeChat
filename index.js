@@ -6,7 +6,7 @@ var express = require('express');
 var app = express();
 var port = (process.env.PORT || 5000);
 
-var chatLog = [];
+var chatLog = new Array();
 app.use(express.static(__dirname + '/'));
 
 var server = http.createServer(app);

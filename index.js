@@ -16,9 +16,9 @@ console.log('websocket server created');
 
 wss.on("connection", function(ws){
 	console.log('websocket connection open');
-	 var id = setInterval(function() {
-		ws.send(JSON.stringify(new Date()), function() { })
-		}, 1000);
+	// var id = setInterval(function() {
+	//	ws.send(JSON.stringify(new Date()), function() { })
+	//	}, 1000);
 	/////////////
 	
 	ws.onmessage = function(event){
@@ -28,6 +28,6 @@ wss.on("connection", function(ws){
 	/////////////
 	ws.on("close", function(){
 		console.log('websocket connection closed');
-		clearInterval(id);
+		//clearInterval(id);
 	});
 });

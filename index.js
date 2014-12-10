@@ -28,7 +28,7 @@ wss.on("connection", function(ws){
 	/////////////
 	
 	ws.onmessage = function(event){
-		chatLog[] = event.data;
+		chatLog.push(event.data);
 		console.log(chatLog);
 		ws.send(event.data);
 	};

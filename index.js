@@ -17,7 +17,7 @@ wsServer = new WebSocketServer({
 	httpServer: server
 });
 
-wsServer.on('request',fucntion(request){
+wsServer.on('request',function(request){
 	var connection = request.accept(null,request.origin);
 	
 	console.log('user connected');

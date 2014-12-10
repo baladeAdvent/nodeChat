@@ -23,7 +23,7 @@
 	<script>
 	$(document).ready(function(){
 		
-		var host = location.origin.replace(/^https/,'ws');
+		var host = location.origin.replace(/^http/,'ws');
 		console.log(host);
 		var ws = new WebSocket(host);
 		

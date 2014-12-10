@@ -23,20 +23,19 @@ wss.on("connection", function(ws){
 		ws.send(chatLog[x]);
 	}
 	console.log('websocket connection open');
-	// var id = setInterval(function() {
-	//	ws.send(JSON.stringify(new Date()), function() { })
-	//	}, 1000);
+	var id = setInterval(function() {
+		ws.send(JSON.stringify(new Date()), function() { })
+		}, 5000);
 	/////////////
 	
 	ws.onmessage = function(event){
 		chatLog.push(event.data);
-		console.log(chatLog);
 		ws.send(event.data);
 	};
 	
 	/////////////
 	ws.on("close", function(){
 		console.log('websocket connection closed');
-		//clearInterval(id);
+		clearInterval(id);
 	});
 });

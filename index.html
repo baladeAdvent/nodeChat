@@ -27,6 +27,8 @@
 		var ws = new WebSocket(host);
 		
 		jQuery('form').submit(function(evt){
+			console.log('send message');
+		
 			var mField = jQuery('#m');
 			ws.send('chat message: ' + mField.val());
 			mField.val('');

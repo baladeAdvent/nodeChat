@@ -12,7 +12,6 @@
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
     </style>
-	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   </head>
   <body>
@@ -26,14 +25,13 @@
 		var host = location.origin.replace(/^http/,'ws');
 		var ws = new WebSocket(host);
 		
-		jQuery('form').submit(function(evt){
+		$('form').submit(function(evt){
 			console.log('send message');
 		
-			var mField = jQuery('#m');
+			var mField = $('#m');
 			ws.send('chat message: ' + mField.val());
 			mField.val('');
 			evt.preventDefault;
-			return false;
 		});
 		
 		ws.onmessage = function(event){

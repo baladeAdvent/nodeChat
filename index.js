@@ -7,16 +7,16 @@ var port = (process.env.PORT || 5000);
 var history = [];
 var users = [];
 
-
 var server = http.createServer(function(request, response){
 	// Do nothing
 });
 server.listen(port,function(){});
 
 wsServer = new WebSocketServer({
-	httpServer: server
+	server: server
 });
 
+/*
 wsServer.on('request',function(request){
 	var connection = request.accept(null,request.origin);
 	
@@ -32,7 +32,6 @@ wsServer.on('request',function(request){
 		console.log('connection closed');
 	});
 });
-/*
 var WebSocketServer = require('ws').Server;
 var http = require('http');
 var express = require('express');

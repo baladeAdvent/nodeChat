@@ -21,12 +21,11 @@
     </form>
 
 	<script>
-	$(document).ready(function(){
-		
 		var host = location.origin.replace(/^http/,'ws');
 		console.log(host);
 		var ws = new WebSocket(host);
 		
+		 console.log(ws);
 		$('form').submit(function(evt){
 			console.log('send message');
 		
@@ -41,7 +40,9 @@
 			$('#messages').append($('<li>').text(event.data));
 		}
 		
-	});
+		ws.onclose = function(event){
+			$('#messages').append($('<li>').text('Websocket Closed'));
+		}
 
 	</script>
   </body>

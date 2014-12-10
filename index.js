@@ -1,6 +1,6 @@
 process.title = 'node-chat';
 
-var WebSocketServer = require('websocket').server;
+var WebSocketServer = require('ws').server;
 var http = require('http');
 var port = (process.env.PORT || 5000);
 

@@ -24,6 +24,7 @@ wss.on("connection", function(ws){
 	/////////////
 	
 	ws.onmessage = function(event){
+		console.log(event);
 		ws.send(event.data);
 	};
 	

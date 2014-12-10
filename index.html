@@ -23,7 +23,7 @@
 	<script>
 		var host = location.origin.replace(/^http/,'ws');
 		console.log(host);
-		var ws = new WebSocket(host);
+		var ws = new WebSocket(host,'echo-protocol');
 		
 		 console.log(ws);
 		$('form').submit(function(evt){

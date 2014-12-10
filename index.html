@@ -28,15 +28,15 @@
 		
 		jQuery('form').submit(function(evt){
 			var mField = jQuery('#m');
-			socket.emit('chat message', mField.val());
+			ws.send('chat message: ' + mField.val());
 			mField.val('');
 			evt.preventDefault;
 			return false;
 		});
 		
-		ws.on('chat message', function(msg){
-			jQuery('#messages').append($('<li>').text(msg)	);
-		});
+		//ws.on('chat message', function(msg){
+		//	jQuery('#messages').append($('<li>').text(msg)	);
+		//});
 	
 	</script>
   </body>

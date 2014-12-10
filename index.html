@@ -36,6 +36,9 @@
 			return false;
 		});
 		
+		ws.onmessage = function(event){
+			$('#messages').append($('<li>').text(event.data));
+		}
 		//ws.on('chat message', function(msg){
 		//	jQuery('#messages').append($('<li>').text(msg)	);
 		//});

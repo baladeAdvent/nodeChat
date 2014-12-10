@@ -19,7 +19,7 @@ wss.on("connection", function(ws){
 	/////////////
 	
 	ws.onmessage = function(event){
-		console.log(event.data);
+		ws.send(event.data);
 	};
 	
 	/////////////

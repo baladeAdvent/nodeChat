@@ -18,6 +18,7 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	
+	console.log(ws);
 	for(x in chatLog){
 		ws.send(chatLog[x]);
 	}

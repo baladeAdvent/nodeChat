@@ -55,6 +55,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script>
 		var username = '';
+		var loggedIn = false;
 		$(document).ready(function(){		
 			// User login
 			$('#nodeChat_loginform').submit(function(evt){
@@ -69,6 +70,7 @@
 		function initChat(){
 			log('init chat');
 			if(username != ''){
+				loggedIn = true;
 				$('#nodeChat_username span').html(username.toString());
 				$('#nodeChat_login').fadeOut(500,function(){
 					nodeChat();
@@ -86,12 +88,14 @@
 			 
 			$('#nodeChat_chatbox form').submit(function(evt){
 				//sendMessage();
+				if(loggedIn){
 					var message = '( ' + username + ' )> ' + $('#m').val();
 					ws.send(message);
 					log(message);
 					$('#m').val('');
-				evt.preventDefault();
-				return false;
+					evt.preventDefault();
+					return false;
+				}				
 			});
 			
 			ws.onmessage = function(event){
@@ -102,15 +106,6 @@
 			ws.onclose = function(event){
 				$('#nodeChat_messages').append($('<li>').text('Websocket Closed...'));
 			}	
-			
-			var sendMessage =  function(){
-				if(username != ''){
-					log('Message sent...');
-					var mField = $('#m');
-					ws.send('( ' + username + ' )> ' + mField.val());
-					mField.val('');
-				}					
-			}
 		}
 		
 		function trim(str){

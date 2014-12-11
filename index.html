@@ -42,9 +42,9 @@
 		}
 		
 		function nodeChat(){
+			ws.send(stringify({'type':'log request','username': username}));
 			ws.send(stringify({'type':'login','username': username}));
 			//Get Chat Login
-			ws.send(stringify({'type':'log request','username': username}));
 			keepalive = setInterval(function(){
 				ws.send(pingRequest);
 			},5000);

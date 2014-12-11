@@ -31,7 +31,7 @@ wss.on("connection", function(ws){
 					'message': data['username'] + ' has logged in...'
 				}
 				chatLog.push(mdata);
-				ws.send(stringify(mdata));
+				ws.send(stringify(mdata), function(){},1000);
 				break;
 			
 			case 'chat message':
@@ -41,7 +41,7 @@ wss.on("connection", function(ws){
 					'message': data['message']
 				}
 				chatLog.push(mdata);
-				ws.send(stringify(mdata));
+				ws.send(stringify(mdata), function(){},1000);
 				break;
 				
 			case 'log request':
@@ -52,7 +52,7 @@ wss.on("connection", function(ws){
 						'username': chatLog[x]['username'],
 						'message': chatLog[x]['message']
 					}
-					ws.send(stringify(mdata));
+					ws.send(stringify(mdata), function(){},1000);
 				}
 				break;
 

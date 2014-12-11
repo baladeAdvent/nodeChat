@@ -68,14 +68,14 @@
 			});
 			
 			ws.onmessage = function(event){
+				log('Message event has arrived');
+			
 				edata = parseData(event.data);
 				
 				labelClass = 'nodeChat_systemlabel';
 				if(edata.username != 'System'){
 					labelClass = 'nodeChat_userlabel';
 				}
-				
-				console.log(edata.username);
 				
 				switch(edata.type){
 					case 'log message':

@@ -13,9 +13,6 @@ app.use(express.static(__dirname + '/'));
 var server = http.createServer(app);
 server.listen(port);
 
-// create empty container for data to be sent
-mdata = {};
-
 console.log("http server listening on %d", port);
 
 var wss = new WebSocketServer({server: server});
@@ -58,17 +55,7 @@ wss.on("connection", function(ws){
 					ws.send(stringify(mdata));
 				}
 				break;
-				
-			case 'disconnect':
-				mdata = {
-					'type': 'system message',
-					'username': data['username'],
-					'message': ' has disconnected from the chat...'
-				}
-				chatLog.push(mdata);
-				ws.send(stringify(mdata));
-				break;
-				
+
 			case 'ping':
 				console.log('ping from user:' + data['username'] );
 				break;
@@ -76,8 +63,8 @@ wss.on("connection", function(ws){
 	};
 	
 	/////////////
-	ws.on("close", function(){
-		console.log('websocket connection closed');
+	ws.on("close", function(event){
+		console.log('websocket connection closed ' + event);
 		//clearInterval(id);
 	});
 });

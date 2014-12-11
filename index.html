@@ -5,44 +5,95 @@
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; text-align:left;}
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+	  
+	  #nodeChat_login {
+		display:block;
+		text-align:center;
+	  }
+	  
+	  #nodeChat_login form {
+		width:50%;
+		margin: 25% auto;
+	  }
+	  #nodeChat_login form input{
+		border:solid 1px #777;
+	  }
+	  
+	  #nodeChat_messages {
+		display:none;
+	  }
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+	<div id="nodeChat_login">
+		<form action="">
+			<input id="login" /><button>Login</button>
+		</form>
+	</div>	
+	<div id="nodeChat_messages">
+		<ul id="messages"></ul>
+		<form action="">
+			<input id="m" autocomplete="off" /><button>Send</button>
+		</form>
+	</div>
 
 	<script>
-		var host = location.origin.replace(/^http/,'ws');
-		console.log(host);
-		var ws = new WebSocket(host,'echo-protocol');
+		var username = '';
+		$(document).ready(function(){
 		
-		 console.log(ws);
-		$('form').submit(function(evt){
-			console.log('send message');
-		
-			var mField = $('#m');
-			ws.send('chat message: ' + mField.val());
-			mField.val('');
+		// User login
+		$('#nodeChat_login form').submit(function(evt){
+			username = $('#login').val();
+			initChat();
 			evt.preventDefault;
-			return false;
 		});
 		
-		ws.onmessage = function(event){
-			$('#messages').append($('<li>').text(event.data));
+		
+		function initChat(){
+			if(username != ''){
+				$('#nodeChat_login').hide(1000);
+				$('#nodeChat_messages').show(1000);
+				nodeChat();
+			}
 		}
 		
-		ws.onclose = function(event){
-			$('#messages').append($('<li>').text('Websocket Closed'));
+		function nodeChat(){
+			//User Messaging
+				var host = location.origin.replace(/^http/,'ws');
+				log(host);
+				var ws = new WebSocket(host,'echo-protocol');				
+				 console.log(ws);
+				 
+				$('#nodeChat_messages form').submit(function(evt){
+					log('Message sent...');
+					var mField = $('#m');
+					ws.send('' + mField.val());
+					mField.val('');
+					evt.preventDefault;
+					return false;
+				});
+				
+				ws.onmessage = function(event){
+					log(event.data);
+					$('#messages').append($('<li>').text(event.data));
+				}
+				
+				ws.onclose = function(event){
+					$('#messages').append($('<li>').text('Websocket Closed'));
+				}		
+			});
 		}
+		
+		function log(msg){
+			console.log(msg);
+		}
+
 
 	</script>
   </body>

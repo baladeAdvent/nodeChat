@@ -18,13 +18,13 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	
-	console.log(ws);
+	//console.log(ws);
 	for(x in chatLog){
 		ws.send(chatLog[x]);
 	}
 	console.log('websocket connection open');
 	var id = setInterval(function() {
-		ws.send(JSON.stringify(new Date()), function() { })
+		ws.send({"keepalive"})
 		}, 5000);
 	/////////////
 	

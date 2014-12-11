@@ -45,15 +45,14 @@
 
 	<script>
 		var username = '';
-		$(document).ready(function(){
-		
-		// User login
-		$('#nodeChat_login form').submit(function(evt){
-			username = $('#login').val();
-			initChat();
-			evt.preventDefault;
+		$(document).ready(function(){		
+			// User login
+			$('#nodeChat_login form').submit(function(evt){
+				username = trim($('#login').val());
+				initChat();
+				evt.preventDefault;
+			});
 		});
-		
 		
 		function initChat(){
 			if(username != ''){
@@ -86,8 +85,12 @@
 				
 				ws.onclose = function(event){
 					$('#messages').append($('<li>').text('Websocket Closed'));
-				}		
-			});
+				}	
+		}
+		
+		function trim(str){
+			var pattern = /^( ){1,}|( ){1,}$/;
+			return str.replace(pattern,'');
 		}
 		
 		function log(msg){

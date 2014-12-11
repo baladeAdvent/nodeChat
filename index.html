@@ -83,13 +83,13 @@
 			//User Messaging
 			var host = location.origin.replace(/^http/,'ws');
 			log('Starting node chat ' + host);
-			var ws = new WebSocket(host,'echo-protocol');				
-			log(ws);
+			var ws = new WebSocket(host,'echo-protocol');	
 			 
 			$('#nodeChat_chatbox form').submit(function(evt){
 				//sendMessage();
 				if(loggedIn){
-					var message = '( ' + username + ' )> ' + $('#m').val();
+					var message = '( ' + username + ' )> ' + $('#m').val();			
+					log(ws);		
 					ws.send(message);
 					log(message);
 					$('#m').val('');

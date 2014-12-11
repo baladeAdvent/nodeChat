@@ -12,19 +12,21 @@
       #messages li:nth-child(odd) { background: #eee; }
 	  
 	  #nodeChat_login {
-		display:block;
 		text-align:center;
+		background: #ddd;
+		position:absolute;
+		width:100%;
 	  }
 	  #nodeChat_login form {
 		width:50%;
 		margin: 25% auto;
 	  }
-	  #nodeChat_login form input{
-		border:solid 1px #777;
-	  }
 	  
 	  #nodeChat_messages {
-		display:none;
+	  }
+	  
+	  #nodeChat_login form input,#nodeChat_messages form input{
+		border:solid 1px #777;
 	  }
     </style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -48,8 +50,8 @@
 			// User login
 			$('#nodeChat_login form').submit(function(evt){
 				username = trim($('#login').val());
+				initChat;
 				evt.preventDefault;
-				initChat();
 				return false;
 			});
 			// Do not allow user to send message without login
@@ -63,40 +65,40 @@
 			if(username != ''){
 				$('#nodeChat_login').hide(1000);
 				$('#nodeChat_messages').show(1000);
-				nodeChat();
+				nodeChat;
 			}
 		}
 		
 		function nodeChat(){
 			//User Messaging
-				var host = location.origin.replace(/^http/,'ws');
-				log(host);
-				var ws = new WebSocket(host,'echo-protocol');				
-				 console.log(ws);
-				 
-				$('#nodeChat_messages form').submit(function(evt){
-					sendMessage;
-					evt.preventDefault;
-					return false;
-				});
-				
-				ws.onmessage = function(event){
-					log(event.data);
-					$('#messages').append($('<li>').text(event.data));
-				}
-				
-				ws.onclose = function(event){
-					$('#messages').append($('<li>').text('Websocket Closed'));
-				}	
-				
-				var sendMessage =  function(){
-					if(username != ''){
-						log('Message sent...');
-						var mField = $('#m');
-						ws.send(username + ': ' + mField.val());
-						mField.val('');
-					}					
-				}
+			var host = location.origin.replace(/^http/,'ws');
+			log('Starting node chat' + host);
+			var ws = new WebSocket(host,'echo-protocol');				
+			console.log(ws);
+			 
+			$('#nodeChat_messages form').submit(function(evt){
+				sendMessage;
+				evt.preventDefault;
+				return false;
+			});
+			
+			ws.onmessage = function(event){
+				log(event.data);
+				$('#messages').append($('<li>').text(event.data));
+			}
+			
+			ws.onclose = function(event){
+				$('#messages').append($('<li>').text('Websocket Closed'));
+			}	
+			
+			var sendMessage =  function(){
+				if(username != ''){
+					log('Message sent...');
+					var mField = $('#m');
+					ws.send(username + ': ' + mField.val());
+					mField.val('');
+				}					
+			}
 		}
 		
 		function trim(str){

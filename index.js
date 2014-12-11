@@ -23,9 +23,9 @@ wss.on("connection", function(ws){
 		ws.send(chatLog[x]);
 	}
 	console.log('websocket connection open');
-	var id = setInterval(function() {
-		ws.send({"keepalive"})
-		}, 5000);
+	//var id = setInterval(function() {
+	//	ws.send({"keepalive"})
+	//	}, 5000);
 	/////////////
 	
 	ws.onmessage = function(event){

@@ -15,7 +15,6 @@
 		display:block;
 		text-align:center;
 	  }
-	  
 	  #nodeChat_login form {
 		width:50%;
 		margin: 25% auto;
@@ -53,6 +52,11 @@
 				initChat();
 				return false;
 			});
+			// Do not allow user to send message without login
+			$('#nodeChat_messages form').submit(function(evt){
+				evt.preventDefault;
+				return false;
+			});
 		});
 		
 		function initChat(){
@@ -71,10 +75,7 @@
 				 console.log(ws);
 				 
 				$('#nodeChat_messages form').submit(function(evt){
-					log('Message sent...');
-					var mField = $('#m');
-					ws.send('' + mField.val());
-					mField.val('');
+					sendMessage;
 					evt.preventDefault;
 					return false;
 				});
@@ -87,6 +88,15 @@
 				ws.onclose = function(event){
 					$('#messages').append($('<li>').text('Websocket Closed'));
 				}	
+				
+				var sendMessage =  function(){
+					if(username != ''){
+						log('Message sent...');
+						var mField = $('#m');
+						ws.send(username + ': ' + mField.val());
+						mField.val('');
+					}					
+				}
 		}
 		
 		function trim(str){
@@ -97,8 +107,6 @@
 		function log(msg){
 			console.log(msg);
 		}
-
-
 	</script>
   </body>
 </html>

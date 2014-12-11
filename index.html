@@ -41,6 +41,7 @@
 		}
 		
 		function nodeChat(){
+			ws.send(stringify({'type':'login','username': username}));
 			//Get Chat Login
 			ws.send(stringify({'type':'log request','username': username}));
 			keepalive = setInterval(function(){

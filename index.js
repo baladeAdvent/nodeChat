@@ -30,6 +30,7 @@ wss.on("connection", function(ws){
 			case 'login':
 				mdata = {
 					'type': 'system message',
+					'username': data['username'],
 					'message': data['username'] + ' has logged in...'
 				}
 				chatLog.push(mdata);
@@ -58,10 +59,6 @@ wss.on("connection", function(ws){
 				}
 				break;
 				
-			case 'ping':
-				console.log('ping from user:' + data['username'] );
-				break;
-				
 			case 'disconnect':
 				mdata = {
 					'type': 'system message',
@@ -70,6 +67,10 @@ wss.on("connection", function(ws){
 				}
 				chatLog.push(mdata);
 				ws.send(stringify(mdata));
+				break;
+				
+			case 'ping':
+				console.log('ping from user:' + data['username'] );
 				break;
 		}
 	};

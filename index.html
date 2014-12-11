@@ -2,67 +2,24 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; text-align:left;}
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-	  
-	  .nodeChat_container {
-		border: solid 1px #bbb;
-		background:#53c789;
-		width:600px;
-		height:600px;
-		margin:25px auto;
-	  }
-	  
-	  #nodeChat_login {
-		text-align:center;
-		background: #ddd;
-		width:100%;
-		height:100%;
-		padding: 45% 0;
-	  }
-	  #nodeChat_login form {
-
-	  }
-	  
-	  #nodeChat_chatbox {
-		display:none;
-	  }
-	  
-	  #nodeChat_messages {
-		height:500px;
-		background: #fff;
-	  }
-	  
-	  #nodeChat_username {
-		padding:5px;
-		background: #1fd173;
-		color:#fff;
-	  }
-	  #nodeChat_username span {
-		font-weight:800;
-	  }
-	  
-	  #nodeChat_login form input,#nodeChat_chatbox form input{
-		border:solid 1px #777;
-	  }
-    </style>
+	<link rel="stylesheet" type="text/css" href="styles.css" />	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script>
 		var username = '';
 		var loggedIn = false;
+		var keepalive = '';
+
+		var host = location.origin.replace(/^http/,'ws');
+		var ws = new WebSocket(host);
+		log('Starting node chat ' + host);
+		
+		var pingRequest = '';
+
 		$(document).ready(function(){		
 			// User login
 			$('#nodeChat_loginform').submit(function(evt){
 				evt.preventDefault();
-				log('login attempt');
 				username = trim($('#username').val());
-				log('username: ' + username);
 				initChat();
 			});
 		});
@@ -70,8 +27,12 @@
 		function initChat(){
 			log('init chat');
 			if(username != ''){
+				// Setup once only processed items
 				loggedIn = true;
-				$('#nodeChat_username span').html(username.toString());
+				pingRequest = stringify({'type':'ping','username': username});
+				
+				// Setup chat box
+				$('#nodeChat_username span').html(username);
 				$('#nodeChat_login').fadeOut(500,function(){
 					nodeChat();
 					$('#nodeChat_chatbox').fadeIn(500);
@@ -80,32 +41,73 @@
 		}
 		
 		function nodeChat(){
+			//Get Chat Login
+			ws.send(stringify({'type':'log request','username': username}));
+			keepalive = setInterval(function(){
+				ws.send(pingRequest);
+			},5000);
+		
 			//User Messaging
-			var host = location.origin.replace(/^http/,'ws');
-			log('Starting node chat ' + host);
-			var ws = new WebSocket(host);	
-			 
-			$('#nodeChat_chatbox form').submit(function(evt){
-				//sendMessage();
+			$('#nodeChat_chatbox form').submit(function(event){
+				
 				if(loggedIn){
-					var message = '( ' + username + ' )> ' + $('#m').val();			
+					var obj = {
+						'type': 'chat message',
+						'username': username,
+						'message':$('#m').val()
+					};
+				
 					log(ws);		
-					ws.send(message);
-					log(message);
+					ws.send(stringify(obj));
 					$('#m').val('');
-					evt.preventDefault();
+					event.preventDefault();
 					return false;
 				}				
 			});
 			
 			ws.onmessage = function(event){
-				//log(event.data);
-				$('#messages').append($('<li>').text(event.data));
+				edata = parseData(event.data);
+				console.log(edata.type);
+				switch(edata.type){
+					case'log message':
+						$('#nodeChat_messages').append($('<li>').html('<span  class="nodeChat_userlabel">' + edata.username + '</span>' + edata.message));
+						break;
+					case'chat message':
+						$('#nodeChat_messages').append($('<li>').html('<span  class="nodeChat_userlabel">' + edata.username + '</span>' + edata.message));
+						break;
+					case'system message':
+						$('#nodeChat_messages').append($('<li>').html('<span  class="nodeChat_systemlabel">System</span>' + edata.message));
+						break;
+				}
+				
 			}
 			
 			ws.onclose = function(event){
+				ws.send(stringify({'type':'disconnect', 'username':username}));
 				$('#nodeChat_messages').append($('<li>').text('Websocket Closed...'));
+				keepalive = '';
 			}	
+		}
+		
+		function stringify(obj){
+			output = '';
+			for(x in obj){
+				output += x + '~:~' + obj[x] + '}:}';
+			}
+			return output.replace(/}:}$/,'');
+		}
+		
+		function parseData(str){
+			var Obj = [];
+			
+			var array1 =  str.split('}:}');
+			for(x in array1){
+				parts = array1[x].split('~:~');
+				if(parts[0] != ''){
+					Obj[parts[0]] = parts[1];
+				}
+			}
+			return Obj;
 		}
 		
 		function trim(str){

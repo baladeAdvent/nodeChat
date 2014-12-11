@@ -30,7 +30,7 @@ wss.on("connection", function(ws){
 			case 'login':
 				mdata = {
 					'type': 'system message',
-					'username': data['username'],
+					'username': 'System',
 					'message': data['username'] + ' has logged in...'
 				}
 				chatLog.push(mdata);

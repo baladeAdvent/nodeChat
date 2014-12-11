@@ -42,11 +42,11 @@
 		}
 		
 		function nodeChat(){
-			ws.send(stringify({'type':'log request','username': username}));
-			ws.send(stringify({'type':'login','username': username}));
+			ws.send(stringify({'type':'log request','username': username}), function(){},1000);
+			ws.send(stringify({'type':'login','username': username}), function(){},1000);
 			//Get Chat Login
 			keepalive = setInterval(function(){
-				ws.send(pingRequest);
+				ws.send(pingRequest, function(){},1000);
 			},5000);
 		
 			//User Messaging
@@ -60,7 +60,7 @@
 					};
 				
 					log(ws);		
-					ws.send(stringify(obj));
+					ws.send(stringify(obj), function(){},1000);
 					$('#m').val('');
 					event.preventDefault();
 					return false;

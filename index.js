@@ -21,13 +21,7 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
-	
-	//console.log(ws);
 	console.log('websocket connection open');
-	//var id = setInterval(function() {
-	//	ws.send({"keepalive"})
-	//	}, 5000);
-	/////////////
 	
 	ws.onmessage = function(event){
 		var data = parseData(event.data);
@@ -36,8 +30,7 @@ wss.on("connection", function(ws){
 			case 'login':
 				mdata = {
 					'type': 'system message',
-					'username': data['username'],
-					'message': ' has logged in...'
+					'message': data['username'] + ' has logged in...'
 				}
 				chatLog.push(mdata);
 				ws.send(stringify(mdata));
@@ -97,14 +90,13 @@ function stringify(obj){
 }
 
 function parseData(str){
-	var Obj = [];
-	
-	var array1 =  str.split('}:}');
+	var Obj = [];	
+	var array1 = str.split('}:}');
 	for(x in array1){
 		parts = array1[x].split('~:~');
 		if(parts[0] != ''){
 			Obj[parts[0]] = parts[1];
 		}
 	}
-	return Obj
+	return Obj;
 }

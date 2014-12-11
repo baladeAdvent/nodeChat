@@ -31,7 +31,6 @@ wss.on("connection", function(ws){
 	
 	ws.onmessage = function(event){
 		var data = parseData(event.data);
-		console.log(data);
 		switch(data['type']){
 			case 'ping':
 				console.log('ping from user:' + data['username'] );

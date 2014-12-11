@@ -83,7 +83,6 @@
 			}
 			
 			ws.onclose = function(event){
-				ws.send(stringify({'type':'disconnect', 'username':username}));
 				$('#nodeChat_messages').append($('<li>').text('Websocket Closed...'));
 				keepalive = '';
 			}	

@@ -23,6 +23,10 @@
 	  }
 	  
 	  #nodeChat_messages {
+		border: solid 1px #bbb;
+		width:50%;
+		margin: 25% auto;
+		display:none;
 	  }
 	  
 	  #nodeChat_login form input,#nodeChat_messages form input{
@@ -49,18 +53,19 @@
 		$(document).ready(function(){		
 			// User login
 			$('#nodeChat_login form').submit(function(evt){
+				log('login attempt');
 				username = trim($('#login').val());
-				initChat;
+				initChat();
 				evt.preventDefault;
-				return false;
 			});
 		});
 		
 		function initChat(){
+			log('init chat');
 			if(username != ''){
 				$('#nodeChat_login').hide(1000);
 				$('#nodeChat_messages').show(1000);
-				nodeChat;
+				nodeChat();
 			}
 		}
 		
@@ -69,10 +74,10 @@
 			var host = location.origin.replace(/^http/,'ws');
 			log('Starting node chat' + host);
 			var ws = new WebSocket(host,'echo-protocol');				
-			console.log(ws);
+			log(ws);
 			 
 			$('#nodeChat_messages form').submit(function(evt){
-				sendMessage;
+				sendMessage();
 				evt.preventDefault;
 				return false;
 			});

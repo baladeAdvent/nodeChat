@@ -1,11 +1,5 @@
 function stringify(obj){
-	output = [];
-	for(x in obj){
-		output.push('"' + x + '": "' + obj[x] + '"');
-	}
-	console.log(JSON.stringify(obj));
-	return '{' + output.join(',') + '}';
-	
+	return JSON.stringify(obj);
 }
 //////////////////////////////
 function scrollChat(scrollStatus){

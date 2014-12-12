@@ -26,8 +26,8 @@ wss.on("connection", function(ws){
 	//});
 	
 	ws.onmessage = function(event){
-	console.log(event.data);
-		var data = parseData(event.data);
+		console.log(event.data);
+		var data = JSON.parse(event.data);
 		switch(data['type']){
 				
 			case 'login':
@@ -59,12 +59,12 @@ wss.on("connection", function(ws){
 						'username': chatLog[x]['username'],
 						'message': chatLog[x]['message']
 					}
-					ws.send(stringify(mdata), function(){},1000);
+					ws.send(JSON.stringify(mdata), function(){},1000);
 				}
 				break;
 
 			case 'ping':
-				console.log('ping from user:' + data['username'] );
+				console.log('ping from user:' + data['username']);
 				break;
 		}
 	};
@@ -75,9 +75,10 @@ wss.on("connection", function(ws){
 		//clearInterval(id);
 	});
 });
+
 function broadcast(clients,data){
 	for(i=0;i<clients.length;i++){
-		clients[i].send(stringify(data));
+		clients[i].send(JSON.stringify(data));
 	}
 }
 

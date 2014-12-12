@@ -3,7 +3,7 @@ function stringify(obj){
 	for(x in obj){
 		output.push('"' + x + '": "' + obj[x] + '"');
 	}
-	console.log(JSON.stringify(output));
+	console.log(JSON.stringify(obj));
 	return '{' + output.join(',') + '}';
 	
 }

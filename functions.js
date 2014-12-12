@@ -11,7 +11,7 @@ function scrollChat(scrollStatus){
 	if(scrollStatus === true){
 		height = $('#nodeChat_message').height();
 		console.log(height);
-		el.animate({ scrollTop:height},1000);
+		$('#nodeChat_message').animate({ scrollTop:height},1000);
 	}
 }
 //////////////////////////////

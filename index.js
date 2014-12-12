@@ -37,7 +37,7 @@ wss.on("connection", function(ws){
 					'message': data['username'] + ' has logged in...'
 				}
 				chatLog.push(mdata);
-				ws.send(stringify(mdata));
+				broadcast(clients,mdata);
 				break;
 			
 			case 'chat message':
@@ -47,10 +47,7 @@ wss.on("connection", function(ws){
 					'message': data['message']
 				}
 				chatLog.push(mdata);
-				for(i=0;i<clients.length;i++){
-					clients[i].send(stringify(mdata));
-					console.log(clients[i]);
-				}
+				broadcast(clients,mdata);
 				
 				break;
 				
@@ -78,6 +75,11 @@ wss.on("connection", function(ws){
 		//clearInterval(id);
 	});
 });
+function broadcast(clients,data){
+	for(i=0;i<clients.length;i++){
+		clients[i].send(stringify(data));
+	}
+}
 
 function stringify(obj){
 	output = '';

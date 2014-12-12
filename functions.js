@@ -9,7 +9,7 @@ function stringify(obj){
 function scrollChat(scrollStatus){
 	if(scrollStatus === true){
 		boxHeight = $('#nodeChat_messages').height();
-		console.log(boxHeight);
+		alert(boxHeight);
 	}
 }
 //////////////////////////////

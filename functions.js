@@ -16,7 +16,7 @@ function trim(str){
 function validateMessage(str){
 	var pattern = /^( ){1,}$|^()$/;
 	var status = true;
-	if(pattern.test(str) =+= true){
+	if(pattern.test(str) === true){
 		status = false;
 	}
 	return status;

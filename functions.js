@@ -10,8 +10,8 @@ function scrollChat(scrollStatus){
 	console.log('Scroll Chat...' + scrollStatus);
 	if(scrollStatus === true){
 		el = $('#nodeChat_message');
-		console.log(el.scrollHeight);
-		el.animate({ sctrollTop:el.scrollHeight},1000);
+		console.log(el.height);
+		el.animate({ sctrollTop:el.height},1000);
 	}
 }
 //////////////////////////////

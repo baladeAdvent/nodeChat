@@ -46,7 +46,7 @@ wss.on("connection", function(ws){
 					'message': data['message']
 				}
 				chatLog.push(mdata);
-				for(i=0;i<clients.lengthli++){
+				for(i=0;i<clients.length;i++){
 					clients[i].send(stringify(mdata));
 					console.log(clients[i]);
 				}

@@ -8,8 +8,8 @@ function stringify(obj){
 //////////////////////////////
 function scrollChat(scrollStatus){
 	if(scrollStatus === true){
-		boxHeight = $('#nodeChat_messages').height();
-		$('#nodeChat_message').scrollTop(boxHeight);
+		el = $('#nodeChat_message');
+		el.scrollTop(el.prop('scrollHeight'));
 	}
 }
 //////////////////////////////

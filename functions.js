@@ -1,6 +1,3 @@
-function stringify(obj){
-	return JSON.stringify(obj);
-}
 //////////////////////////////
 function scrollChat(scrollStatus){
 	console.log('Scroll Chat...' + scrollStatus);
@@ -11,22 +8,18 @@ function scrollChat(scrollStatus){
 	}
 }
 //////////////////////////////
-function parseData(str){
-	var Obj = [];
-	
-	var array1 =  str.split('}:}');
-	for(x in array1){
-		parts = array1[x].split('~:~');
-		if(parts[0] != ''){
-			Obj[parts[0]] = parts[1];
-		}
-	}
-	return Obj;
-}
-//////////////////////////////
 function trim(str){
 	var pattern = /^( ){1,}|( ){1,}$/;
 	return str.replace(pattern,'');
+}
+//////////////////////////////
+function validateMessage(str){
+	var pattern = /^( ){1,}$|^()$/;
+	var status = true;
+	if(pattern.test(str) =+= true){
+		status = false;
+	}
+	return status;
 }
 //////////////////////////////
 function log(msg){

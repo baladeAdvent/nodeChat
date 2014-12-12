@@ -53,11 +53,11 @@
 			//User Messaging
 			$('#nodeChat_chatbox form').submit(function(event){
 				
-				if(loggedIn){
+				if(loggedIn && validateMessage(^( ){1,}$|^()$) === true){
 					var obj = {
 						'type': 'chat message',
 						'username': username,
-						'message':$('#m').val()
+						'message':^( ){1,}$|^()$
 					};
 				
 					log(ws);		

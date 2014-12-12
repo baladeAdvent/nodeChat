@@ -6,9 +6,11 @@ function stringify(obj){
 	return output.replace(/}:}$/,'');
 }
 
-function scrollChat(){
-		chatbox = $('#nodeChat_messages').height();
-		console.log(chatbox);
+function scrollChat(scrollStatus){
+	if(scrollStatus === true){
+		boxHeight = $('#nodeChat_messages').height();
+		console.log(boxHeight);
+	}
 }
 //////////////////////////////
 function parseData(str){

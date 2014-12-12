@@ -26,6 +26,7 @@ wss.on("connection", function(ws){
 	});
 	
 	ws.onmessage = function(event){
+	console.log(event);
 		var data = parseData(event.data);
 		switch(data['type']){
 				

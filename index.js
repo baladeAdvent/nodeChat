@@ -47,7 +47,7 @@ wss.on("connection", function(ws){
 				}
 				chatLog.push(mdata);
 				for(x in clients){
-					clients[x].sendutf(stringify(mdata));
+					clients[x].send(stringify(mdata));
 				
 				}
 				

@@ -9,7 +9,7 @@ function stringify(obj){
 function scrollChat(scrollStatus){
 	if(scrollStatus === true){
 		el = $('#nodeChat_message');
-		el.scrollTop(el.prop('scrollHeight'));
+		el.animate({ sctrollTop:el.prop('scrollHeight')},1000);
 	}
 }
 //////////////////////////////

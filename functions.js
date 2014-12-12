@@ -1,9 +1,11 @@
 function stringify(obj){
-	output = '';
+	output = [];
 	for(x in obj){
-		output += x + '~:~' + obj[x] + '}:}';
+		output.push('"' + x + '": "' + obj[x] + '"');
 	}
-	return output.replace(/}:}$/,'');
+	console.log(JSON.stringify(output));
+	return '{' + output.join(',') + '}';
+	
 }
 //////////////////////////////
 function scrollChat(scrollStatus){

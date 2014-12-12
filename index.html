@@ -61,7 +61,7 @@
 					};
 				
 					log(ws);		
-					ws.send(stringify(obj), function(){},1000);
+					ws.send(stringify(obj));
 					$('#m').val('');
 					event.preventDefault();
 					return false;

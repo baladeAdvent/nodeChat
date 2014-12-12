@@ -7,7 +7,9 @@ function stringify(obj){
 }
 //////////////////////////////
 function scrollChat(scrollStatus){
+	console.log('Scroll Chat...' + scrollStatus);
 	if(scrollStatus === true){
+		console.log(el.prop('scrollHeight'));
 		el = $('#nodeChat_message');
 		el.animate({ sctrollTop:el.prop('scrollHeight')},1000);
 	}

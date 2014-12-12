@@ -19,14 +19,14 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	console.log('websocket connection open');
-	
-	ws.on('request',function(requst){
-		var connection = request.accept(null,request.origin);
-		clients.push(connection);
-	});
+	clients.push(ws);
+	//ws.on('request',function(requst){
+	//	var connection = request.accept(null,request.origin);
+	//	clients.push(connection);
+	//});
 	
 	ws.onmessage = function(event){
-	console.log(event);
+	console.log(event.data);
 		var data = parseData(event.data);
 		switch(data['type']){
 				

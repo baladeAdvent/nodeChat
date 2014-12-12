@@ -5,7 +5,7 @@ function stringify(obj){
 	}
 	return output.replace(/}:}$/,'');
 }
-
+//////////////////////////////
 function scrollChat(scrollStatus){
 	if(scrollStatus === true){
 		boxHeight = $('#nodeChat_messages').height();
@@ -25,12 +25,12 @@ function parseData(str){
 	}
 	return Obj;
 }
-
+//////////////////////////////
 function trim(str){
 	var pattern = /^( ){1,}|( ){1,}$/;
 	return str.replace(pattern,'');
 }
-
+//////////////////////////////
 function log(msg){
 	console.log(msg);
 }

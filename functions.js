@@ -9,9 +9,9 @@ function stringify(obj){
 function scrollChat(scrollStatus){
 	console.log('Scroll Chat...' + scrollStatus);
 	if(scrollStatus === true){
-		height = $('#nodeChat_message').prop('scrollHeight');
+		height = $('ul').prop('scrollHeight');
 		console.log('height: ' + height);
-		$('#nodeChat_message').animate({ scrollTop:height},1000);
+		$('ul').animate({ scrollTop:height},1000);
 	}
 }
 //////////////////////////////

@@ -11,7 +11,7 @@ function scrollChat(scrollStatus){
 	if(scrollStatus === true){
 		height = $('ul').prop('scrollHeight');
 		console.log('height: ' + height);
-		$('ul').animate({ scrollTop:height},1000);
+		$('ul').animate({ scrollTop:height},500);
 	}
 }
 //////////////////////////////

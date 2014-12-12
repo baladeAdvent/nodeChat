@@ -7,11 +7,11 @@ var app = express();
 var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
-var userList = new Array();
+var clients = [];
 app.use(express.static(__dirname + '/'));
 
 var server = http.createServer(app);
-server.listen(port);
+server.listen(port,function(){});
 
 console.log("http server listening on %d", port);
 
@@ -19,6 +19,11 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	console.log('websocket connection open');
+	
+	ws.on('request',function(requst){
+		var connection = request.accept(null,request.origin);
+		clients.push(connection);
+	});
 	
 	ws.onmessage = function(event){
 		var data = parseData(event.data);
@@ -31,7 +36,7 @@ wss.on("connection", function(ws){
 					'message': data['username'] + ' has logged in...'
 				}
 				chatLog.push(mdata);
-				ws.send(stringify(mdata), function(){},1000);
+				ws.send(stringify(mdata));
 				break;
 			
 			case 'chat message':
@@ -41,7 +46,11 @@ wss.on("connection", function(ws){
 					'message': data['message']
 				}
 				chatLog.push(mdata);
-				ws.send(stringify(mdata), function(){},1000);
+				for(x in clients){
+					clients[x].sendutf(stringify(mdata));
+				
+				}
+				
 				break;
 				
 			case 'log request':

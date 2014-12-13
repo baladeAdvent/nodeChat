@@ -34,7 +34,7 @@ wss.on("connection", function(ws){
 	//});
 	
 	ws.onmessage = function(event){
-		console.log(event.data);
+		//console.log(event.data);
 		var data = JSON.parse(event.data);
 		switch(data['type']){
 				
@@ -90,7 +90,7 @@ wss.on("connection", function(ws){
 
 function broadcast(clients,data){
 	for(i=0;i<clients.length;i++){
-		console.log(clients[i]);
+		//console.log(clients[i]);
 		var conn = clients[i]['connection']; 
 		conn.send(JSON.stringify(data));
 	}

@@ -1,10 +1,7 @@
 //////////////////////////////
 function appendToChat(str,scrollStatus){
 	var message = $('<li>').html(str).hide();
-		message.appendTo('#nodeChat_messages').slideDown(1000, function(){ scrollChat(scrollStatus) });
-	//$('#nodeChat_messages').append(	
-	//	message.slideDown(1000, function(){ scrollChat(scrollStatus) })
-	//);
+		message.appendTo('#nodeChat_messages').slideDown(500, function(){ scrollChat(scrollStatus) });
 }
 //////////////////////////////
 function scrollChat(scrollStatus){
@@ -12,7 +9,7 @@ function scrollChat(scrollStatus){
 	if(scrollStatus === true){
 		height = $('ul').prop('scrollHeight');
 		console.log('height: ' + height);
-		$('ul').animate({ scrollTop:height},500);
+		$('ul').animate({ scrollTop:height},1000);
 	}
 }
 //////////////////////////////

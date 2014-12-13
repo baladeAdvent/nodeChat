@@ -95,7 +95,7 @@ function broadcast(clients,data){
 	for(i=0;i<clients.length;i++){
 		console.log(clients[i]);
 		var con = clients[i]['connection']; 
-		consend(JSON.stringify(data));
+		con.send(JSON.stringify(data));
 	}
 }
 

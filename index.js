@@ -93,7 +93,8 @@ wss.on("connection", function(ws){
 
 function broadcast(clients,data){
 	for(i=0;i<clients.length;i++){
-		clients[i]['connection'].send(JSON.stringify(data));
+		console.log(clients);
+		//clients[i]['connection'].send(JSON.stringify(data));
 	}
 }
 

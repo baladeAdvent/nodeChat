@@ -1,15 +1,16 @@
 //////////////////////////////
 function appendToChat(str,scrollStatus){
 	var message = $('<li>').html(str).hide();
-		message.appendTo('#nodeChat_messages').slideDown(500, function(){ scrollChat(scrollStatus) });
+		message.appendTo('#nodeChat_messages').slideDown(100, function(){ scrollChat(scrollStatus) });
 }
 //////////////////////////////
 function scrollChat(scrollStatus){
-	console.log('Scroll Chat...' + scrollStatus);
+	//console.log('Scroll Chat...' + scrollStatus);
 	if(scrollStatus === true){
-		height = $('ul').prop('scrollHeight');
+		el = $('#nodeChat_messages');
+		height = el.prop('scrollHeight');
 		console.log('height: ' + height);
-		$('ul').animate({ scrollTop:height},1000);
+		el.animate({ scrollTop:height},100);
 	}
 }
 //////////////////////////////

@@ -82,15 +82,15 @@
 				
 				switch(edata.type){
 					case 'log message':
-						$('#nodeChat_messages').append($('<li>').html('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message));
+						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message));
 						scrollChat(autoScroll);
 						break;
 					case 'chat message':
-						$('#nodeChat_messages').append($('<li>').html('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message));
+						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message));
 						scrollChat(autoScroll);
 						break;
 					case 'system message':
-						$('#nodeChat_messages').append($('<li>').html('<span  class="nodeChat_systemlabel">System</span>' + edata.message));
+						appendToChat('<span  class="nodeChat_systemlabel">System</span>' + edata.message));
 						scrollChat(autoScroll);
 						break;
 				}

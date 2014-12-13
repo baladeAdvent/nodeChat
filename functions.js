@@ -1,6 +1,6 @@
 //////////////////////////////
 function appendToChat(str){
-	var message = $('<li>').html(str).hide()
+	var message = $('<li>').html(str).css('display','none');
 	$('#nodeChat_messages').append(	message.slideDown(1000) );
 }
 //////////////////////////////

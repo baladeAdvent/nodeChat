@@ -8,6 +8,7 @@ var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
 var clients = [];
+var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
 var server = http.createServer(app);
@@ -19,7 +20,11 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	console.log('websocket connection open');
-	clients.push(ws);
+	var connection = ws.accept(null, ws.origin);
+	var index = clients.push(ws)-1;
+	var userName = false;
+	var userColor = false;
+	
 	//ws.on('request',function(requst){
 	//	var connection = request.accept(null,request.origin);
 	//	clients.push(connection);
@@ -32,16 +37,19 @@ wss.on("connection", function(ws){
 				
 			case 'login':
 				mdata = {
+					'time': (new Date()).getTime(),
 					'type': 'system message',
 					'username': 'System',
 					'message': data['username'] + ' has logged in...'
 				}
+				userName = data['username'];
 				chatLog.push(mdata);
 				broadcast(clients,mdata);
 				break;
 			
 			case 'chat message':
 				mdata = {
+					'time': (new Date()).getTime(),
 					'type': 'chat message',
 					'username': data['username'],
 					'message': data['message']
@@ -55,6 +63,7 @@ wss.on("connection", function(ws){
 				console.log('Log request');
 				for(x in chatLog){				
 					mdata = {
+						'time': chatLog[x]['time'],
 						'type': 'log message',
 						'username': chatLog[x]['username'],
 						'message': chatLog[x]['message']
@@ -70,7 +79,7 @@ wss.on("connection", function(ws){
 	};
 	
 	/////////////
-	ws.on("close", function(event){
+	ws.on("close", function(connection){
 		console.log('websocket connection closed ' + event);
 		//clearInterval(id);
 	});

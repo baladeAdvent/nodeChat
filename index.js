@@ -18,17 +18,16 @@ console.log("http server listening on %d", port);
 
 var wss = new WebSocketServer({server: server});
 
-wss.on("request", function(request){
-	console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
-	var connection = request.accept(null, request.origin);
+wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
+		console.log(index);
 	var userName = false;
 	var userColor = false;
 	
-	//ws.on('request',function(requst){
-	//	var connection = request.accept(null,request.origin);
-	//	clients.push(connection);
-	//});
+	ws.on('request',function(request){
+		var connection = request.accept(null, request.origin);
+		console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
+	});
 	
 	connection.onmessage = function(event){
 		console.log(event.data);

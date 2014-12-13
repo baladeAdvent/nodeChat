@@ -22,11 +22,11 @@ wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
 	console.log('id: ' + index);
 	
-	var userObj = [{
+	var userObj = {
 		'id': index,
 		'connection': ws,
 		'username': false
-	}];
+	};
 	clients.push(userObj);
 	
 	console.log((new Date()) + ' Connection from origin ' + ws.origin + '.');

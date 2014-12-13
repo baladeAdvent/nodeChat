@@ -29,7 +29,7 @@ wss.on("connection", function(ws){
 		console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
 	});
 	
-	connection.onmessage = function(event){
+	ws.onmessage = function(event){
 		console.log(event.data);
 		var data = JSON.parse(event.data);
 		switch(data['type']){

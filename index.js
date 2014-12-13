@@ -20,9 +20,14 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
-		console.log('id: ' + index);
-	var userName = false;
-	var userColor = false;
+	console.log('id: ' + index);
+	
+	var userObj = [{
+		'id': index,
+		'connection': ws,
+		'username': false;
+	}];
+	clients.push(userObj);
 	
 	console.log((new Date()) + ' Connection from origin ' + ws.origin + '.');
 	
@@ -88,7 +93,7 @@ wss.on("connection", function(ws){
 
 function broadcast(clients,data){
 	for(i=0;i<clients.length;i++){
-		clients[i].send(JSON.stringify(data));
+		clients[i]['connection'].send(JSON.stringify(data));
 	}
 }
 

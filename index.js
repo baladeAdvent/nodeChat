@@ -7,7 +7,7 @@ var app = express();
 var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
-var clients = [];
+var clients = new Array();
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
@@ -29,7 +29,7 @@ wss.on("connection", function(ws){
 	};
 	clients.push(userObj);
 	
-	console.log((new Date()) + ' Connection from origin ' + ws.origin + '.');
+	console.log(userObj);
 	
 	ws.on('request',function(request){
 		var connection = request.accept(null, request.origin);

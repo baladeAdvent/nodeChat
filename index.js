@@ -82,8 +82,8 @@ wss.on("connection", function(ws){
 	};
 	
 	/////////////
-	ws.on("close", function(connection){
-		console.log('websocket connection closed ' + connection);
+	ws.onclose(function(event){
+		console.log('websocket connection closed ' + event);
 		//clearInterval(id);
 	});
 });

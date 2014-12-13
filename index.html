@@ -82,16 +82,16 @@
 				
 				switch(edata.type){
 					case 'log message':
-						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message);
-						scrollChat(autoScroll);
+						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message, autoScroll);
+						//scrollChat(autoScroll);
 						break;
 					case 'chat message':
-						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message);
-						scrollChat(autoScroll);
+						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message, autoScroll);
+						//scrollChat(autoScroll);
 						break;
 					case 'system message':
-						appendToChat('<span  class="nodeChat_systemlabel">System</span>' + edata.message);
-						scrollChat(autoScroll);
+						appendToChat('<span  class="nodeChat_systemlabel">System</span>' + edata.message, autoScroll);
+					//	scrollChat(autoScroll);
 						break;
 				}
 				

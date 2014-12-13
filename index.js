@@ -20,9 +20,11 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
-		console.log(index);
+		console.log('id: ' + index);
 	var userName = false;
 	var userColor = false;
+	
+	console.log((new Date()) + ' Connection from origin ' + ws.origin + '.');
 	
 	ws.on('request',function(request){
 		var connection = request.accept(null, request.origin);

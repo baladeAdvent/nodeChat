@@ -20,7 +20,6 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
-	console.log('id: ' + index);
 	
 	var userObj = {
 		'id': index,
@@ -28,8 +27,6 @@ wss.on("connection", function(ws){
 		'username': false
 	};
 	clients[index] = (userObj);
-	
-	console.log(userObj);
 	
 	//ws.on('request',function(request){
 	//	var connection = request.accept(null, request.origin);

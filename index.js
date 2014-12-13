@@ -23,18 +23,18 @@ wss.on("connection", function(ws){
 	console.log('id: ' + index);
 	
 	var userObj = {
-		id: index,
-		connection: ws,
-		username: false
+		'id': index,
+		'connection': ws,
+		'username': false
 	};
 	clients.push(userObj);
 	
 	console.log(userObj);
 	
-	ws.on('request',function(request){
-		var connection = request.accept(null, request.origin);
-		console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
-	});
+	//ws.on('request',function(request){
+	//	var connection = request.accept(null, request.origin);
+	//	console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
+	//});
 	
 	ws.onmessage = function(event){
 		console.log(event.data);
@@ -43,10 +43,10 @@ wss.on("connection", function(ws){
 				
 			case 'login':
 				mdata = {
-					time: (new Date()).getTime(),
-					type: 'system message',
-					username: 'System',
-					message: data['username'] + ' has logged in...'
+					'time': (new Date()).getTime(),
+					'type': 'system message',
+					'username': 'System',
+					'message': data['username'] + ' has logged in...'
 				}
 				userName = data['username'];
 				chatLog.push(mdata);
@@ -55,10 +55,10 @@ wss.on("connection", function(ws){
 			
 			case 'chat message':
 				mdata = {
-					time: (new Date()).getTime(),
-					type: 'chat message',
-					username: data['username'],
-					message: data['message']
+					'time': (new Date()).getTime(),
+					'type': 'chat message',
+					'username': data['username'],
+					'message': data['message']
 				}
 				chatLog.push(mdata);
 				broadcast(clients,mdata);
@@ -69,10 +69,10 @@ wss.on("connection", function(ws){
 				console.log('Log request');
 				for(x in chatLog){				
 					mdata = {
-						time: chatLog[x]['time'],
-						type: 'log message',
-						username: chatLog[x]['username'],
-						message: chatLog[x]['message']
+						'time': chatLog[x]['time'],
+						'type': 'log message',
+						'username': chatLog[x]['username'],
+						'message': chatLog[x]['message']
 					}
 					ws.send(JSON.stringify(mdata), function(){},1000);
 				}
@@ -94,8 +94,8 @@ wss.on("connection", function(ws){
 function broadcast(clients,data){
 	for(i=0;i<clients.length;i++){
 		console.log(clients[i]);
-		var con = clients[i]['connection']; 
-		con.send(JSON.stringify(data));
+		var conn = clients[i]['connection']; 
+		conn.send(JSON.stringify(data));
 	}
 }
 

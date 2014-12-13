@@ -19,7 +19,7 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
 wss.on("request", function(request){
-	console.log('websocket connection open');
+	console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
 	var connection = request.accept(null, request.origin);
 	var index = clients.push(ws)-1;
 	var userName = false;

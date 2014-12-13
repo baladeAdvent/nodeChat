@@ -25,7 +25,7 @@ wss.on("connection", function(ws){
 	var userObj = [{
 		'id': index,
 		'connection': ws,
-		'username': false;
+		'username': false
 	}];
 	clients.push(userObj);
 	

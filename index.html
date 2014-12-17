@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>Websocket chat</title>
 	<link rel="stylesheet" type="text/css" href="styles.css" />	
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />	
 	
@@ -38,7 +38,7 @@
 				pingRequest = JSON.stringify({'type':'ping','username': username});
 				
 				// Setup chat box
-				$('#nodeChat_username span').html(username);
+				$('#nodeChat_username').html(username);
 				$('#nodeChat_login').fadeOut(500,function(){
 					nodeChat();
 					$('#nodeChat_chatbox').fadeIn(500);

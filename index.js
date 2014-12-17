@@ -107,10 +107,10 @@ function broadcast(clients,data){
 }
 
 function get_userList(){
-	output = [];
-	for(x in clients){
-		output.push(clients[x].username);
-		console.log('getUserlist: ('+x+')' + clients[x].username);
+	output = new Array();
+	for(y in clients){
+		output.push(clients[y]['username']);
+		console.log('getUserlist: ('+y+')' + clients[y]['username']);
 	}
 	return JSON.stringify(output);
 }

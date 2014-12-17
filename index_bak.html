@@ -3,12 +3,8 @@
   <head>
     <title>Socket.IO chat</title>
 	<link rel="stylesheet" type="text/css" href="styles.css" />	
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />	
-	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
 	<script src="functions.js"></script>
-	
 	<script>
 		var username = '';
 		var loggedIn = false;
@@ -42,7 +38,6 @@
 				$('#nodeChat_login').fadeOut(500,function(){
 					nodeChat();
 					$('#nodeChat_chatbox').fadeIn(500);
-					$('#nodeChat_input').fadeIn(500);
 				});
 			}
 		}
@@ -51,9 +46,9 @@
 			ws.send(JSON.stringify({'type':'log request','username': username}), function(){},1000);
 			ws.send(JSON.stringify({'type':'login','username': username}), function(){},1000);
 			//Get Chat Login
-			//keepalive = setInterval(function(){
-			//	ws.send(pingRequest, function(){},1000);
-			//},5000);
+			keepalive = setInterval(function(){
+				ws.send(pingRequest, function(){},1000);
+			},5000);
 		
 			//User Messaging
 			$('#nodeChat_chatbox form').submit(function(event){
@@ -68,15 +63,14 @@
 					log(ws);		
 					ws.send(JSON.stringify(obj));
 					$('#m').val('');
-					event.preventDefault();
-					return false;
-				}else{
-					event.preventDefault();
-				}				
+				}
+				event.preventDefault();	
+				
 			});
 			
 			ws.onmessage = function(event){
-				log('Message event has arrived');		
+				log('Message event has arrived');
+			
 				edata = JSON.parse(event.data);
 				
 				labelClass = 'nodeChat_systemlabel';
@@ -86,19 +80,16 @@
 				
 				switch(edata.type){
 					case 'log message':
-						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message, autoScroll);
-						//scrollChat(autoScroll);
+						$('#nodeChat_messages').append($('<li>').html('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message));
+						scrollChat(autoScroll);
 						break;
 					case 'chat message':
-						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message, autoScroll);
-						//scrollChat(autoScroll);
+						$('#nodeChat_messages').append($('<li>').html('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message));
+						scrollChat(autoScroll);
 						break;
 					case 'system message':
-						appendToChat('<span  class="nodeChat_systemlabel">System</span>' + edata.message, autoScroll);
-					//	scrollChat(autoScroll);
-						break;
-					case 'update userlist':
-						//updateUserlist();
+						$('#nodeChat_messages').append($('<li>').html('<span  class="nodeChat_systemlabel">System</span>' + edata.message));
+						scrollChat(autoScroll);
 						break;
 				}
 				
@@ -110,43 +101,28 @@
 			}	
 		}
 	</script>
-	<style>
-		div.container-fluid {
-			max-width:900px;
-			height:600px;
-			border: solid 1px #bbb;
-			padding:3px;
-		}
-	</style>
   </head>
   <body>
-	<div class="container-fluid" id="nodeChat_container"`>
-		<div class="row" id="nodeChat_login">
+	<div class="nodeChat_container">
+	
+		<!-- Login form -->
+		<div id="nodeChat_login">
 			<form action="" id="nodeChat_loginform">
-				<div class="col-xs-10"><input id="username" class="form-control" /></div>
-				<div class="col-xs-2"><button class="btn btn-primary btn-lg btn-block">Login</button></div>
+				<input id="username" /><button>Login</button>
 			</form>
-		</div>
-		<div class="row" id="nodeChat_chatbox">
-			<div class="col-xs-9">
-				<ul id="nodeChat_messages">
-					<li>nodeChat Test</li>
-				</ul>
-			</div>
-			<div class="col-xs-3">
-				<ul id="nodeChat_users">
-					<li>nodeChat Test</li>
-				</ul>
-			</div>
-		</div>
-		<div class="row" id="nodeChat_input">
+		</div>	
+		
+		<!-- Messages form -->
+		<div id="nodeChat_chatbox">
+			<div id="nodeChat_username">Username: <span></span></div>
+			<ul id="nodeChat_messages"></ul>
 			<form action="">
-				<div class="col-xs-9"><input id="m" autocomplete="off" class="form-control" /></div>
-				<div class="col-xs-3"><button class="btn btn-primary btn-lg btn-block">Send</button></div>
+				<input id="m" autocomplete="off" /><button>Send</button>
 			</form>
 		</div>
-	</div>
-
+		
+	</div> <!-- /nodeChat_container -->
+	
 
   </body>
 </html>

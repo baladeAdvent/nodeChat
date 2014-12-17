@@ -17,9 +17,6 @@ server.listen(port,function(){});
 console.log("http server listening on %d", port);
 
 var wss = new WebSocketServer({server: server});
-wss.on("close",function(ws){
-	console.log('Connection from user closed');
-});
 
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
@@ -38,7 +35,7 @@ wss.on("connection", function(ws){
 	
 	ws.onmessage = function(event){
 		console.log('Input from User:' + index);
-		console.log(event);
+		//console.log(event);
 		var data = JSON.parse(event.data);
 		switch(data['type']){
 				
@@ -87,7 +84,7 @@ wss.on("connection", function(ws){
 	
 	/////////////
 	ws.onclose(function(connection){
-		console.log('websocket connection closed(' + index + ') ' + connection);
+		console.log('websocket connection closed(' + index + ') ');
 		//clearInterval(id);
 	});
 });

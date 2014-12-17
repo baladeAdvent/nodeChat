@@ -49,6 +49,9 @@ wss.on("connection", function(ws){
 				userName = data['username'];
 				chatLog.push(mdata);
 				broadcast(clients,mdata);
+				
+				// update user lists
+				broadcast(clients,get_userList());
 				break;
 			
 			case 'chat message':
@@ -95,6 +98,14 @@ function broadcast(clients,data){
 		var conn = clients[i]['connection']; 
 		conn.send(JSON.stringify(data));
 	}
+}
+
+function get_userList(){
+	output = [];
+	for(x in clients){
+		output.push(clients[x]['username']);
+	}
+	return JSON.stringify(output);
 }
 
 function stringify(obj){

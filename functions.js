@@ -14,6 +14,14 @@ function scrollChat(scrollStatus){
 	}
 }
 //////////////////////////////
+function updateUserlist(arr){
+	var des = $('#nodeChat_users');
+		des.html('');
+		for(x in arr){
+			des.append($('li').html(arr[x]));
+		}
+}
+//////////////////////////////
 function trim(str){
 	var pattern = /^( ){1,}|( ){1,}$/;
 	return str.replace(pattern,'');

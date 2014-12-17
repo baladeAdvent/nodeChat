@@ -38,7 +38,7 @@
 				pingRequest = JSON.stringify({'type':'ping','username': username});
 				
 				// Setup chat box
-				$('#nodeChat_username').html(username);
+				$('#nodeChat_username span').html(username);
 				$('#nodeChat_login').fadeOut(500,function(){
 					nodeChat();
 					$('#nodeChat_chatbox').fadeIn(500);
@@ -128,7 +128,7 @@
 			</form>
 		</div>
 		<div class="row">
-			<div class="col-xs-12"><p class="bg-success" id="nodeChat_username"></p></div>
+			<div class="col-xs-12"><p class="bg-success" id="nodeChat_username">Logged in as...<span></span></p></div>
 		</div>
 		<div class="row" id="nodeChat_chatbox">
 			<div class="col-xs-9">

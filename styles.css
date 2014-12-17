@@ -7,6 +7,9 @@ body { font: 13px Helvetica, Arial; }
 
 #nodeChat_messages, #nodeChat_users {
 	list-style:none;
+	overflow:scroll;
+	height:500px;
+	border: solid 1px #eee;
 }
 
 #nodeChat_login {
@@ -16,3 +19,4 @@ body { font: 13px Helvetica, Arial; }
 #nodeChat_chatbox, #nodeChat_input{
 	display:none;
 }
+

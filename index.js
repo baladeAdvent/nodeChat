@@ -26,7 +26,7 @@ wss.on("connection", function(ws){
 		'connection': ws,
 		'username': false
 	};
-	clients[index] = (userObj);
+	clients[index] = userObj;
 	
 	//ws.on('request',function(request){
 	//	var connection = request.accept(null, request.origin);
@@ -109,7 +109,8 @@ function broadcast(clients,data){
 function get_userList(){
 	output = [];
 	for(x in clients){
-		output.push(clients[x]['username']);
+		output.push(clients[x].username);
+		console.log('getUserlist: ' + clients[x]);
 	}
 	return JSON.stringify(output);
 }

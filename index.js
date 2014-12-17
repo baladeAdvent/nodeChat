@@ -45,13 +45,19 @@ wss.on("connection", function(ws){
 					'type': 'system message',
 					'username': 'System',
 					'message': data['username'] + ' has logged in...'
-				}
+				};
 				userName = data['username'];
 				chatLog.push(mdata);
 				broadcast(clients,mdata);
 				
 				// update user lists
-				broadcast(clients,get_userList());
+				mdata = {
+					'time': (new Date()).getTime(),
+					'type': 'update userlist',
+					'username': 'System',
+					'data':get_userList();
+				};
+				broadcast(clients,mdata);
 				break;
 			
 			case 'chat message':

@@ -34,7 +34,7 @@ wss.on("connection", function(ws){
 	//});
 	
 	ws.onmessage = function(event){
-		console.log('Input from User:' + index);
+		console.log('Input from User:' + index + '(' + event.readyState + ')');
 		//console.log(event);
 		var data = JSON.parse(event.data);
 		switch(data['type']){

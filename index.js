@@ -110,7 +110,7 @@ function get_userList(){
 	output = [];
 	for(x in clients){
 		output.push(clients[x].username);
-		console.log('getUserlist: ' + clients[x]);
+		console.log('getUserlist: ' + clients[x].username);
 	}
 	return JSON.stringify(output);
 }

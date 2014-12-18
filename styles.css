@@ -12,6 +12,9 @@ body { font: 13px Helvetica, Arial; }
 	height:500px;
 	border: solid 1px #eee;
 }
+#nodeChat_users li{
+	padding: 0 0 0 5px;
+}
 
 .nodeChat_systemlabel {
 	background:#f00;

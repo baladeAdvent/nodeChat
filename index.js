@@ -8,6 +8,7 @@ var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
 var clients = new Array();
+var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
@@ -20,7 +21,8 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
-	var index = clients.push(ws)-1;
+	//var index = clients.push(ws)-1;
+	var index = clientID++;
 	
 	var userObj = {
 		'id': index,
@@ -98,7 +100,6 @@ function checkConnections(){
 		console.log('clients: ' + clients);
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
-			
 			clients = unsetClients(i-1);
 			console.log('Remove from clients list ('+i-1+')');
 			sendUpdate = true;

@@ -103,6 +103,7 @@ function checkConnections(){
 	for(i in clients){
 		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
 		if(clients[i]['connection']['readyState'] == '3'){
+			console.log('Remove from clients list ('+x+')');
 			noticeUserLogout(clients[i]['username']);
 			clients.splice(i,1);
 			sendUpdatedUserList();

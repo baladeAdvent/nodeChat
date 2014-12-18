@@ -106,7 +106,7 @@ function get_userList(arr){
 	output = new Array();
 	for(i=0;i<arr.length;i++){
 		output.push(arr[i]['username']);
-		console.log('getUserlist: ('+i+')' + arr[i]['username']);
+		//console.log('getUserlist: ('+i+')' + arr[i]['username']);
 	}
 	return JSON.stringify(output);
 }

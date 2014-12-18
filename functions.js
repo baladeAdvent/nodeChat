@@ -15,10 +15,10 @@ function scrollChat(scrollStatus){
 }
 //////////////////////////////
 function updateUserlist(arr){
-console.log('Update User List: ' + arr);
 	var des = $('#nodeChat_users');
 		des.html('');
 		for(x in arr){
+			console.log('Update User List: ' + arr[x]);
 			des.append($('li').html(arr[x]));
 		}
 }

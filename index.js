@@ -18,6 +18,10 @@ console.log("http server listening on %d", port);
 
 var wss = new WebSocketServer({server: server});
 
+wss.on("close",function(reason,description){
+	console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+});
+
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
 	
@@ -29,7 +33,7 @@ wss.on("connection", function(ws){
 	clients[index] = userObj;
 	
 	ws.onmessage = function(event){
-		console.log('Input from User:' + index + '(' + event + ')');
+		console.log('Input from User: (' + index + ')');
 		//console.log(event);
 		var data = JSON.parse(event.data);
 		switch(data['type']){

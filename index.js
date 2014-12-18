@@ -7,7 +7,7 @@ var app = express();
 var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
-var clients = new Array();
+var clients = [];
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
@@ -21,7 +21,8 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
-	var index = clients.push(ws)-1;
+	//var index = clients.push(ws)-1;
+	var index = clientID++;
 	
 	var userObj = {
 		'id': index,
@@ -84,7 +85,7 @@ wss.on("connection", function(ws){
 
 //////////////////////////////////////////
 function broadcast(data){
-	for(i=0;i<clients.length;i++){
+	for(i in clients){
 		if(clients[i]['connection']['readyState'] == '1'){
 			var conn = clients[i]['connection']; 
 			conn.send(JSON.stringify(data));
@@ -94,10 +95,10 @@ function broadcast(data){
 //////////////////////////////////////////
 function checkConnections(){
 	var sendUpdate = false;
-	for(i=0;i<clients.length;i++){
+	for(i in clients){
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
-			clients = unsetClients(i-1);
+			clients = unsetClients(i);
 			console.log('Remove from clients list ('+i-1+')');
 			sendUpdate = true;
 		}
@@ -136,7 +137,7 @@ function sendUpdatedUserList(){
 //////////////////////////////////////////
 function get_userList(){
 	output = new Array();
-	for(i=0;i<clients.length;i++){
+	for(i in clients){
 		output.push(clients[i]['username']);
 		//console.log('getUserlist: ('+i+')' + arr[i]['username']);
 	}

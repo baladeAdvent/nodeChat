@@ -104,9 +104,9 @@ function checkConnections(){
 	for(i=0;i<clients.length;i++){
 		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
 		if(clients[i]['connection']['readyState'] == '3'){
-			console.log('Remove from clients list ('+i+')');
 			noticeUserLogout(clients[i]['username']);
-			clients.splice(i,1);
+			removed = clients.splice(i,1);
+			console.log('Remove from clients list ('+removed+')');
 			sendUpdate = true;
 			//purgeClients(i);
 		}

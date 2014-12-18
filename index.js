@@ -95,7 +95,12 @@ function sendUpdatedUserList(){
 		'username': 'System',
 		'userlist':get_userList()
 	};
-	broadcast(mdata);
+	for(i=0;i<clients.length;i++){
+		if(clients[i]['connection']['readyState'] == '1'){
+			var conn = clients[i]['connection']; 
+			conn.send(JSON.stringify(mdata));
+		}
+	}
 }
 
 function broadcast(data){
@@ -112,14 +117,6 @@ function broadcast(data){
 }
 
 function checkConnections(){
-	for(i=0;i<clients.length;i++){
-		if(clients[i]['connection']['readyState'] == '3'){
-			console.log('Clean up closed connection (' +  i + ')' );
-			noticeUserLogout(clients[i]['username']);
-			clients.splice(i,1);
-			sendUpdatedUserList();
-		}
-	}
 }
 
 function get_userList(){

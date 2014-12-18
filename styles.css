@@ -15,13 +15,15 @@ body { font: 13px Helvetica, Arial; }
 
 .nodeChat_systemlabel {
 	background:#f00;
-	padding:5px;
 	color:#fff;
+	margin: 2px 5px 0 0;
+	padding:5px;
 }
 .nodeChat_userlabel {
 	background:#0f0;
-	padding:5px;
 	color:#fff;
+	margin: 2px 5px 0 0;
+	padding:5px;
 }
 
 /* Initial display settings */

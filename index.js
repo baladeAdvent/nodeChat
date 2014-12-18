@@ -27,7 +27,7 @@ wss.on("connection", function(ws){
 	var userObj = {
 		'id': index,
 		'connection': ws,
-		'username': 'user' + Math.floor(Math.random() * 1001);
+		'username': 'user' + Math.floor(Math.random() * 1001)
 	};
 	clients[index] = userObj;
 	

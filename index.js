@@ -28,11 +28,6 @@ wss.on("connection", function(ws){
 	};
 	clients[index] = userObj;
 	
-	//ws.on('request',function(request){
-	//	var connection = request.accept(null, request.origin);
-	//	console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
-	//});
-	
 	ws.onmessage = function(event){
 		console.log('Input from User:' + index + '(' + event.readyState + ')');
 		//console.log(event);
@@ -98,19 +93,19 @@ wss.on("connection", function(ws){
 	});
 });
 
-function broadcast(clients,data){
-	for(i=0;i<clients.length;i++){
-		//console.log(clients[i]);
-		var conn = clients[i]['connection']; 
+function broadcast(arr,data){
+	for(i=0;i<arr.length;i++){
+		//console.log(arr[i]);
+		var conn = arr[i]['connection']; 
 		conn.send(JSON.stringify(data));
 	}
 }
 
-function get_userList(clients){
+function get_userList(arr){
 	output = new Array();
-	for(i=0;i<clients.length;i++){
-		output.push(clients[i]['username']);
-		console.log('getUserlist: ('+i+')' + clients[i]['username']);
+	for(i=0;i<arr.length;i++){
+		output.push(arr[i]['username']);
+		console.log('getUserlist: ('+i+')' + arr[i]);
 	}
 	return JSON.stringify(output);
 }

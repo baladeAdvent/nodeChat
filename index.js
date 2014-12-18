@@ -98,7 +98,7 @@ function checkConnections(){
 		console.log('clients: ' + clients);
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
-			clients = unsetClient(i);
+			clients = unsetClients(i);
 			console.log('Remove from clients list ('+i+')');
 			sendUpdate = true;
 		}

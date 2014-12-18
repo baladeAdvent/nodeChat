@@ -95,9 +95,6 @@ function broadcast(data){
 			var conn = clients[i]['connection']; 
 			conn.send(JSON.stringify(data));
 		}
-		if(clients[i]['connection']['readyState'] == '3'){
-			checkConnections();
-		}
 	}
 }
 
@@ -108,9 +105,10 @@ function checkConnections(){
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
 			clients.splice(i,1);
+			sendUpdatedUserList();
 		}
 	}
-	sendUpdatedUserList();
+	return true;
 }
 
 //////////////////////////////////////////

@@ -95,6 +95,7 @@ function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
 		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
+		console.log('clients: ' + clients);
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
 			clients.splice(i,1);

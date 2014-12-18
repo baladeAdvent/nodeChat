@@ -11,6 +11,10 @@ var clients = new Array();
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
+var conCheck = setInterval(function(){
+	checkConnections();
+},1000);
+
 var server = http.createServer(app);
 server.listen(port,function(){});
 console.log("http server listening on %d", port);
@@ -48,7 +52,7 @@ wss.on("connection", function(ws){
 				broadcast(mdata);
 				
 				// update user lists
-				sendUpdatedUserList(clients);
+				sendUpdatedUserList();
 				break;
 			
 			case 'chat message':
@@ -96,7 +100,7 @@ function sendUpdatedUserList(){
 		'time': (new Date()).getTime(),
 		'type': 'update userlist',
 		'username': 'System',
-		'userlist':get_userList(clients)
+		'userlist':get_userList()
 	};
 	broadcast(mdata);
 }
@@ -109,18 +113,28 @@ function broadcast(data){
 			conn.send(JSON.stringify(data));
 		}
 		if(clients[i]['connection']['readyState'] == '3'){
-			console.log('Clean up closed connection (' +  i + ')' );
-			clients.splice(i,1);
+			checkConnections();
 		}
 	}
 }
 
-function get_userList(arr){
+function checkConnections(){
+	for(i=0;i<clients.length;i++){
+		if(clients[i]['connection']['readyState'] == '3'){
+			console.log('Clean up closed connection (' +  i + ')' );
+			clients.splice(i,1);
+			sendUpdatedUserList();
+		}
+	}
+}
+
+function get_userList(){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
 		output.push(clients[i]['username']);
 		//console.log('getUserlist: ('+i+')' + arr[i]['username']);
 	}
+	output.sort();
 	return JSON.stringify(output);
 }
 

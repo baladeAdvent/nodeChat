@@ -21,8 +21,8 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
-	//var index = clients.push(ws)-1;
-	var index = clientID++;
+	var index = clients.push(ws)-1;
+	//var index = clientID++;
 	
 	var userObj = {
 		'id': index,

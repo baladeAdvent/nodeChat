@@ -52,9 +52,9 @@
 			ws.send(JSON.stringify({'type':'log request','username': username}), function(){},1000);
 			ws.send(JSON.stringify({'type':'login','username': username}), function(){},1000);
 			//Get Chat Login
-			//keepalive = setInterval(function(){
-			//	ws.send(pingRequest, function(){},1000);
-			//},5000);
+			keepalive = setInterval(function(){
+				ws.send(pingRequest, function(){},1000);
+			},5000);
 		
 			//User Messaging
 			$('#nodeChat_input form').submit(function(event){

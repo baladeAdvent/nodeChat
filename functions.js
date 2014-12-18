@@ -19,9 +19,9 @@ function updateUserlist(json){
 	var list = JSON.parse(json)
 	var des = $('#nodeChat_users');
 		des.html('');
-		for(x in arr){
-			console.log('Update User List: ' + arr[x]);
-			des.append($('li').html(arr[x]));
+		for(x in list){
+			console.log('Update User List: ' + list[x]);
+			des.append($('li').html(list[x]));
 		}
 }
 //////////////////////////////

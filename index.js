@@ -105,7 +105,7 @@ function broadcast(data){
 	for(i=0;i<clients.length;i++){
 		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
 		if(clients[i]['connection']['readyState'] == '1'){
-			var conn = arr[i]['connection']; 
+			var conn = clients[i]['connection']; 
 			conn.send(JSON.stringify(data));
 		}
 		if(clients[i]['connection']['readyState'] == '3'){
@@ -117,8 +117,8 @@ function broadcast(data){
 
 function get_userList(arr){
 	output = new Array();
-	for(i=0;i<arr.length;i++){
-		output.push(arr[i]['username']);
+	for(i=0;i<clients.length;i++){
+		output.push(clients[i]['username']);
 		//console.log('getUserlist: ('+i+')' + arr[i]['username']);
 	}
 	return JSON.stringify(output);

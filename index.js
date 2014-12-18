@@ -13,7 +13,7 @@ app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
-},1000);
+},2000);
 
 var server = http.createServer(app);
 server.listen(port,function(){});
@@ -88,6 +88,32 @@ wss.on("connection", function(ws){
 	});
 });
 
+//////////////////////////////////////////
+function broadcast(data){
+	for(i=0;i<clients.length;i++){
+		if(clients[i]['connection']['readyState'] == '1'){
+			var conn = clients[i]['connection']; 
+			conn.send(JSON.stringify(data));
+		}
+		if(clients[i]['connection']['readyState'] == '3'){
+			checkConnections();
+		}
+	}
+}
+
+//////////////////////////////////////////
+function checkConnections(){	
+	for(i=0;i<clients.length;i++){
+		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
+		if(clients[i]['connection']['readyState'] == '3'){
+			noticeUserLogout(clients[i]['username']);
+			clients.splice(i,1);
+		}
+	}
+	sendUpdatedUserList();
+}
+
+//////////////////////////////////////////
 function sendUpdatedUserList(){
 	mdata = {
 		'time': (new Date()).getTime(),
@@ -103,28 +129,7 @@ function sendUpdatedUserList(){
 	}
 }
 
-function broadcast(data){
-	for(i=0;i<clients.length;i++){
-		if(clients[i]['connection']['readyState'] == '1'){
-			var conn = clients[i]['connection']; 
-			conn.send(JSON.stringify(data));
-		}
-		if(clients[i]['connection']['readyState'] == '3'){
-			checkConnections();
-		}
-	}
-}
-
-function checkConnections(){	
-	for(i=0;i<clients.length;i++){
-		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
-		if(clients[i]['connection']['readyState'] == '3'){
-			clients.splice(i,1);
-		}
-	}
-	sendUpdatedUserList();
-}
-
+//////////////////////////////////////////
 function get_userList(){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
@@ -157,23 +162,3 @@ function noticeUserLogout(username){
 	broadcast(mdata);
 }
 //////////////////////////////////////////
-
-function stringify(obj){
-	output = '';
-	for(x in obj){
-		output += x + '~:~' + obj[x] + '}:}';
-	}
-	return output.replace(/}:}$/,'');
-}
-
-function parseData(str){
-	var Obj = [];	
-	var array1 = str.split('}:}');
-	for(x in array1){
-		parts = array1[x].split('~:~');
-		if(parts[0] != ''){
-			Obj[parts[0]] = parts[1];
-		}
-	}
-	return Obj;
-}

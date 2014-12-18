@@ -77,7 +77,7 @@ wss.on("connection", function(ws){
 						'username': chatLog[x]['username'],
 						'message': chatLog[x]['message']
 					}
-					ws.send(JSON.stringify(mdata), function(){},1000);
+					ws.send(JSON.stringify(mdata));
 				}
 				break;
 

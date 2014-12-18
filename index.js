@@ -48,13 +48,7 @@ wss.on("connection", function(ws){
 				broadcast(clients,mdata);
 				
 				// update user lists
-				mdata = {
-					'time': (new Date()).getTime(),
-					'type': 'update userlist',
-					'username': 'System',
-					'userlist':get_userList(clients)
-				};
-				broadcast(clients,mdata);
+				sendUpdatedUserList(clients);
 				break;
 			
 			case 'chat message':
@@ -97,11 +91,25 @@ wss.on("connection", function(ws){
 	});
 });
 
+function sendUpdatedUserList(arr){
+	mdata = {
+		'time': (new Date()).getTime(),
+		'type': 'update userlist',
+		'username': 'System',
+		'userlist':get_userList(clients)
+	};
+	broadcast(arr,mdata);
+}
+
 function broadcast(arr,data){
 	for(i=0;i<arr.length;i++){
 		console.log('Broadcast.readyState: ' + arr[i]['connection']['readyState']);
-		var conn = arr[i]['connection']; 
-		conn.send(JSON.stringify(data));
+		if(arr[i]['connection']['readyState'] == 1){
+			var conn = arr[i]['connection']; 
+			conn.send(JSON.stringify(data));
+		}else if(arr[i]['connection']['readyState'] == 3){
+			clients.splice(i,1);
+		}
 	}
 }
 

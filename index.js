@@ -98,7 +98,7 @@ function checkConnections(){
 		console.log('clients: ' + clients);
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
-			delete clients[i];
+			clients = unsetClient(i);
 			console.log('Remove from clients list ('+i+')');
 			sendUpdate = true;
 		}
@@ -107,6 +107,16 @@ function checkConnections(){
 		sendUpdatedUserList();
 		sendUpdate = false;
 	}
+}
+//////////////////////////////////////////
+function unsetClients(index){
+	output = new Array();
+	for(x in clients){
+		if(x != index){
+			output.push(clients[x]);
+		}
+	}
+	return output;
 }
 //////////////////////////////////////////
 function sendUpdatedUserList(){

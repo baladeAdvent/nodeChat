@@ -80,9 +80,9 @@
 				log('Message event has arrived');		
 				edata = JSON.parse(event.data);
 				
-				labelClass = 'nodeChat_systemlabel';
+				labelClass = 'btn btn-warning';
 				if(edata.username != 'System'){
-					labelClass = 'nodeChat_userlabel';
+					labelClass = 'btn btn-info';
 				}
 				
 				switch(edata.type){

@@ -82,20 +82,20 @@
 				
 				labelClass = 'btn btn-warning';
 				if(edata.username != 'System'){
-					labelClass = 'btn btn-info';
+					labelClass = 'btn btn-success';
 				}
 				
 				switch(edata.type){
 					case 'log message':
-						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message, autoScroll);
+						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span> ' + edata.message, autoScroll);
 						//scrollChat(autoScroll);
 						break;
 					case 'chat message':
-						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span>' + edata.message, autoScroll);
+						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span> ' + edata.message, autoScroll);
 						//scrollChat(autoScroll);
 						break;
 					case 'system message':
-						appendToChat('<span  class="' + labelClass + '">System</span>' + edata.message, autoScroll);
+						appendToChat('<span  class="' + labelClass + '">System</span> ' + edata.message, autoScroll);
 					//	scrollChat(autoScroll);
 						break;
 					case 'update userlist':

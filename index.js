@@ -99,17 +99,22 @@ function broadcast(data){
 }
 
 //////////////////////////////////////////
-function checkConnections(){	
-	for(i in clients){
+function checkConnections(){
+	var sendUpdate = false;
+	for(i=0;i<clients.length;i++){
 		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
 		if(clients[i]['connection']['readyState'] == '3'){
 			console.log('Remove from clients list ('+i+')');
 			noticeUserLogout(clients[i]['username']);
 			clients.splice(i,1);
+			sendUpdate = true;
 			//purgeClients(i);
 		}
 	}
-	sendUpdatedUserList();
+	if(sendUpdate === true){
+		sendUpdatedUserList();
+		sendUpdate = false;
+	}
 }
 //////////////////////////////////////////
 function sendUpdatedUserList(){

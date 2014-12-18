@@ -105,12 +105,22 @@ function checkConnections(){
 		if(clients[i]['connection']['readyState'] == '3'){
 			console.log('Remove from clients list ('+i+')');
 			noticeUserLogout(clients[i]['username']);
-			clients.splice(i,1);
+			//clients.splice(i,1);
+			purgeClients(i);
 		}
 	}
 	sendUpdatedUserList();
 }
-
+//////////////////////////////////////////
+function purgeClients(index){
+	output = new Array();
+	for(x in clients){
+		if(x != index){
+			output.push(clients[x]);
+		}
+	}
+	clients = output;
+}
 //////////////////////////////////////////
 function sendUpdatedUserList(){
 	mdata = {

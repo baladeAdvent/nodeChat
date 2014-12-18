@@ -16,6 +16,9 @@ server.listen(port,function(){});
 console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
+wss.on("close",function(){
+	console.log('connection closed');
+});
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
 	

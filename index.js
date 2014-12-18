@@ -12,7 +12,7 @@ var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
-	checkConnections();
+	checkConnections(clients);
 },2000);
 
 var server = http.createServer(app);
@@ -100,7 +100,7 @@ function broadcast(data){
 
 //////////////////////////////////////////
 function checkConnections(){	
-	for(i=0;i<clients.length;i++){
+	for(i in clients){
 		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);

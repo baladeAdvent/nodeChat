@@ -6,7 +6,7 @@ var express = require('express');
 var app = express();
 var port = (process.env.PORT || 5000);
 
-var chatLog = new Array();
+var chatLog = [];
 var clients = [];
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
@@ -27,7 +27,7 @@ wss.on("connection", function(ws){
 	var userObj = {
 		'id': index,
 		'connection': ws,
-		'username': false
+		'username': 'user' + Math.floor(Math.random() * 1001);
 	};
 	clients[index] = userObj;
 	

@@ -42,6 +42,7 @@ wss.on("connection", function(ws){
 					'message': data['username'] + ' has logged in...'
 				};
 				userName = data['username'];
+				clients[index]['username'] = userName;
 				chatLog.push(mdata);
 				broadcast(clients,mdata);
 				

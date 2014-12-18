@@ -91,24 +91,24 @@ wss.on("connection", function(ws){
 	});
 });
 
-function sendUpdatedUserList(arr){
+function sendUpdatedUserList(){
 	mdata = {
 		'time': (new Date()).getTime(),
 		'type': 'update userlist',
 		'username': 'System',
 		'userlist':get_userList(clients)
 	};
-	broadcast(arr,mdata);
+	broadcast(mdata);
 }
 
-function broadcast(arr,data){
-	for(i=0;i<arr.length;i++){
-		console.log('Broadcast.readyState: ' + arr[i]['connection']['readyState']);
-		if(arr[i]['connection']['readyState'] == '1'){
+function broadcast(data){
+	for(i=0;i<clients.length;i++){
+		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
+		if(clients[i]['connection']['readyState'] == '1'){
 			var conn = arr[i]['connection']; 
 			conn.send(JSON.stringify(data));
 		}
-		if(arr[i]['connection']['readyState'] == '3'){
+		if(clients[i]['connection']['readyState'] == '3'){
 			console.log('Clean up closed connection (' +  i + ')' );
 			clients.splice(i,1);
 		}

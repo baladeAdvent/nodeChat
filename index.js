@@ -104,10 +104,12 @@ function sendUpdatedUserList(arr){
 function broadcast(arr,data){
 	for(i=0;i<arr.length;i++){
 		console.log('Broadcast.readyState: ' + arr[i]['connection']['readyState']);
-		if(arr[i]['connection']['readyState'] == 1){
+		if(arr[i]['connection']['readyState'] == '1'){
 			var conn = arr[i]['connection']; 
 			conn.send(JSON.stringify(data));
-		}else if(arr[i]['connection']['readyState'] == 3){
+		}
+		if(arr[i]['connection']['readyState'] == '3'){
+			console.log('Clean up closed connection (' +  i + ')' );
 			clients.splice(i,1);
 		}
 	}

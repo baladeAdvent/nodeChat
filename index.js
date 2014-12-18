@@ -55,7 +55,7 @@ wss.on("connection", function(ws){
 					'time': (new Date()).getTime(),
 					'type': 'update userlist',
 					'username': 'System',
-					'userlist':get_userList()
+					'userlist':get_userList(clients)
 				};
 				broadcast(clients,mdata);
 				break;
@@ -106,7 +106,7 @@ function broadcast(clients,data){
 	}
 }
 
-function get_userList(clients,data){
+function get_userList(clients){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
 		output.push(clients[i]['username']);

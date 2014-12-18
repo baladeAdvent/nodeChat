@@ -105,7 +105,6 @@ function sendUpdatedUserList(){
 
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
-		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
 		if(clients[i]['connection']['readyState'] == '1'){
 			var conn = clients[i]['connection']; 
 			conn.send(JSON.stringify(data));
@@ -116,7 +115,14 @@ function broadcast(data){
 	}
 }
 
-function checkConnections(){
+function checkConnections(){	
+	for(i=0;i<clients.length;i++){
+		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
+		if(clients[i]['connection']['readyState'] == '3'){
+			clients.splice(i,1);
+		}
+	}
+	sendUpdatedUserList();
 }
 
 function get_userList(){

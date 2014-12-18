@@ -13,12 +13,12 @@ body { font: 13px Helvetica, Arial; }
 	border: solid 1px #eee;
 }
 
-#nodeChat_systemlabel {
+.nodeChat_systemlabel {
 	background:#f00;
 	padding:5px;
 	color:#fff;
 }
-#nodeChat_userlabel {
+.nodeChat_userlabel {
 	background:#0f0;
 	padding:5px;
 	color:#fff;

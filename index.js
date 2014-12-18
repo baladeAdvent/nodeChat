@@ -88,8 +88,11 @@ wss.on("connection", function(ws){
 	};
 	
 	/////////////
-	ws.onclose(function(connection){
-		console.log('websocket connection closed(' + index + ') ');
+	ws.onclose(function(event){
+		var code = event.code;
+		var reason = event.reason;
+		var wasClean = event.wasClean;
+		console.log('websocket connection closed(' + index + ') '+code);
 	});
 });
 

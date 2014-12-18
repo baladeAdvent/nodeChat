@@ -13,14 +13,8 @@ app.use(express.static(__dirname + '/'));
 
 var server = http.createServer(app);
 server.listen(port,function(){});
-
 console.log("http server listening on %d", port);
-
 var wss = new WebSocketServer({server: server});
-
-wss.on("close",function(reason,description){
-	console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
-});
 
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
@@ -102,7 +96,7 @@ wss.on("connection", function(ws){
 
 function broadcast(arr,data){
 	for(i=0;i<arr.length;i++){
-		//console.log(arr[i]);
+		console.log('Broadcast.readyState: ' + arr[i]['connection']['readyState']);
 		var conn = arr[i]['connection']; 
 		conn.send(JSON.stringify(data));
 	}

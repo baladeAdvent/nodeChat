@@ -13,7 +13,7 @@ app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
-},1000);
+},500);
 
 var server = http.createServer(app);
 server.listen(port,function(){});

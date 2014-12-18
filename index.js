@@ -45,7 +45,7 @@ wss.on("connection", function(ws){
 				userName = data['username'];
 				clients[index]['username'] = userName;
 				chatLog.push(mdata);
-				broadcast(clients,mdata);
+				broadcast(mdata);
 				
 				// update user lists
 				sendUpdatedUserList(clients);
@@ -59,7 +59,7 @@ wss.on("connection", function(ws){
 					'message': data['message']
 				}
 				chatLog.push(mdata);
-				broadcast(clients,mdata);
+				broadcast(mdata);
 				
 				break;
 				

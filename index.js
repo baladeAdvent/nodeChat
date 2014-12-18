@@ -112,6 +112,7 @@ function checkConnections(){
 function unsetClients(index){
 	output = new Array();
 	for(x in clients){
+		console.log(x + ' : ' + index);
 		if(x != index){
 			output.push(clients[x]);
 		}

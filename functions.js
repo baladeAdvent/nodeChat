@@ -21,7 +21,7 @@ function updateUserlist(json){
 		des.html('');
 		for(x in list){
 			console.log('Update User List: ' + list[x]);
-			des.append($('li').html(list[x]));
+			des.append( $('<li>').html(list[x]) );
 		}
 }
 //////////////////////////////

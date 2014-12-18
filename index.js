@@ -40,16 +40,9 @@ wss.on("connection", function(ws){
 		switch(data['type']){
 				
 			case 'login':
-				mdata = {
-					'time': (new Date()).getTime(),
-					'type': 'system message',
-					'username': 'System',
-					'message': data['username'] + ' has logged in...'
-				};
 				userName = data['username'];
 				clients[index]['username'] = userName;
-				chatLog.push(mdata);
-				broadcast(mdata);
+				noticeUserLogin(userName);
 				
 				// update user lists
 				sendUpdatedUserList();
@@ -122,6 +115,7 @@ function checkConnections(){
 	for(i=0;i<clients.length;i++){
 		if(clients[i]['connection']['readyState'] == '3'){
 			console.log('Clean up closed connection (' +  i + ')' );
+			noticeUserLogout(clients[i]['username']);
 			clients.splice(i,1);
 			sendUpdatedUserList();
 		}
@@ -137,6 +131,29 @@ function get_userList(){
 	output.sort();
 	return JSON.stringify(output);
 }
+
+//////////////////////////////////////////
+function noticeUserLogin(username){
+	mdata = {
+		'time': (new Date()).getTime(),
+		'type': 'system message',
+		'username': 'System',
+		'message': username + ' has logged in...'
+	};
+	chatLog.push(mdata);
+	broadcast(mdata);
+}
+function noticeUserLogout(username){
+	mdata = {
+		'time': (new Date()).getTime(),
+		'type': 'system message',
+		'username': 'System',
+		'message': username + ' has logged out...'
+	};
+	chatLog.push(mdata);
+	broadcast(mdata);
+}
+//////////////////////////////////////////
 
 function stringify(obj){
 	output = '';

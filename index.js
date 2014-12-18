@@ -13,7 +13,7 @@ app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
-},3000);
+},1000);
 
 var server = http.createServer(app);
 server.listen(port,function(){});
@@ -95,8 +95,6 @@ function broadcast(data){
 function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
-		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
-		console.log('clients: ' + clients);
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
 			clients = unsetClients(i-1);

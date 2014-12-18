@@ -86,7 +86,7 @@ wss.on("connection", function(ws){
 //////////////////////////////////////////
 function broadcast(data){
 	for(i in clients){
-		if(clients[i]['connection']['readyState'] == '1'){
+		if(clients[i]['connection']['readyState'] != undefined && clients[i]['connection']['readyState'] == '1'){
 			var conn = clients[i]['connection']; 
 			conn.send(JSON.stringify(data));
 		}

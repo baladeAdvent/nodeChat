@@ -8,21 +8,17 @@ var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
 var clients = new Array();
-var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
-},2000);
+},3000);
 
 var server = http.createServer(app);
 server.listen(port,function(){});
 console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
-wss.on("close",function(){
-	console.log('connection closed');
-});
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
 	
@@ -35,7 +31,6 @@ wss.on("connection", function(ws){
 	
 	ws.onmessage = function(event){
 		console.log('Input from User: (' + index + ')');
-		//console.log(event);
 		var data = JSON.parse(event.data);
 		switch(data['type']){
 				
@@ -43,7 +38,6 @@ wss.on("connection", function(ws){
 				userName = data['username'];
 				clients[index]['username'] = userName;
 				noticeUserLogin(userName);
-				
 				// update user lists
 				sendUpdatedUserList();
 				break;
@@ -57,7 +51,6 @@ wss.on("connection", function(ws){
 				}
 				chatLog.push(mdata);
 				broadcast(mdata);
-				
 				break;
 				
 			case 'log request':
@@ -84,7 +77,7 @@ wss.on("connection", function(ws){
 		var code = event.code;
 		var reason = event.reason;
 		var wasClean = event.wasClean;
-		console.log('websocket connection closed(' + index + ') '+code);
+		console.log('websocket connection closed(' + index + ') ' + code);
 	});
 });
 
@@ -97,7 +90,6 @@ function broadcast(data){
 		}
 	}
 }
-
 //////////////////////////////////////////
 function checkConnections(){
 	var sendUpdate = false;
@@ -105,10 +97,9 @@ function checkConnections(){
 		console.log('Connection('+i+').readyState: ' + clients[i]['connection']['readyState']);
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
-			removed = clients.splice(i,1);
-			console.log('Remove from clients list ('+removed+')');
+			clients.splice(i,1);
+			console.log('Remove from clients list ('+i+')');
 			sendUpdate = true;
-			//purgeClients(i);
 		}
 	}
 	if(sendUpdate === true){
@@ -131,7 +122,6 @@ function sendUpdatedUserList(){
 		}
 	}
 }
-
 //////////////////////////////////////////
 function get_userList(){
 	output = new Array();
@@ -142,7 +132,6 @@ function get_userList(){
 	output.sort();
 	return JSON.stringify(output);
 }
-
 //////////////////////////////////////////
 function noticeUserLogin(username){
 	mdata = {
@@ -154,6 +143,7 @@ function noticeUserLogin(username){
 	chatLog.push(mdata);
 	broadcast(mdata);
 }
+//////////////////////////////////////////
 function noticeUserLogout(username){
 	mdata = {
 		'time': (new Date()).getTime(),
@@ -164,4 +154,3 @@ function noticeUserLogout(username){
 	chatLog.push(mdata);
 	broadcast(mdata);
 }
-//////////////////////////////////////////

@@ -22,14 +22,14 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
-	//var index = clientID++;
+	var userID = 'ncUser'+index;
 	
 	var userObj = {
-		'id': index,
+		'id': userID,
 		'connection': ws,
 		'username': 'user' + Math.floor(Math.random() * 1001)
 	};
-	clients[index] = userObj;
+	clients[userID] = userObj;
 	
 	ws.onmessage = function(event){
 		console.log('Input from User: (' + index + ')');
@@ -98,7 +98,7 @@ function checkConnections(){
 	for(i in clients){
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
-			clients = unsetClients(i);
+			//clients = unsetClients(i);
 			console.log('Remove from clients list ('+i-1+')');
 			sendUpdate = true;
 		}
@@ -109,16 +109,16 @@ function checkConnections(){
 	}
 }
 //////////////////////////////////////////
-function unsetClients(index){
-	output = new Array();
-	for(x in clients){
-		console.log(x + ' : ' + index);
-		if(x != index){
-			output.push(clients[x]);
-		}
-	}
-	return output;
-}
+//function unsetClients(index){
+//	output = new Array();
+//	for(x in clients){
+//		console.log(x + ' : ' + index);
+//		if(x != index){
+//			output.push(clients[x]);
+//		}
+//	}
+//	return output;
+//}
 //////////////////////////////////////////
 function sendUpdatedUserList(){
 	mdata = {

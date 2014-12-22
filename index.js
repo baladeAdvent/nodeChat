@@ -31,6 +31,8 @@ wss.on("connection", function(ws){
 	};
 	clients[userID] = userObj;
 	
+	console.log(clients);
+	
 	ws.onmessage = function(event){
 		console.log('Input from User: (' + index + ')');
 		var data = JSON.parse(event.data);

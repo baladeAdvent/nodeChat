@@ -87,7 +87,7 @@ wss.on("connection", function(ws){
 //////////////////////////////////////////
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
-		if(clients[i]['connection']['readyState'] == '1'){
+		if(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
 			var conn = clients[i]['connection']; 
 			conn.send(JSON.stringify(data));
 		}
@@ -97,7 +97,7 @@ function broadcast(data){
 function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
-		if(clients[i]['connection']['readyState'] == '3'){
+		if(clients[i] != false && clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
 			clients[i] = false;
 			console.log('Remove from clients list ('+i-1+')');
@@ -129,7 +129,7 @@ function sendUpdatedUserList(){
 		'userlist':get_userList()
 	};
 	for(i=0;i<clients.length;i++){
-		if(clients[i]['connection']['readyState'] == '1'){
+		if(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
 			var conn = clients[i]['connection']; 
 			conn.send(JSON.stringify(mdata));
 		}
@@ -138,7 +138,7 @@ function sendUpdatedUserList(){
 //////////////////////////////////////////
 function get_userList(){
 	output = new Array();
-	for(i in clients){
+	for(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
 		output.push(clients[i]['username']);
 		//console.log('getUserlist: ('+i+')' + arr[i]['username']);
 	}

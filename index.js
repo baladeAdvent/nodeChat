@@ -22,14 +22,13 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	var index = clients.push(ws)-1;
-	var userID = 'ncUser'+index;
 	
 	var userObj = {
-		'id': userID,
-		'connection': ws,
-		'username': 'user' + Math.floor(Math.random() * 1001)
+		'id': index,
+		'username': 'user' + Math.floor(Math.random() * 1001),
+		'connection': ws
 	};
-	clients[userID] = userObj;
+	clients[index] = userObj;
 	
 	console.log(clients);
 	
@@ -87,8 +86,8 @@ wss.on("connection", function(ws){
 
 //////////////////////////////////////////
 function broadcast(data){
-	for(i in clients){
-		if(clients[i]['connection']['readyState'] != undefined && clients[i]['connection']['readyState'] == '1'){
+	for(i=0;i<clients.length;i++){
+		if(clients[i]['connection']['readyState'] == '1'){
 			var conn = clients[i]['connection']; 
 			conn.send(JSON.stringify(data));
 		}
@@ -97,10 +96,10 @@ function broadcast(data){
 //////////////////////////////////////////
 function checkConnections(){
 	var sendUpdate = false;
-	for(i in clients){
+	for(i=0;i<clients.length;i++){
 		if(clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
-			//clients = unsetClients(i);
+			clients[i] = false;
 			console.log('Remove from clients list ('+i-1+')');
 			sendUpdate = true;
 		}

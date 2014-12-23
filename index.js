@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
-},500);
+},5000);
 
 var server = http.createServer(app);
 server.listen(port,function(){});
@@ -26,7 +26,7 @@ wss.on("connection", function(ws){
 	
 	var userObj = {
 		'id': index,
-		'username': 'user' + Math.floor(Math.random() * 1001),
+		'username': 'new_user' + Math.floor(Math.random() * 1001),
 		'ws': ws
 	};
 	clients[index] = userObj;

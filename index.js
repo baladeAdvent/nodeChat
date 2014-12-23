@@ -98,14 +98,15 @@ function broadcast(data){
 function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
+		var id = i;
+		console.log('client id: ' + i);
+		console.log('clientList:' + clients);
+		
 		if(clients[i]['ws']['readyState'] == '3'){
-			var id = i;
 			
-			console.log('client id: ' + i);
-			console.log('clientList:' + clients);
 			//noticeUserLogout(clients[i]['username']);
 			//clients.splice(i-1,1);
-			////console.log('Remove from clients list ('+i+')');
+			console.log('Remove from clients list ('+i+')');
 			//sendUpdate = true;
 		}
 	}

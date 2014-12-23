@@ -105,7 +105,7 @@ function checkConnections(){
 		if(clients[i]['ws']['readyState'] == '3'){
 			
 			//noticeUserLogout(clients[i]['username']);
-			//clients.splice(i-1,1);
+			clients.splice(i,1);
 			console.log('Remove from clients list ('+i+')');
 			//sendUpdate = true;
 		}

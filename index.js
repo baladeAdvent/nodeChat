@@ -143,7 +143,7 @@ function get_userList(){
 		if(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
 			output.push(clients[i]['username']);
 		}
-		console.log('getUserlist: ('+i+')' + arr[i]);
+		console.log('getUserlist: ('+i+')' + clients[i]);
 	}
 	output.sort();
 	return JSON.stringify(output);

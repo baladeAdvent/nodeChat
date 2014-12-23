@@ -154,7 +154,7 @@ function sendUpdatedUserList(){
 function get_userList(){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
-		if(clients[i]['ws']['readyState'] == '1'){
+		if(typeof(clients[i]['ws']) != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			output.push(clients[i]['username']);
 		}
 		////console.log('getUserlist: ('+i+')' + clients[i]);

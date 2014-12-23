@@ -22,7 +22,8 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
-	var index = clients.push(ws)-1;
+	clients.push(ws);
+	var index = clientID++;
 	
 	var userObj = {
 		'id': index,
@@ -31,10 +32,10 @@ wss.on("connection", function(ws){
 	};
 	clients[index] = userObj;
 	
-	//console.log(clients);
+	////console.log(clients);
 	
 	ws.onmessage = function(event){
-		//console.log('Input from User: (' + index + ')');
+		////console.log('Input from User: (' + index + ')');
 		var data = JSON.parse(event.data);
 		switch(data['type']){
 				
@@ -59,7 +60,7 @@ wss.on("connection", function(ws){
 				break;
 				
 			case 'log request':
-				//console.log('Log request');
+				////console.log('Log request');
 				for(x in chatLog){				
 					mdata = {
 						'time': chatLog[x]['time'],
@@ -72,7 +73,7 @@ wss.on("connection", function(ws){
 				break;
 
 			case 'ping':
-				//console.log('ping from user:' + data['username']);
+				////console.log('ping from user:' + data['username']);
 				break;
 		}
 	};
@@ -82,7 +83,7 @@ wss.on("connection", function(ws){
 		var code = event.code;
 		var reason = event.reason;
 		var wasClean = event.wasClean;
-		//console.log('websocket connection closed(' + index + ') ' + code);
+		////console.log('websocket connection closed(' + index + ') ' + code);
 	});
 });
 //////////////////////////////////////////
@@ -96,7 +97,7 @@ function setUserName(index,userName){
 //////////////////////////////////////////
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
-		if(clients[i] != false && clients[i]['ws']['readyState'] == '1'){
+		if(clients[i]['ws']['readyState'] == '1'){
 			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(data));
 		}
@@ -107,14 +108,14 @@ function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
 		var id = i;
-		console.log('client id: ' + i);
-		console.log(clients);
+		//console.log('client id: ' + i);
+		//console.log(clients);
 		
 		if(clients[i]['ws']['readyState'] == '3'){
 			
 			//noticeUserLogout(clients[i]['username']);
 			clients.splice(i,1);
-			console.log('Remove from clients list ('+i+')');
+			//console.log('Remove from clients list ('+i+')');
 			//sendUpdate = true;
 		}
 	}
@@ -144,7 +145,7 @@ function get_userList(){
 		if(clients[i]['ws']['readyState'] == '1'){
 			output.push(clients[i]['username']);
 		}
-		//console.log('getUserlist: ('+i+')' + clients[i]);
+		////console.log('getUserlist: ('+i+')' + clients[i]);
 	}
 	output.sort();
 	return JSON.stringify(output);

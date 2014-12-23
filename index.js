@@ -111,7 +111,7 @@ function checkConnections(){
 		//console.log('client id: ' + i);
 		//console.log(clients);
 		
-		if(clients[i]['ws']['readyState'] == '3'){
+		if(clients[i] != 'undefined' && clients[i]['ws']['readyState'] == '3'){
 			removeClient(clients[i].id);
 			//console.log('Remove from clients list ('+i+')');
 			sendUpdate = true;

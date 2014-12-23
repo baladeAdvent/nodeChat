@@ -6,8 +6,8 @@ var express = require('express');
 var app = express();
 var port = (process.env.PORT || 5000);
 
-var chatLog = [];
-var clients = [];
+var chatLog = new Array();
+var clients = new Array();
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
 

@@ -40,7 +40,8 @@ wss.on("connection", function(ws){
 				
 			case 'login':
 				userName = data['username'];
-				clients[index]['username'] = userName;
+				//clients[index]['username'] = userName;
+				// setUserName(index,userName);
 				noticeUserLogin(userName);
 				// update user lists
 				sendUpdatedUserList();
@@ -84,7 +85,14 @@ wss.on("connection", function(ws){
 		//console.log('websocket connection closed(' + index + ') ' + code);
 	});
 });
-
+//////////////////////////////////////////
+function setUserName(index,userName){
+	for(x in clients){
+		if(clients[x]['id'] == index){
+			clients[x]['username'] = userName;
+		}
+	}
+}
 //////////////////////////////////////////
 function broadcast(data){
 	for(i=0;i<clients.length;i++){

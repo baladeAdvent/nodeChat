@@ -100,7 +100,7 @@ function checkConnections(){
 	for(i=0;i<clients.length;i++){
 		var id = i;
 		console.log('client id: ' + i);
-		console.log('clientList:' + clients);
+		console.log(clients);
 		
 		if(clients[i]['ws']['readyState'] == '3'){
 			

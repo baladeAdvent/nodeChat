@@ -97,7 +97,7 @@ function setUserName(index,userName){
 //////////////////////////////////////////
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
-		if(clients[i]['ws']['readyState'] == '1'){
+		if(clients[i] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(data));
 		}

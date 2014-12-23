@@ -102,7 +102,7 @@ function checkConnections(){
 			var id = i;
 			
 			console.log('client id: ' + i);
-			console.log(clients);
+			console.log('clientList:' + clients);
 			//noticeUserLogout(clients[i]['username']);
 			//clients.splice(i-1,1);
 			////console.log('Remove from clients list ('+i+')');

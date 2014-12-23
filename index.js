@@ -101,7 +101,7 @@ function checkConnections(){
 		if(clients[i]['connection']['readyState'] == '3'){
 			var id = i;
 			
-			console.log('client id: ' + i + clients);
+			console.log('client id: ' + i + clients[i]);
 			//noticeUserLogout(clients[i]['username']);
 			//clients.splice(i-1,1);
 			//console.log('Remove from clients list ('+i+')');

@@ -27,14 +27,14 @@ wss.on("connection", function(ws){
 	var userObj = {
 		'id': index,
 		'username': 'user' + Math.floor(Math.random() * 1001),
-		'connection': ws
+		'ws': ws
 	};
 	clients[index] = userObj;
 	
-	console.log(clients);
+	//console.log(clients);
 	
 	ws.onmessage = function(event){
-		console.log('Input from User: (' + index + ')');
+		//console.log('Input from User: (' + index + ')');
 		var data = JSON.parse(event.data);
 		switch(data['type']){
 				
@@ -58,7 +58,7 @@ wss.on("connection", function(ws){
 				break;
 				
 			case 'log request':
-				console.log('Log request');
+				//console.log('Log request');
 				for(x in chatLog){				
 					mdata = {
 						'time': chatLog[x]['time'],
@@ -71,7 +71,7 @@ wss.on("connection", function(ws){
 				break;
 
 			case 'ping':
-				console.log('ping from user:' + data['username']);
+				//console.log('ping from user:' + data['username']);
 				break;
 		}
 	};
@@ -81,15 +81,15 @@ wss.on("connection", function(ws){
 		var code = event.code;
 		var reason = event.reason;
 		var wasClean = event.wasClean;
-		console.log('websocket connection closed(' + index + ') ' + code);
+		//console.log('websocket connection closed(' + index + ') ' + code);
 	});
 });
 
 //////////////////////////////////////////
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
-		if(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
-			var conn = clients[i]['connection']; 
+		if(clients[i] != false && clients[i]['ws']['readyState'] == '1'){
+			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(data));
 		}
 	}
@@ -98,13 +98,14 @@ function broadcast(data){
 function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
-		if(clients[i]['connection']['readyState'] == '3'){
+		if(clients[i]['ws']['readyState'] == '3'){
 			var id = i;
 			
-			console.log('client id: ' + i + clients[i]);
+			console.log('client id: ' + i);
+			console.log(clients);
 			//noticeUserLogout(clients[i]['username']);
 			//clients.splice(i-1,1);
-			//console.log('Remove from clients list ('+i+')');
+			////console.log('Remove from clients list ('+i+')');
 			//sendUpdate = true;
 		}
 	}
@@ -113,18 +114,6 @@ function checkConnections(){
 		sendUpdate = false;
 	}
 }
-//////////////////////////////////////////
-//function unsetClients(index){
-//	output = new Array();
-//	for(x in clients){
-//		console.log(x + ' : ' + index);
-//		if(x != index){
-//			output.push(clients[x]);
-//		}
-//	}
-//	return output;
-//}
-//////////////////////////////////////////
 function sendUpdatedUserList(){
 	mdata = {
 		'time': (new Date()).getTime(),
@@ -133,8 +122,8 @@ function sendUpdatedUserList(){
 		'userlist':get_userList()
 	};
 	for(i=0;i<clients.length;i++){
-		if(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
-			var conn = clients[i]['connection']; 
+		if(clients[i]['ws']['readyState'] == '1'){
+			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(mdata));
 		}
 	}
@@ -143,10 +132,10 @@ function sendUpdatedUserList(){
 function get_userList(){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
-		if(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
+		if(clients[i]['ws']['readyState'] == '1'){
 			output.push(clients[i]['username']);
 		}
-		console.log('getUserlist: ('+i+')' + clients[i]);
+		//console.log('getUserlist: ('+i+')' + clients[i]);
 	}
 	output.sort();
 	return JSON.stringify(output);

@@ -113,16 +113,27 @@ function checkConnections(){
 		
 		if(clients[i]['ws']['readyState'] == '3'){
 			
-			//noticeUserLogout(clients[i]['username']);
 			clients.splice(i,1);
+			//removeClient(i);
 			//console.log('Remove from clients list ('+i+')');
-			//sendUpdate = true;
+			sendUpdate = true;
 		}
 	}
 	if(sendUpdate === true){
 		sendUpdatedUserList();
 		sendUpdate = false;
 	}
+}
+
+function removeClient(index){
+	var username = '';
+	for(i=0;i<clients.length;i++){
+		if(clients[i].id == index){
+			username = clients[i].username;
+			clients.splice(i,1);
+		}
+	}
+	noticeUserLogout(username);
 }
 function sendUpdatedUserList(){
 	mdata = {

@@ -113,8 +113,8 @@ function checkConnections(){
 		
 		if(clients[i]['ws']['readyState'] == '3'){
 			
-			clients.splice(i,1);
-			//removeClient(i);
+			//clients.splice(i,1);
+			removeClient(i);
 			//console.log('Remove from clients list ('+i+')');
 			sendUpdate = true;
 		}
@@ -126,9 +126,12 @@ function checkConnections(){
 }
 
 function removeClient(index){
+	console.log('Remove client by id:'+index);
 	var username = '';
 	for(i=0;i<clients.length;i++){
+		console.log('searching through clients:'+i+'....');
 		if(clients[i].id == index){
+			console.log('Client found:'+i);
 			username = clients[i].username;
 			clients.splice(i,1);
 		}

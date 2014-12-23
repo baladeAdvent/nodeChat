@@ -98,11 +98,14 @@ function broadcast(data){
 function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
-		if(clients[i] != false && clients[i]['connection']['readyState'] == '3'){
-			noticeUserLogout(clients[i]['username']);
-			clients.splice(i-1,1);;
-			console.log('Remove from clients list ('+i-1+')');
-			sendUpdate = true;
+		if(clients[i]['connection']['readyState'] == '3'){
+			var id = i;
+			
+			console.log('client id: ' + i);
+			//noticeUserLogout(clients[i]['username']);
+			//clients.splice(i-1,1);
+			//console.log('Remove from clients list ('+i+')');
+			//sendUpdate = true;
 		}
 	}
 	if(sendUpdate === true){

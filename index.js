@@ -41,7 +41,7 @@ wss.on("connection", function(ws){
 			case 'login':
 				userName = data['username'];
 				//clients[index]['username'] = userName;
-				// setUserName(index,userName);
+				setUserName(index,userName);
 				noticeUserLogin(userName);
 				// update user lists
 				sendUpdatedUserList();

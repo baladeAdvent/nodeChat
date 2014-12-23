@@ -100,7 +100,7 @@ function checkConnections(){
 	for(i=0;i<clients.length;i++){
 		if(clients[i] != false && clients[i]['connection']['readyState'] == '3'){
 			noticeUserLogout(clients[i]['username']);
-			clients[i] = false;
+			clients.splice(i-1,1);;
 			console.log('Remove from clients list ('+i-1+')');
 			sendUpdate = true;
 		}

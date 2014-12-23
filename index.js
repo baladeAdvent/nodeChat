@@ -8,6 +8,7 @@ var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
 var clients = new Array();
+var userNames = new Array();
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
@@ -138,9 +139,11 @@ function sendUpdatedUserList(){
 //////////////////////////////////////////
 function get_userList(){
 	output = new Array();
-	for(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
-		output.push(clients[i]['username']);
-		//console.log('getUserlist: ('+i+')' + arr[i]['username']);
+	for(i=0;i<clients.length;i++){
+		if(clients[i] != false && clients[i]['connection']['readyState'] == '1'){
+			output.push(clients[i]['username']);
+		}
+		console.log('getUserlist: ('+i+')' + arr[i]);
 	}
 	output.sort();
 	return JSON.stringify(output);

@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
-},5000);
+},500);
 
 var server = http.createServer(app);
 server.listen(port,function(){});
@@ -112,9 +112,7 @@ function checkConnections(){
 		//console.log(clients);
 		
 		if(clients[i]['ws']['readyState'] == '3'){
-			
-			//clients.splice(i,1);
-			removeClient(i);
+			removeClient(clients[i].id);
 			//console.log('Remove from clients list ('+i+')');
 			sendUpdate = true;
 		}

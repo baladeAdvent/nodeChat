@@ -51,6 +51,7 @@ wss.on("connection", function(ws){
 					'type': 'chat message',
 					'username': data['username'],
 					'message': htmlentities(trim(data['message']))
+					'color': getUserColor(index);
 				}
 				chatLog.push(mdata);
 				broadcast(mdata);
@@ -207,14 +208,22 @@ function cleanString(str){
 function htmlentities(str){
 	return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-
 //////////////////////////////
 function randomColor(){
-	var r = Math.floor(Math.random() * 256 );
-	var g = Math.floor(Math.random() * 256 );
-	var b = Math.floor(Math.random() * 256 );
+	var r = Math.floor((Math.random() * 255) + 1);
+	var g = Math.floor((Math.random() * 255) + 1);
+	var b = Math.floor((Math.random() * 255) + 1);
 	
 	randomRGB = r + ',' + g + ',' + b;
-	console.log(randomRGB);
+	console.log('RGB: ' + randomRGB);
 	return randomRGB;
+}
+//////////////////////////////
+function getUserColor(index){
+	for(x in clients){
+		if( clients[x]['id'] == index ){
+			return clients[x]['textColor'];
+		}
+	}
+	return '0,0,0';
 }

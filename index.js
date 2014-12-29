@@ -109,7 +109,7 @@ function checkConnections(){
 	for(i=0;i<clients.length;i++){
 		var id = i;
 		
-		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '3'){
+		if('undefined' != typeof clients[i]['ws'] && clients[i]['ws']['readyState'] == '3'){
 			removeClient(clients[i].id);
 			sendUpdate = true;
 		}

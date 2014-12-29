@@ -63,7 +63,8 @@ wss.on("connection", function(ws){
 						'time': chatLog[x]['time'],
 						'type': 'log message',
 						'username': chatLog[x]['username'],
-						'message': chatLog[x]['message']
+						'message': chatLog[x]['message'],
+						'color': chatLog[x]['color']
 					}
 					ws.send(JSON.stringify(mdata));
 				}

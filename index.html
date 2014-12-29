@@ -90,7 +90,7 @@
 				
 				switch(edata.type){
 					case 'log message':
-						appendToChat('<span  class="' + labelClass + '">' + edata.username + '</span> ' + edata.message, autoScroll);
+						appendToChat('<span  class="' + labelClass + '" style="' + edata.color + '">' + edata.username + '</span> ' + edata.message, autoScroll);
 						//scrollChat(autoScroll);
 						break;
 					case 'chat message':

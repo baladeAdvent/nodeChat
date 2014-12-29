@@ -29,7 +29,7 @@ wss.on("connection", function(ws){
 		'username': 'new_user' + Math.floor(Math.random() * 1001),
 		'ws': ws,
 		'active': false,
-		'textColor': randomRGB()
+		'textColor': randomColor()
 	};
 	clients.push(userObj);
 		

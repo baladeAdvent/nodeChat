@@ -189,10 +189,14 @@ function checkUsername(name){
 			name = name + '_' + Math.floor(Math.random() * 1001);
 		}
 	}
-	return name;
+	return cleanString(name);
 }
 //////////////////////////////
 function trim(str){
 	var pattern = /^( ){1,}|( ){1,}$/;
 	return str.replace(pattern,'');
+}
+function cleanString(str){
+	var pattern = /( ){1,}/;
+	return str.replace(pattern,'_');
 }

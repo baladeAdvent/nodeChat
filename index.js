@@ -50,7 +50,7 @@ wss.on("connection", function(ws){
 					'time': (new Date()).getTime(),
 					'type': 'chat message',
 					'username': data['username'],
-					'message': htmlentities(trim(data['message']))
+					'message': htmlentities(trim(data['message'])),
 					'color': getUserColor(index);
 				}
 				chatLog.push(mdata);

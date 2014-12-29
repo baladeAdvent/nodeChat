@@ -183,19 +183,20 @@ function noticeUserLogout(username){
 }
 
 function checkUsername(name){
-	name = trim(name);
+	name = cleanString(trim(name));
 	for(x in clients){
 		if(clients[x]['username'] == name){
 			name = name + '_' + Math.floor(Math.random() * 1001);
 		}
 	}
-	return cleanString(name);
+	return name;
 }
 //////////////////////////////
 function trim(str){
 	var pattern = /^( ){1,}|( ){1,}$/;
 	return str.replace(pattern,'');
 }
+//////////////////////////////
 function cleanString(str){
 	var pattern = /( ){1,}/;
 	return str.replace(pattern,'_');

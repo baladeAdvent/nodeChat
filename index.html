@@ -36,8 +36,8 @@
 			// Check if Username isn't blank and available
 			if(username != ''){
 			
-				response = ws.send(JSON.stringify({'type':'check username','username':username}));
-				console.log(response);
+
+				
 				// Setup once only processed items
 				loggedIn = true;
 				pingRequest = JSON.stringify({'type':'ping','username': username});
@@ -54,11 +54,11 @@
 		}
 		
 		function nodeChat(){
-			ws.send(JSON.stringify({'type':'log request','username': username}), function(){},1000);
-			ws.send(JSON.stringify({'type':'login','username': username}), function(){},1000);
+			ws.send(JSON.stringify({'type':'log request','username': username}));
+			ws.send(JSON.stringify({'type':'login','username': username}));
 			//Get Chat Login
 			keepalive = setInterval(function(){
-				ws.send(pingRequest, function(){},1000);
+				ws.send(pingRequest);
 			},5000);
 		
 			//User Messaging

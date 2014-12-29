@@ -28,7 +28,8 @@ wss.on("connection", function(ws){
 	var userObj = {
 		'id': index,
 		'username': 'new_user' + Math.floor(Math.random() * 1001),
-		'ws': ws
+		'ws': ws,
+		'active':false
 	};
 	clients[index] = userObj;
 		
@@ -38,7 +39,7 @@ wss.on("connection", function(ws){
 		switch(data['type']){
 				
 			case 'login':
-				userName = data['username'];
+				userName = checkUsername(data['username']);
 				//clients[index]['username'] = userName;
 				setUserName(index,userName);
 				noticeUserLogin(userName);
@@ -98,6 +99,7 @@ function setUserName(index,userName){
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['username'] = userName;
+			clients[x]['active'] = true;
 		}
 	}
 }
@@ -149,7 +151,7 @@ function sendUpdatedUserList(){
 		'userlist':get_userList()
 	};
 	for(i=0;i<clients.length;i++){
-		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
+		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1' && clients[i]['active'] == true){
 			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(mdata));
 		}
@@ -189,4 +191,13 @@ function noticeUserLogout(username){
 	};
 	chatLog.push(mdata);
 	broadcast(mdata);
+}
+
+function checkUsername(name){
+	for(x in clients){
+		if(clients[x]['username'] == name){
+			name = name + Math.floor(Math.random() * 1001);
+		}
+	}
+	return name;
 }

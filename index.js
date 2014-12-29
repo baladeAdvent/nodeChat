@@ -34,13 +34,11 @@ wss.on("connection", function(ws){
 	clients[index] = userObj;
 		
 	ws.onmessage = function(event){
-		////console.log('Input from User: (' + index + ')');
 		var data = JSON.parse(event.data);
 		switch(data['type']){
 				
 			case 'login':
 				userName = checkUsername(data['username']);
-				//clients[index]['username'] = userName;
 				setUserName(index,userName);
 				noticeUserLogin(userName);
 				// update user lists
@@ -69,15 +67,6 @@ wss.on("connection", function(ws){
 					}
 					ws.send(JSON.stringify(mdata));
 				}
-				break;
-
-			case 'check username':
-				mdata = {
-					'time': (new Date()).getTime(),
-					'type': 'username check',
-					'status': checkUsername(data['username'])
-				};
-				ws.send(JSON.stringify(mdata));
 				break;
 				
 			case 'ping':
@@ -194,10 +183,16 @@ function noticeUserLogout(username){
 }
 
 function checkUsername(name){
+	name = trim(name);
 	for(x in clients){
 		if(clients[x]['username'] == name){
-			name = name + Math.floor(Math.random() * 1001);
+			name = name + '_' + Math.floor(Math.random() * 1001);
 		}
 	}
 	return name;
+}
+//////////////////////////////
+function trim(str){
+	var pattern = /^( ){1,}|( ){1,}$/;
+	return str.replace(pattern,'');
 }

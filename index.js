@@ -51,7 +51,7 @@ wss.on("connection", function(ws){
 					'type': 'chat message',
 					'username': data['username'],
 					'message': htmlentities(trim(data['message'])),
-					'color': getUserColor(index);
+					'color': getUserColor(index)
 				}
 				chatLog.push(mdata);
 				broadcast(mdata);

@@ -32,7 +32,12 @@
 		function initChat(){
 			ws = new WebSocket(host);
 			log('init chat');
+			
+			// Check if Username isn't blank and available
 			if(username != ''){
+			
+				response = ws.send(JSON.stringify({'type':'check username','username':username}));
+				console.log(response);
 				// Setup once only processed items
 				loggedIn = true;
 				pingRequest = JSON.stringify({'type':'ping','username': username});

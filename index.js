@@ -31,9 +31,7 @@ wss.on("connection", function(ws){
 		'ws': ws
 	};
 	clients[index] = userObj;
-	
-	////console.log(clients);
-	
+		
 	ws.onmessage = function(event){
 		////console.log('Input from User: (' + index + ')');
 		var data = JSON.parse(event.data);
@@ -72,6 +70,15 @@ wss.on("connection", function(ws){
 				}
 				break;
 
+			case 'check username':
+				mdata = {
+					'time': (new Date()).getTime(),
+					'type': 'username check',
+					'status': checkUsername(data['username'])
+				};
+				ws.send(JSON.stringify(mdata));
+				break;
+				
 			case 'ping':
 				////console.log('ping from user:' + data['username']);
 				break;
@@ -97,24 +104,22 @@ function setUserName(index,userName){
 //////////////////////////////////////////
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
-		console.log(typeof clients[i]);
+		console.log(typeof clients[i]['ws']);
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(data));
 		}
 	}
 }
+
 //////////////////////////////////////////
 function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
 		var id = i;
-		//console.log('client id: ' + i);
-		//console.log(clients);
 		
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '3'){
 			removeClient(clients[i].id);
-			//console.log('Remove from clients list ('+i+')');
 			sendUpdate = true;
 		}
 	}
@@ -123,7 +128,6 @@ function checkConnections(){
 		sendUpdate = false;
 	}
 }
-
 function removeClient(index){
 	console.log('Remove client by id:'+index);
 	var username = '';
@@ -151,6 +155,7 @@ function sendUpdatedUserList(){
 		}
 	}
 }
+
 //////////////////////////////////////////
 function get_userList(){
 	output = new Array();

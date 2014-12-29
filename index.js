@@ -96,9 +96,10 @@ function setUserName(index,userName){
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
 		console.log("broadcast to: " + clients[i]);
-			for(x in clients[i]){
-				console.log('client has property: ' + x + '(' + clients[i][x] + ')');
-			}
+		for(x in clients[i]){
+			console.log('client has property: ' + x + '(' + clients[i][x] + ')');
+		}
+		
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(data));
@@ -123,7 +124,7 @@ function checkConnections(){
 	}
 }
 function removeClient(index){
-	console.log('Remove client by id:'+index);
+	oldLength = clients.length;
 	var username = '';
 	for(i=0;i<clients.length;i++){
 		console.log('searching through clients:'+i+'....');
@@ -133,6 +134,7 @@ function removeClient(index){
 			clients.splice(i,1);
 		}
 	}
+	console.log('Remove client by id:' + index + 'len:'+ oldLength + '/' + clients.length);
 	noticeUserLogout(username);
 }
 function sendUpdatedUserList(){

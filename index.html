@@ -94,6 +94,7 @@
 						//scrollChat(autoScroll);
 						break;
 					case 'chat message':
+						console.log('color: '+edata.color);
 						appendToChat('<span  class="' + labelClass + '" style="rgb(' + edata.color + ');" >' + edata.username + '</span> ' + edata.message, autoScroll);
 						//scrollChat(autoScroll);
 						break;

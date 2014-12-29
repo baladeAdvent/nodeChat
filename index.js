@@ -28,7 +28,8 @@ wss.on("connection", function(ws){
 		'id': index,
 		'username': 'new_user' + Math.floor(Math.random() * 1001),
 		'ws': ws,
-		'active':false
+		'active': false,
+		'textColor': randomRGB()
 	};
 	clients.push(userObj);
 		
@@ -56,7 +57,6 @@ wss.on("connection", function(ws){
 				break;
 				
 			case 'log request':
-				////console.log('Log request');
 				for(x in chatLog){				
 					mdata = {
 						'time': chatLog[x]['time'],
@@ -69,7 +69,7 @@ wss.on("connection", function(ws){
 				break;
 				
 			case 'ping':
-				////console.log('ping from user:' + data['username']);
+
 				break;
 		}
 	};
@@ -79,7 +79,6 @@ wss.on("connection", function(ws){
 		var code = event.code;
 		var reason = event.reason;
 		var wasClean = event.wasClean;
-		////console.log('websocket connection closed(' + index + ') ' + code);
 	});
 });
 //////////////////////////////////////////
@@ -133,7 +132,7 @@ function removeClient(index){
 			clients.splice(i,1);
 		}
 	}
-	console.log('Remove client by id:' + index + 'len:'+ oldLength + '/' + clients.length);
+	console.log('Remove client by id:' + index + ' - length: o'+ oldLength + '/n' + clients.length);
 	noticeUserLogout(username);
 }
 function sendUpdatedUserList(){
@@ -144,7 +143,7 @@ function sendUpdatedUserList(){
 		'userlist':get_userList()
 	};
 	for(i=0;i<clients.length;i++){
-		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1' && clients[i]['active'] == true){
+		if('undefined' != typeof clients[i]['ws'] && clients[i]['ws']['readyState'] == '1' && clients[i]['active'] == true){
 			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(mdata));
 		}
@@ -158,7 +157,6 @@ function get_userList(){
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			output.push(clients[i]['username']);
 		}
-		////console.log('getUserlist: ('+i+')' + clients[i]);
 	}
 	output.sort();
 	return JSON.stringify(output);
@@ -205,6 +203,18 @@ function cleanString(str){
 	var pattern = /( ){1,}/;
 	return str.replace(pattern,'_');
 }
+//////////////////////////////
 function htmlentities(str){
 	return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+//////////////////////////////
+function randomColor(){
+	var r = Math.floor(Math.random() * 256 );
+	var g = Math.floor(Math.random() * 256 );
+	var b = Math.floor(Math.random() * 256 );
+	
+	randomRGB = r + ',' + g + ',' + b;
+	console.log(randomRGB);
+	return randomRGB;
 }

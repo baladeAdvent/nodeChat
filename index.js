@@ -50,7 +50,7 @@ wss.on("connection", function(ws){
 					'time': (new Date()).getTime(),
 					'type': 'chat message',
 					'username': data['username'],
-					'message': data['message']
+					'message': htmlentities(trim(data['message']))
 				}
 				chatLog.push(mdata);
 				broadcast(mdata);
@@ -181,7 +181,7 @@ function noticeUserLogout(username){
 	chatLog.push(mdata);
 	broadcast(mdata);
 }
-
+//////////////////////////////
 function checkUsername(name){
 	name = cleanString(trim(name));
 	for(x in clients){
@@ -200,4 +200,7 @@ function trim(str){
 function cleanString(str){
 	var pattern = /( ){1,}/;
 	return str.replace(pattern,'_');
+}
+function htmlentities(str){
+	return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }

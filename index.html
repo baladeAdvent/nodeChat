@@ -14,10 +14,6 @@
 		var loggedIn = false;
 		var keepalive = '';
 		var autoScroll = true;
-
-		var host = location.origin.replace(/^http/,'ws');
-		var ws = new WebSocket(host);
-		log('Starting node chat ' + host);
 		
 		var pingRequest = '';
 
@@ -31,6 +27,9 @@
 		});
 		
 		function initChat(){
+			var host = location.origin.replace(/^http/,'ws');
+			var ws = new WebSocket(host);
+			log('Starting node chat ' + host);
 			log('init chat');
 			if(username != ''){
 				// Setup once only processed items

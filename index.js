@@ -97,7 +97,7 @@ function setUserName(index,userName){
 //////////////////////////////////////////
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
-		if(typeof(clients[i]['ws']) != 'undefined' && clients[i]['ws']['readyState'] == '1'){
+		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(data));
 		}
@@ -111,7 +111,7 @@ function checkConnections(){
 		//console.log('client id: ' + i);
 		//console.log(clients);
 		
-		if(typeof(clients[i]['ws']) != 'undefined' && clients[i]['ws']['readyState'] == '3'){
+		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '3'){
 			removeClient(clients[i].id);
 			//console.log('Remove from clients list ('+i+')');
 			sendUpdate = true;
@@ -144,7 +144,7 @@ function sendUpdatedUserList(){
 		'userlist':get_userList()
 	};
 	for(i=0;i<clients.length;i++){
-		if(clients[i]['ws']['readyState'] == '1'){
+		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			var conn = clients[i]['ws']; 
 			conn.send(JSON.stringify(mdata));
 		}
@@ -154,7 +154,7 @@ function sendUpdatedUserList(){
 function get_userList(){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
-		if(typeof(clients[i]['ws']) != 'undefined' && clients[i]['ws']['readyState'] == '1'){
+		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			output.push(clients[i]['username']);
 		}
 		////console.log('getUserlist: ('+i+')' + clients[i]);

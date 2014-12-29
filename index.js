@@ -22,7 +22,6 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
-	//clients.push('');
 	var index = clientID++;
 	
 	var userObj = {
@@ -31,7 +30,7 @@ wss.on("connection", function(ws){
 		'ws': ws,
 		'active':false
 	};
-	clients[index] = userObj;
+	clients.push(userObj);
 		
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);

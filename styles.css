@@ -13,7 +13,7 @@ body { font: 13px Helvetica, Arial; }
 	border: solid 1px #eee;
 }
 #nodeChat_messages li {
-	margin: 0 0 3px;
+	margin: 0;
 	background: #fff url('nodeChat_msgBG.jpg') repeat-x bottom;
 }
 #nodeChat_users li{

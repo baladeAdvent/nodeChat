@@ -21,8 +21,9 @@ function updateUserlist(json){
 	var des = $('#nodeChat_users');
 		des.html('');
 		for(x in list){
+			user = list[x];
 			logProperties(list[x]);
-			des.append( $('<li>').css('color',list[x].color).html(list[x].username) );
+			des.append( $('<li>').css('color',user.color).html(user.username) );
 		}
 }
 //////////////////////////////

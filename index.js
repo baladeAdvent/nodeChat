@@ -127,15 +127,17 @@ function removeClient(index){
 	oldLength = clients.length;
 	var username = '';
 	for(i=0;i<clients.length;i++){
-		console.log('searching through clients:'+i+'....');
+		console.log('searching through clients:' + i + '....');
 		if(clients[i].id == index){
-			console.log('Client found:'+i);
+			console.log('Client found:' + i);
 			username = clients[i].username;
 			clients.splice(i,1);
 		}
+		if(clients[i].active === true){
+			noticeUserLogout(username);
+		}
 	}
-	console.log('Remove client by id:' + index + ' - length: o'+ oldLength + '/n' + clients.length);
-	noticeUserLogout(username);
+	console.log('Remove client by id:' + index + ' - length: o' + oldLength + '/n' + clients.length);
 }
 //////////////////////////////////////////
 function sendUpdatedUserList(){
@@ -143,7 +145,7 @@ function sendUpdatedUserList(){
 		'time': (new Date()).getTime(),
 		'type': 'update userlist',
 		'username': 'System',
-		'userlist':get_userList(),
+		'userlist': get_userList(),
 		'color': systemColor
 	};
 	for(i=0;i<clients.length;i++){

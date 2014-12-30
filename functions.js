@@ -21,7 +21,7 @@ function updateUserlist(json){
 	var des = $('#nodeChat_users');
 		des.html('');
 		for(x in list){
-			console.log('Update User List: ' + list[x]);
+			logProperties(list[x]);
 			des.append( $('<li>').css('color',list[x]['color']).html(list[x]['username']) );
 		}
 }
@@ -42,4 +42,10 @@ function validateMessage(str){
 //////////////////////////////
 function log(msg){
 	console.log(msg);
+}
+
+function logProperties(obj){
+	for(x in obj){
+		console.log('obj has property: ' + x);
+	}
 }

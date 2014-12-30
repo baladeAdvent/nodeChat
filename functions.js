@@ -16,12 +16,12 @@ function scrollChat(scrollStatus){
 //////////////////////////////
 function updateUserlist(json){
 	console.log('userlistJSON: '+json);
-	console.log('userlistJSON length: '+json.length);
-	var list = JSON.parse(json)
+	var list = JSON.parse(json);
+	console.log(list);
 	var des = $('#nodeChat_users');
 		des.html('');
 		for(x in list){
-			console.log('Update User List: ' + list[x].username);
+			console.log('Update User List: ' + list[x]);
 			des.append( $('<li>').css('color',list[x]['color']).html(list[x]['username']) );
 		}
 }

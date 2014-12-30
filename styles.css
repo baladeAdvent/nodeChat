@@ -33,7 +33,7 @@ body { font: 13px Helvetica, Arial; }
 }
 
 .socketClosed {
-	background:none;
+	background:none !important;
 	color:#fff;
 }
 /* Initial display settings */

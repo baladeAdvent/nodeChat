@@ -158,7 +158,10 @@ function get_userList(){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
-			output.push(clients[i]['username']);
+			output.push({
+				'name': clients[i]['username'],
+				'color': clients[i]['textColor']
+			});
 		}
 	}
 	output.sort();

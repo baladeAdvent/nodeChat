@@ -47,6 +47,6 @@ function log(msg){
 
 function logProperties(obj){
 	for(x in obj){
-		console.log('obj has property: ' + x + ' value: ' + obj[x]);
+		console.log('obj has property: ' + x + ': ' + obj[x]);
 	}
 }

@@ -22,8 +22,7 @@ function updateUserlist(json){
 		for(x in list){
 			user = list[x];
 			logProperties(list[x]);
-			console.log(user['username']);
-			des.append( $('<li>').html(user['name']).css('color',user['color']) );
+			des.append( $('<li style="color:rgb(' + user['color'] + ');">').html(user['name']) );
 		}
 }
 //////////////////////////////

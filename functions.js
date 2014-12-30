@@ -20,7 +20,7 @@ function updateUserlist(json){
 	var des = $('#nodeChat_users');
 		des.html('');
 		for(x in list){
-			console.log('Update User List: ' + list[x]);
+			console.log('Update User List: ' + list[x].username);
 			des.append( $('<li>').css('color',list[x]['color']).html(list[x]['username']) );
 		}
 }

@@ -111,7 +111,7 @@
 			}
 			
 			ws.onclose = function(event){
-				$('#nodeChat_messages').append($('<li class="btn btn-danger btn-lg btn-block socketClosed">').text('Websocket Closed...'));
+				$('#nodeChat_messages').append($('<li class="btn btn-danger btn-lg btn-block">').text('Websocket Closed...'));
 				keepalive = '';
 			}	
 		}

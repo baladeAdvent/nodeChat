@@ -32,6 +32,10 @@ body { font: 13px Helvetica, Arial; }
 	padding:5px;
 }
 
+.socketClosed {
+	background:none;
+	color:#fff;
+}
 /* Initial display settings */
 #nodeChat_login {
 	display:block;

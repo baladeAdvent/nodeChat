@@ -131,10 +131,13 @@ function removeClient(index){
 		if(clients[i].id == index){
 			console.log('Client found:' + i);
 			username = clients[i].username;
-			if(clients[i].active == true){
+			activeStatus = clients[i].active;
+			
+			clients.splice(i,1);
+			
+			if(activeStatus == true){
 				noticeUserLogout(username);
 			}
-			clients.splice(i,1);
 		}
 	}
 	console.log('Remove client by id:' + index + ' - length: o' + oldLength + '/n' + clients.length);

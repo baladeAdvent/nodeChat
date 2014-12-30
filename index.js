@@ -1,5 +1,7 @@
 process.title = 'node-chat';
 
+var systemColor = '255,255,255';
+
 var WebSocketServer = require('ws').Server;
 var http = require('http');
 var express = require('express');
@@ -78,9 +80,7 @@ wss.on("connection", function(ws){
 	
 	/////////////
 	ws.onclose(function(event){
-		var code = event.code;
-		var reason = event.reason;
-		var wasClean = event.wasClean;
+		// Cannot get this event to trip... wth?
 	});
 });
 //////////////////////////////////////////
@@ -106,7 +106,6 @@ function broadcast(data){
 		}
 	}
 }
-
 //////////////////////////////////////////
 function checkConnections(){
 	var sendUpdate = false;
@@ -123,6 +122,7 @@ function checkConnections(){
 		sendUpdate = false;
 	}
 }
+//////////////////////////////////////////
 function removeClient(index){
 	oldLength = clients.length;
 	var username = '';
@@ -137,12 +137,14 @@ function removeClient(index){
 	console.log('Remove client by id:' + index + ' - length: o'+ oldLength + '/n' + clients.length);
 	noticeUserLogout(username);
 }
+//////////////////////////////////////////
 function sendUpdatedUserList(){
 	mdata = {
 		'time': (new Date()).getTime(),
 		'type': 'update userlist',
 		'username': 'System',
-		'userlist':get_userList()
+		'userlist':get_userList(),
+		'color': systemColor
 	};
 	for(i=0;i<clients.length;i++){
 		if('undefined' != typeof clients[i]['ws'] && clients[i]['ws']['readyState'] == '1' && clients[i]['active'] == true){
@@ -151,7 +153,6 @@ function sendUpdatedUserList(){
 		}
 	}
 }
-
 //////////////////////////////////////////
 function get_userList(){
 	output = new Array();
@@ -169,7 +170,8 @@ function noticeUserLogin(username){
 		'time': (new Date()).getTime(),
 		'type': 'system message',
 		'username': 'System',
-		'message': username + ' has logged in...'
+		'message': username + ' has logged in...',
+		'color': systemColor
 	};
 	chatLog.push(mdata);
 	broadcast(mdata);
@@ -180,7 +182,8 @@ function noticeUserLogout(username){
 		'time': (new Date()).getTime(),
 		'type': 'system message',
 		'username': 'System',
-		'message': username + ' has logged out...'
+		'message': username + ' has logged out...',
+		'color': systemColor
 	};
 	chatLog.push(mdata);
 	broadcast(mdata);

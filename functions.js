@@ -17,7 +17,7 @@ function scrollChat(scrollStatus){
 function updateUserlist(json){
 	console.log('userlistJSON: '+json);
 	var list = JSON.parse(json);
-	console.log(list);
+	console.log(list[0]['username']);
 	var des = $('#nodeChat_users');
 		des.html('');
 		for(x in list){

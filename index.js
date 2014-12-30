@@ -130,7 +130,7 @@ function removeClient(index){
 		console.log('searching through clients:' + i + '....');
 		if(clients[i].id == index){
 			if(clients[i].active === true){
-				noticeUserLogout(username);
+				noticeUserLogout(clients[i].username);
 			}
 			console.log('Client found:' + i);
 			username = clients[i].username;

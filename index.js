@@ -125,7 +125,6 @@ function checkConnections(){
 //////////////////////////////////////////
 function removeClient(index){
 	oldLength = clients.length;
-	var username = '';
 	for(i=0;i<clients.length;i++){
 		console.log('searching through clients:' + i + '....');
 		if(clients[i].id == index){
@@ -133,7 +132,6 @@ function removeClient(index){
 				noticeUserLogout(clients[i].username);
 			}
 			console.log('Client found:' + i);
-			username = clients[i].username;
 			clients.splice(i,1);
 		}
 	}

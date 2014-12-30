@@ -12,7 +12,7 @@ body { font: 13px Helvetica, Arial; }
 	height:500px;
 	border: solid 1px #eee;
 }
-#nodeChat_messages li {
+#nodeChat_messages li.message {
 	margin: 0;
 	background: #fff url('nodeChat_msgBG.jpg') repeat-x bottom;
 }

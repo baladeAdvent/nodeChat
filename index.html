@@ -111,7 +111,7 @@
 			}
 			
 			ws.onclose = function(event){
-				$('#nodeChat_messages').append($('<li class="btn btn-danger btn-lg btn-block" style="margin:3px 0;">').text('Websocket Closed...'));
+				$('#nodeChat_messages').append($('<li class="btn btn-danger btn-lg btn-block" style="margin:5px 0;">').text('Websocket Closed...'));
 				keepalive = '';
 			}	
 		}
@@ -147,8 +147,9 @@
 			</div>
 		</div>
 		<div class="row" id="nodeChat_input">
+				<div class="col-xs-1-"><i class="icon-cog">&nbsp;</i></div>
 			<form action="">
-				<div class="col-xs-9"><input id="m" autocomplete="off" class="form-control" /></div>
+				<div class="col-xs-8"><input id="m" autocomplete="off" class="form-control" /></div>
 				<div class="col-xs-3"><button class="btn btn-primary btn-lg btn-block">Send</button></div>
 			</form>
 		</div>

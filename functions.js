@@ -1,7 +1,7 @@
 //////////////////////////////
 function appendToChat(str,scrollStatus){
 	var message = $('<li>').html(str).hide();
-		message.appendTo('#nodeChat_messages').slideDown(500, function(){ scrollChat(scrollStatus) });
+		message.appendTo('#nodeChat_messages').slideDown(300, function(){ scrollChat(scrollStatus) });
 }
 //////////////////////////////
 function scrollChat(scrollStatus){
@@ -10,7 +10,7 @@ function scrollChat(scrollStatus){
 		el = $('#nodeChat_messages');
 		height = el.prop('scrollHeight');
 		console.log('height: ' + height);
-		el.animate({ scrollTop:height},100);
+		el.animate({ scrollTop:height},300);
 	}
 }
 //////////////////////////////

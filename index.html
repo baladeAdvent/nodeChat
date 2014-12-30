@@ -90,12 +90,12 @@
 				
 				switch(edata.type){
 					case 'log message':
-						appendToChat('<span  class="' + labelClass + '" style="rgb(' + edata.color + ');" >' + edata.username + '</span> ' + edata.message, autoScroll);
+						appendToChat('<span  class="' + labelClass + '" style="color:rgb(' + edata.color + ');" >' + edata.username + '</span> ' + edata.message, autoScroll);
 						//scrollChat(autoScroll);
 						break;
 					case 'chat message':
 						console.log('color: '+edata.color);
-						appendToChat('<span  class="' + labelClass + '" style="rgb(' + edata.color + ');" >' + edata.username + '</span> ' + edata.message, autoScroll);
+						appendToChat('<span  class="' + labelClass + '" style="color:rgb(' + edata.color + ');" >' + edata.username + '</span> ' + edata.message, autoScroll);
 						//scrollChat(autoScroll);
 						break;
 					case 'system message':

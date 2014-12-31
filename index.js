@@ -94,6 +94,13 @@ function setUserName(index,userName){
 		if(clients[x]['id'] == index){
 			clients[x]['username'] = userName;
 			clients[x]['active'] = true;
+			
+			mdata = {
+				'time': (new Date()).getTime(),
+				'type': 'SYSTEM_UPDATE_USERNAME',
+				'username': userName
+			};
+			clients[x]['ws'].send(JSON.stringify(mdata));
 		}
 	}
 }
@@ -103,13 +110,6 @@ function setUserTextColor(name,color){
 		console.log(clients[x]['username'] + ' : ' + name);
 		if(clients[x]['username'] == name){
 			clients[x]['textColor'] = color;
-			
-			mdata = {
-				'time': (new Date()).getTime(),
-				'type': 'SYSTEM_UPDATE_USERNAME',
-				'username': name
-			};
-			clients[x]['ws'].send(JSON.stringify(mdata));
 		}
 	}
 }

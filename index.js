@@ -235,7 +235,8 @@ function trim(str){
 //////////////////////////////
 function cleanString(str){
 	var pattern = /( ){1,}/g;
-	return str.replace(pattern,'_');
+	var legals = /[^a-zA-Z0-9. ,!@#$%^&*()?:;']/g;
+	return str.replace(pattern,'_').replace(legals,'');
 }
 //////////////////////////////
 function htmlentities(str){

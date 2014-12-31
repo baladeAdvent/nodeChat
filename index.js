@@ -237,7 +237,7 @@ function trim(str){
 function cleanString(str){
 	str = trim(str);
 	var pattern = /( ){1,}/g;
-	var legals = /[^a-zA-Z0-9.,!@#$%^&*()?:;']\-_/g;
+	var legals = /[^a-zA-Z0-9.,!@#$%^&*()?:;'-_]/g;
 	return str.replace(pattern,'_').replace(legals,'');
 }
 //////////////////////////////

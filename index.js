@@ -234,7 +234,7 @@ function trim(str){
 }
 //////////////////////////////
 function cleanString(str){
-	var pattern = /( ){1,}/;
+	var pattern = /( ){1,}/g;
 	return str.replace(pattern,'_');
 }
 //////////////////////////////

@@ -43,7 +43,6 @@
 				pingRequest = JSON.stringify({'type':'ping','username': username});
 				
 				// Setup chat box
-				$('#nodeChat_username div p span').html(username);
 				$('#nodeChat_login').fadeOut(500,function(){
 					nodeChat();
 					$('#nodeChat_username').fadeIn(500);
@@ -107,6 +106,7 @@
 						updateUserlist(edata.userlist);
 						break;
 					case 'SYSTEM_UPDATE_USERNAME':
+						$('#nodeChat_username div p span').html(edata.username);
 						console.log('Update current users stored name: ' + edata.username);
 						username = edata.username;
 						break;

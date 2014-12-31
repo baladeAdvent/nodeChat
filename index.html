@@ -126,7 +126,7 @@
 				onSubmit: function(hsb, hex, rgb, el) {
 					logProperties(rgb);
 					rgbVal = rgb.r + ',' + rgb.g + ',' + rgb.b;
-					//$(el).val(rgbVal);
+					$(el).val(rgbVal).css('color','rgb('+ rgbVal + ')').css('background-color','rgb('+ rgbVal + ')');
 					$(el).ColorPickerHide();
 					if(loggedIn){
 						var obj = {

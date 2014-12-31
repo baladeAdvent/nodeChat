@@ -139,7 +139,7 @@
 				},
 				onBeforeShow: function () {
 				color = $(this).css('background-color');
-					color = color.replace(/(rgb\(|\)| )/,'').split(',');
+					color = color.replace(/(rgb\(|\)| )/g,'').split(',');
 				console.log(color);
 					$(this).ColorPickerSetColor(this.value);
 				}

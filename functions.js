@@ -3,7 +3,8 @@ function initColorPicker(){
 	$('#textColor').ColorPicker({
 		onSubmit: function(hsb, hex, rgb, el) {
 			logProperties(rgb);
-			$(el).val(rgb);
+			rgbVal = rgb.r + ',' + rgb.g + ',' + rgb.b;
+			$(el).val(rgbVal);
 			$(el).ColorPickerHide();
 		},
 		onBeforeShow: function () {

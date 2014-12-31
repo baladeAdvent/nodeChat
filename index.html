@@ -4,8 +4,10 @@
     <title>Websocket chat</title>
 	<link rel="stylesheet" type="text/css" href="styles.css" />	
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />	
+	<link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/colorpicker.js"></script>
     <script src="js/bootstrap.min.js"></script>
 	<script src="functions.js"></script>
 	
@@ -52,6 +54,7 @@
 		}
 		
 		function nodeChat(){
+			$('#textColor').ColorPicker();
 			ws.send(JSON.stringify({'type':'log request','username': username}));
 			ws.send(JSON.stringify({'type':'login','username': username}));
 			//Get Chat Login
@@ -151,9 +154,7 @@
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" id="userSettings" data-toggle="dropdown" aria-expanded="true"><i class="glyphicon glyphicon-cog"></i></button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="userSettings">
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">color</a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">color</a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">color</a></li>
+							<li role="presentation"><label>Text Color:<input class="form-control" id="textColor" /></label></li>
 						</ul>
 					</div>
 				</div>

@@ -126,7 +126,8 @@
 				onSubmit: function(hsb, hex, rgb, el) {
 					logProperties(rgb);
 					rgbVal = rgb.r + ',' + rgb.g + ',' + rgb.b;
-					$(el).val(rgbVal).css('color','rgb('+ rgbVal + ')').css('background-color','rgb('+ rgbVal + ')');
+					//$(el).val(rgbVal).css('color','rgb('+ rgbVal + ')').css('background-color','rgb('+ rgbVal + ')');
+					$(el).find('div').css('background-color','rgb('+ rgbVal + ')');
 					$(el).ColorPickerHide();
 					if(loggedIn){
 						var obj = {
@@ -138,14 +139,13 @@
 					}
 				},
 				onBeforeShow: function () {
-				color = $(this).css('background-color');
+					color = $(this).css('background-color');
 					color = color.replace(/(rgb\(|\)| )/g,'').split(',');
 					rgb = {
 						r: color[0],
 						g: color[1],
 						b: color[2]
 					};
-				console.log(rgb);
 					$(this).ColorPickerSetColor(rgb);
 				}
 			});
@@ -186,7 +186,13 @@
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" id="userSettings" data-toggle="dropdown" aria-expanded="true"><i class="glyphicon glyphicon-cog"></i></button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="userSettings">
-							<li role="presentation"><label><small>Text Color:</small><img src="images/select.png" id="textColor" /></label></li>
+							<li role="presentation">
+								<label><small>Text Color:</small>
+									<div class="textColorPicker" id="textColor" >
+										<div></div>
+									</div>
+								</label>
+							</li>
 						</ul>
 					</div>
 				</div>

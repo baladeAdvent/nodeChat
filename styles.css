@@ -32,6 +32,13 @@ body { font: 13px Helvetica, Arial; }
 	padding:5px;
 }
 
+.textColorPicker {
+	background: url('images/select2.png');
+	z-index:10;
+}
+.textColorPicker div {
+	z-index:1;
+}
 /* Initial display settings */
 #nodeChat_login {
 	display:block;

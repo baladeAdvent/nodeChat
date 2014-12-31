@@ -10,7 +10,6 @@ var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
 var clients = new Array();
-var userNames = new Array();
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
@@ -75,6 +74,7 @@ wss.on("connection", function(ws){
 			case 'UPDATE_USER_TEXTCOLOR':
 				console.log('processing color change for user: ' + data['username'] + ':' + data['value']);
 				setUserTextColor(data['username'],data['value']);
+				sendUpdatedUserList();
 				break;
 				
 			case 'ping':

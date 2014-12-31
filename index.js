@@ -100,6 +100,7 @@ function setUserName(index,userName){
 //////////////////////////////////////////
 function setUserTextColor(name,color){
 	for(x in clients){
+		console.log(clients[x]['username'] + ' : ' + name);
 		if(clients[x]['username'] == name){
 			clients[x]['textColor'] = color;
 		}

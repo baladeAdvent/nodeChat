@@ -54,7 +54,7 @@
 		}
 		
 		function nodeChat(){
-			$('#textColor').ColorPicker();
+			initColorPicker();
 			ws.send(JSON.stringify({'type':'log request','username': username}));
 			ws.send(JSON.stringify({'type':'login','username': username}));
 			//Get Chat Login

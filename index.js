@@ -73,6 +73,7 @@ wss.on("connection", function(ws){
 				break;
 			
 			case 'UPDATE_USER_TEXTCOLOR':
+				console.log('processing color change for user: ' + data['username'] + ':' + data['value']);
 				setUserTextColor(data['username'],data['value']);
 				break;
 				

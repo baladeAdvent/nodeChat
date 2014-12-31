@@ -140,8 +140,13 @@
 				onBeforeShow: function () {
 				color = $(this).css('background-color');
 					color = color.replace(/(rgb\(|\)| )/g,'').split(',');
-				console.log(color);
-					$(this).ColorPickerSetColor(this.value);
+					rgb = {
+						r: color[0],
+						g: color[1],
+						b: color[2]
+					};
+				console.log(rgb);
+					$(this).ColorPickerSetColor(rgb);
 				}
 			});
 		}

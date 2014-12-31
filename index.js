@@ -40,7 +40,7 @@ wss.on("connection", function(ws){
 		switch(data['type']){
 				
 			case 'USER_LOGIN':
-				userName = checkUsername(data['username']);
+				userName = processUserName(data['username']);
 				setUserName(index,userName);
 				noticeUserLogin(userName);
 				// update user lists

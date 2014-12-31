@@ -219,7 +219,7 @@ function noticeUserLogout(username){
 }
 //////////////////////////////
 function checkUsername(name){
-	name = cleanString(trim(name));
+	name = cleanString(name);
 	for(x in clients){
 		if(clients[x]['username'] == name){
 			name = name + '_' + Math.floor(Math.random() * 1001);
@@ -227,6 +227,7 @@ function checkUsername(name){
 	}
 	return name;
 }
+
 //////////////////////////////
 function trim(str){
 	var pattern = /^( ){1,}|( ){1,}$/;
@@ -234,14 +235,16 @@ function trim(str){
 }
 //////////////////////////////
 function cleanString(str){
+	str = trim(str);
 	var pattern = /( ){1,}/g;
-	var legals = /[^a-zA-Z0-9. ,!@#$%^&*()?:;']/g;
+	var legals = /[^a-zA-Z0-9.,!@#$%^&*()?:;']/g;
 	return str.replace(pattern,'_').replace(legals,'');
 }
 //////////////////////////////
 function htmlentities(str){
 	return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+
 //////////////////////////////
 function randomColor(){
 	var r = Math.floor((Math.random() * 255) + 1);

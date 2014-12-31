@@ -138,8 +138,9 @@
 					}
 				},
 				onBeforeShow: function () {
-				el = $(this).css('background-color');
-				console.log(el);
+				color = $(this).css('background-color');
+					color = color.replace(/(rgb\(|\)| )/,'').split(',');
+				console.log(color);
 					$(this).ColorPickerSetColor(this.value);
 				}
 			});

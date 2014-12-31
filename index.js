@@ -11,6 +11,7 @@ var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
 var clients = new Array();
+var channels = new Array();
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
@@ -98,8 +99,9 @@ function setUserName(index,userName){
 			
 			mdata = {
 				'time': (new Date()).getTime(),
-				'type': 'SYSTEM_UPDATE_USERNAME',
-				'username': userName
+				'type': 'SYSTEM_LOGIN_UPDATE_USERNAME',
+				'username': userName,
+				'color': getUserColor(index)
 			};
 			clients[x]['ws'].send(JSON.stringify(mdata));
 		}

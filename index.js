@@ -238,8 +238,12 @@ function processUserName(name){
 	name = trim(name);
 
 	// Remove non-english characters and carets
-	pattern = /[^a-zA-Z0-9.']/g;
+	pattern = /[^a-zA-Z0-9.' ]/g;
 	name = name.replace(pattern,'');
+	
+	// Replace spaces with underscored
+	pattern = /[ ]{1,}/g;
+	name = name.replace(pattern,'_');
 	
 	// Trim username to acceptable length if its too long
 	if(name.length > __USERNAME_LENGTH){

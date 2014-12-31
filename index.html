@@ -55,8 +55,8 @@
 		
 		function nodeChat(){
 			initColorPicker();
-			ws.send(JSON.stringify({'type':'log request','username': username}));
-			ws.send(JSON.stringify({'type':'login','username': username}));
+			ws.send(JSON.stringify({'type':'USER_LOG_REQUEST','username': username}));
+			ws.send(JSON.stringify({'type':'USER_LOGIN','username': username}));
 			//Get Chat Login
 			keepalive = setInterval(function(){
 				ws.send(pingRequest);
@@ -67,7 +67,7 @@
 				
 				if(loggedIn && validateMessage($('#m').val()) === true){
 					var obj = {
-						'type': 'chat message',
+						'type': 'USER_PUBLIC_MESSAGE',
 						'username': username,
 						'message': $('#m').val()
 					};
@@ -92,22 +92,22 @@
 				}
 				
 				switch(edata.type){
-					case 'log message':
+					case 'LOG_MESSAGE':
 						appendToChat('<span  class="' + labelClass + '" style="color:rgb(' + edata.color + ');" >' + edata.username + '</span> ' + edata.message, autoScroll);
-						//scrollChat(autoScroll);
 						break;
-					case 'chat message':
+					case 'CHAT_MESSAGE':
 						console.log('color: '+edata.color);
 						appendToChat('<span  class="' + labelClass + '" style="color:rgb(' + edata.color + ');" >' + edata.username + '</span> ' + edata.message, autoScroll);
-						//scrollChat(autoScroll);
 						break;
-					case 'system message':
+					case 'SYSTEM_MESSAGE':
 						appendToChat('<span  class="' + labelClass + '">System</span> ' + edata.message, autoScroll);
-					//	scrollChat(autoScroll);
 						break;
-					case 'update userlist':
+					case 'UPDATE_USERLIST':
 						console.log('user list data: ' + edata);
 						updateUserlist(edata.userlist);
+						break;
+					case 'SYSTEM_UPDATE_USERNAME':
+						console.log('Update current users stored name');
 						break;
 				}
 				

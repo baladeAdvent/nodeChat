@@ -39,7 +39,7 @@ wss.on("connection", function(ws){
 		var data = JSON.parse(event.data);
 		switch(data['type']){
 				
-			case 'login':
+			case 'USER_LOGIN':
 				userName = checkUsername(data['username']);
 				setUserName(index,userName);
 				noticeUserLogin(userName);
@@ -47,10 +47,10 @@ wss.on("connection", function(ws){
 				sendUpdatedUserList();
 				break;
 			
-			case 'chat message':
+			case 'USER_PUBLIC_MESSAGE':
 				mdata = {
 					'time': (new Date()).getTime(),
-					'type': 'chat message',
+					'type': 'CHAT_MESSAGE',
 					'username': data['username'],
 					'message': htmlentities(trim(data['message'])),
 					'color': getUserColor(index)
@@ -59,11 +59,11 @@ wss.on("connection", function(ws){
 				broadcast(mdata);
 				break;
 				
-			case 'log request':
+			case 'USER_LOG_REQUEST':
 				for(x in chatLog){				
 					mdata = {
 						'time': chatLog[x]['time'],
-						'type': 'log message',
+						'type': 'LOG_MESSAGE',
 						'username': chatLog[x]['username'],
 						'message': chatLog[x]['message'],
 						'color': chatLog[x]['color']
@@ -103,6 +103,13 @@ function setUserTextColor(name,color){
 		console.log(clients[x]['username'] + ' : ' + name);
 		if(clients[x]['username'] == name){
 			clients[x]['textColor'] = color;
+			
+			mdata = {
+				'time': (new Date()).getTime(),
+				'type': 'SYSTEM_UPDATE_USERNAME',
+				'username': name
+			};
+			clients[x]['ws'].send(JSON.stringify(mdata));
 		}
 	}
 }
@@ -160,7 +167,7 @@ function removeClient(index){
 function sendUpdatedUserList(){
 	mdata = {
 		'time': (new Date()).getTime(),
-		'type': 'update userlist',
+		'type': 'UPDATE_USERLIST',
 		'username': 'System',
 		'userlist': get_userList(),
 		'color': systemColor
@@ -190,7 +197,7 @@ function get_userList(){
 function noticeUserLogin(username){
 	mdata = {
 		'time': (new Date()).getTime(),
-		'type': 'system message',
+		'type': 'SYSTEM_MESSAGE',
 		'username': 'System',
 		'message': username + ' has logged in...',
 		'color': systemColor
@@ -202,7 +209,7 @@ function noticeUserLogin(username){
 function noticeUserLogout(username){
 	mdata = {
 		'time': (new Date()).getTime(),
-		'type': 'system message',
+		'type': 'SYSTEM_MESSAGE',
 		'username': 'System',
 		'message': username + ' has logged out...',
 		'color': systemColor

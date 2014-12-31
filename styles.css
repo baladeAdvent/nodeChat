@@ -33,7 +33,6 @@ body { font: 13px Helvetica, Arial; }
 }
 
 #textColor {
-	position:absolute;
 	top:0;
 	left:0;
 	z-index:1;

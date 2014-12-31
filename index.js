@@ -71,6 +71,10 @@ wss.on("connection", function(ws){
 					ws.send(JSON.stringify(mdata));
 				}
 				break;
+			
+			case 'UPDATE_USER_TEXTCOLOR':
+				setUserTextColor(data['username'],data['value']);
+				break;
 				
 			case 'ping':
 
@@ -89,6 +93,14 @@ function setUserName(index,userName){
 		if(clients[x]['id'] == index){
 			clients[x]['username'] = userName;
 			clients[x]['active'] = true;
+		}
+	}
+}
+//////////////////////////////////////////
+function setUserTextColor(name,color){
+	for(x in clients){
+		if(clients[x]['username'] == name){
+			clients[x]['textColor'] = color;
 		}
 	}
 }

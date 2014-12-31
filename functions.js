@@ -1,17 +1,4 @@
-//////////////////////////////
-function initColorPicker(){
-	$('#textColor').ColorPicker({
-		onSubmit: function(hsb, hex, rgb, el) {
-			logProperties(rgb);
-			rgbVal = rgb.r + ',' + rgb.g + ',' + rgb.b;
-			$(el).val(rgbVal);
-			$(el).ColorPickerHide();
-		},
-		onBeforeShow: function () {
-			$(this).ColorPickerSetColor(this.value);
-		}
-	});
-}
+
 //////////////////////////////
 function appendToChat(str,scrollStatus){
 	var message = $('<li class="message">').html(str).hide();

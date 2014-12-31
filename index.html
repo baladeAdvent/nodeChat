@@ -118,6 +118,28 @@
 				keepalive = '';
 			}	
 		}
+		//////////////////////////////
+		function initColorPicker(){
+			$('#textColor').ColorPicker({
+				onSubmit: function(hsb, hex, rgb, el) {
+					logProperties(rgb);
+					rgbVal = rgb.r + ',' + rgb.g + ',' + rgb.b;
+					$(el).val(rgbVal);
+					$(el).ColorPickerHide();
+					if(loggedIn){
+						var obj = {
+							'type': 'UPDATE_USER_TEXTCOLOR',
+							'username': username,
+							'value': $('#textColor').val()
+						};	
+						ws.send(JSON.stringify(obj));
+					}
+				},
+				onBeforeShow: function () {
+					$(this).ColorPickerSetColor(this.value);
+				}
+			});
+		}
 	</script>
 	<style>
 		div.container-fluid {
@@ -154,7 +176,7 @@
 					<div class="dropdown">
 						<button class="btn btn-default dropdown-toggle" type="button" id="userSettings" data-toggle="dropdown" aria-expanded="true"><i class="glyphicon glyphicon-cog"></i></button>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="userSettings">
-							<li role="presentation"><label>Text Color:<input class="form-control" id="textColor" /></label></li>
+							<li role="presentation"><label><small>Text Color:</small><input class="form-control" id="textColor" /></label></li>
 						</ul>
 					</div>
 				</div>

@@ -1,6 +1,7 @@
 process.title = 'node-chat';
 
-var systemColor = '255,255,255';
+var __SYSTEM_COLOR = '255,255,255';
+var __USERNAME_LENGTH = 16;
 
 var WebSocketServer = require('ws').Server;
 var http = require('http');
@@ -51,7 +52,7 @@ wss.on("connection", function(ws){
 					'time': (new Date()).getTime(),
 					'type': 'CHAT_MESSAGE',
 					'username': data['username'],
-					'message': htmlentities(trim(data['message'])),
+					'message': processChatMessage(data['message']),
 					'color': getUserColor(index)
 				}
 				chatLog.push(mdata);
@@ -170,7 +171,7 @@ function sendUpdatedUserList(){
 		'type': 'UPDATE_USERLIST',
 		'username': 'System',
 		'userlist': get_userList(),
-		'color': systemColor
+		'color': __SYSTEM_COLOR
 	};
 	for(i=0;i<clients.length;i++){
 		if('undefined' != typeof clients[i]['ws'] && clients[i]['ws']['readyState'] == '1' && clients[i]['active'] == true){
@@ -200,7 +201,7 @@ function noticeUserLogin(username){
 		'type': 'SYSTEM_MESSAGE',
 		'username': 'System',
 		'message': username + ' has logged in...',
-		'color': systemColor
+		'color': __SYSTEM_COLOR
 	};
 	chatLog.push(mdata);
 	broadcast(mdata);
@@ -212,19 +213,47 @@ function noticeUserLogout(username){
 		'type': 'SYSTEM_MESSAGE',
 		'username': 'System',
 		'message': username + ' has logged out...',
-		'color': systemColor
+		'color': __SYSTEM_COLOR
 	};
 	chatLog.push(mdata);
 	broadcast(mdata);
 }
+
 //////////////////////////////
-function checkUsername(name){
-	name = cleanString(name);
+function processChatMessage(str){
+	// Trim empty space
+	str = trim(str);
+	//strip html carets
+	str = htmlentities(str);
+	
+	// Process 'bbCode'
+	
+	// Return final chat entry
+	return str;
+}
+
+//////////////////////////////
+function processUserName(name){
+	// Trim empty space
+	name = trim(name);
+
+	// Remove non-english characters and carets
+	pattern = /[^a-zA-Z0-9.']/g;
+	name = name.replace(pattern,'');
+	
+	// Trim username to acceptable length if its too long
+	if(name.length > __USERNAME_LENGTH){
+		name = name.substr(0,__USERNAME_LENGTH);
+	}
+	
+	// Check if username is already in use
 	for(x in clients){
-		if(clients[x]['username'] == name){
+		if(clients[x]['username'] == name){	// If username is in use, append suffixes
 			name = name + '_' + Math.floor(Math.random() * 1001);
 		}
 	}
+
+	// return processed name
 	return name;
 }
 
@@ -232,13 +261,6 @@ function checkUsername(name){
 function trim(str){
 	var pattern = /^( ){1,}|( ){1,}$/;
 	return str.replace(pattern,'');
-}
-//////////////////////////////
-function cleanString(str){
-	str = trim(str);
-	var pattern = /( ){1,}/g;
-	var legals = /[^a-zA-Z0-9.,!@#$%^&*()?:;'\-_]/g;
-	return str.replace(pattern,'_').replace(legals,'');
 }
 //////////////////////////////
 function htmlentities(str){

@@ -107,7 +107,7 @@
 						break;
 					case 'SYSTEM_LOGIN_UPDATE_USERNAME':
 						$('#nodeChat_username div p span').html(edata.username);
-						$('#textColor').val(edata.color).css('background-color','rgb(' + edata.color + ')');
+						$('#colorpickerSwatch').val(edata.color).css('background-color','rgb(' + edata.color + ')');
 						console.log('Update current users stored name: ' + edata.username);
 						username = edata.username;
 						break;

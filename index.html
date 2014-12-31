@@ -126,8 +126,7 @@
 				onSubmit: function(hsb, hex, rgb, el) {
 					logProperties(rgb);
 					rgbVal = rgb.r + ',' + rgb.g + ',' + rgb.b;
-					//$(el).val(rgbVal).css('color','rgb('+ rgbVal + ')').css('background-color','rgb('+ rgbVal + ')');
-					$(el).find('div').css('background-color','rgb('+ rgbVal + ')');
+					$('#colorpickerSwatch').css('background-color','rgb('+ rgbVal + ')');
 					$(el).ColorPickerHide();
 					if(loggedIn){
 						var obj = {
@@ -139,7 +138,7 @@
 					}
 				},
 				onBeforeShow: function () {
-					color = $(this).css('background-color');
+					color = $('#colorpickerSwatch').css('background-color');
 					color = color.replace(/(rgb\(|\)| )/g,'').split(',');
 					rgb = {
 						r: color[0],
@@ -190,7 +189,7 @@
 								<label><small>Text Color:</small>
 									<div>
 										<img src='images/select.png' id="textColor" />
-										<div class="colorpickerSwatch">&nbsp;</div>
+										<div id="colorpickerSwatch">&nbsp;</div>
 									</div>
 								</label>
 							</li>

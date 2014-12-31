@@ -32,11 +32,19 @@ body { font: 13px Helvetica, Arial; }
 	padding:5px;
 }
 
-.textColorPicker {
-	background: url('images/select2.png');
+#textColor {
+	position:relative;
+	top:0;
+	left:0;
 	z-index:10;
 }
-.textColorPicker div {
+
+.colorpickerSwatch{
+	position:relative;
+	top:0;
+	left:0;
+	width:20px;
+	height:20px;
 	z-index:1;
 }
 /* Initial display settings */

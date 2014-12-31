@@ -48,6 +48,7 @@ body { font: 13px Helvetica, Arial; }
 	z-index:-1;
 }
 #userOptions li {
+	border: dashed 1px #ccc;
 	position:relative;
 }
 /* Initial display settings */

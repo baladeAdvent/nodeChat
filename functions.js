@@ -2,6 +2,7 @@
 function initColorPicker(){
 	$('#textColor').ColorPicker({
 		onSubmit: function(hsb, hex, rgb, el) {
+			logProperties(rgb);
 			$(el).val(rgb);
 			$(el).ColorPickerHide();
 		},

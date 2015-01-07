@@ -2,7 +2,11 @@
 body { font: 13px Helvetica, Arial; }
 
 #nodeChat_login {
-	padding:30% 0 0;
+	padding:25% 0 0;
+}
+
+#nodeChat_login input{
+	margin: 0 0 5px;
 }
 
 #nodeChat_messages, #nodeChat_users {

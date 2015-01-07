@@ -68,29 +68,28 @@
   <body>
 	<div class="container-fluid" id="nodeChat_container"`>
 		<div class="row" id="nodeChat_login">
-			<form action="">
+
 				<div class="col-xs-6">
-					<div>Anonymous Login</div>
-					<input id="username" class="form-control" length="16" placeholder="username" />
-					<button class="btn btn-primary btn-lg btn-block">Login</button>
+					<form action="">
+						<div class="form-group">
+							<label for="anon_username">Anonymous Login</label>
+							<input id="anon_username" class="form-control" length="16" placeholder="username" />
+							
+							<button class="btn btn-primary btn-lg btn-block">Login</button>
+						</div>
+					</form>					
 				</div>
 				<div class="col-xs-6">
-					<div class="row">
-							<div class="col-xs-12">Registered Login</div>
-					</div>
-					<div class="row">
-							<div class="col-xs-6"><input id="registered_username" placeholder="username" class="form-control" length="16"/></div>
-							<div class="col-xs-6"><input id="registered_password" placeholder="password" class="form-control" length="16"/></div>
-					</div>
-					<div class="row">
-							<button class="btn btn-primary">Login</button>
-					</div>
-					
-					
-					
-					
+					<form action="">
+						<div class="form-group">
+							<label for="anon_username">Registered Login</label>
+							<input id="registered_username" placeholder="username" class="form-control" length="16"/>
+							<input id="registered_password" placeholder="password" class="form-control" length="16"/>
+							
+							<button class="btn btn-primary btn-lg btn-block">Login</button>
+						</div>
+					</form>
 				</div>
-			</form>
 		</div>
 		<div class="row" id="nodeChat_username">
 			<div class="col-xs-12"><p class="bg-success" style="padding:2px;">Logged in as...<span></span></p></div>

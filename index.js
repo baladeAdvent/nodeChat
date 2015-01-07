@@ -39,7 +39,13 @@ wss.on("connection", function(ws){
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);
 		switch(data['type']){
-				
+			
+			case 'USER_CHECK_LOGIN_AVAILABILITY':
+			case 'USER_CHECK_REGISTRATION_AVAILABILITY':
+				checkNameAvailability(data['type'],data['username']);
+				break;
+
+/*			
 			case 'USER_LOGIN':
 				userName = processUserName(data['username']);
 				setUserName(index,userName);
@@ -78,11 +84,8 @@ wss.on("connection", function(ws){
 				setUserTextColor(data['username'],data['value']);
 				sendUpdatedUserList();
 				break;
-				
-			case 'ping':
-
-				break;
 		}
+*/
 	};
 	
 	/////////////
@@ -90,6 +93,10 @@ wss.on("connection", function(ws){
 		// Cannot get this event to trip... wth?
 	});
 });
+
+function checkNameAvailability(type,name){
+	console.log('checkNameAvailability(): '+ type + ' : ' + name);
+}
 //////////////////////////////////////////
 function setUserName(index,userName){
 	for(x in clients){

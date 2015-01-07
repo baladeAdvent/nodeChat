@@ -84,8 +84,9 @@ wss.on("connection", function(ws){
 				setUserTextColor(data['username'],data['value']);
 				sendUpdatedUserList();
 				break;
-		}
 */
+		}
+
 	};
 	
 	/////////////

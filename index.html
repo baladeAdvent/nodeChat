@@ -53,7 +53,7 @@
 				console.log('login: Button pressed!');
 				$('#nodeChat_loginForm button').prop('disabled',true);
 				loginCheck = setTimeout(function(){
-					name = trim($('#username').val());
+					name = trim($('#login_username').val());
 					var obj = {
 						'type': 'USER_CHECK_LOGIN_AVAILABILITY',
 						'username': name
@@ -68,7 +68,8 @@
 				console.log('registration: Button pressed!');
 				$('#nodeChat_registerForm button').prop('disabled',true);
 				registrationCheck = setTimeout(function(){
-					name = trim($('#username').val());
+					name = trim($(this).val());
+					console.log(name);
 					var obj = {
 						'type': 'USER_CHECK_REGISTRATION_AVAILABILITY',
 						'username': name

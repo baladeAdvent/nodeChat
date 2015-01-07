@@ -67,30 +67,48 @@
   </head>
   <body>
 	<div class="container-fluid" id="nodeChat_container"`>
+	
+		<!-- Node Chat login section -->
+		<!-- Node Chat login section -->
+		<!-- Node Chat login section -->
 		<div class="row" id="nodeChat_login">
 
 				<div class="col-xs-6">
+					
 					<form action="">
 						<div class="form-group">
-							<label for="anon_username">Anonymous Login</label>
+							<label for="anon_username">Login</label>
 							<input id="anon_username" class="form-control" length="16" placeholder="username" />
+							<input id="anon_password" placeholder="password" class="form-control"/>
 							
 							<button class="btn btn-primary btn-lg btn-block">Login</button>
 						</div>
 					</form>					
+					<div id="loginResponse"></div>
 				</div>
 				<div class="col-xs-6">
 					<form action="">
 						<div class="form-group">
-							<label for="anon_username">Registered Login</label>
-							<input id="registered_username" placeholder="username" class="form-control" length="16"/>
-							<input id="registered_password" placeholder="password" class="form-control" length="16"/>
+							<label for="anon_username">Register</label>
+							<input id="register_username" placeholder="username" class="form-control" length="16"/>
+							<input id="register_password" placeholder="password" class="form-control"/>
+							<input id="register_email" placeholder="email@email.net" class="form-control"/>
 							
-							<button class="btn btn-primary btn-lg btn-block">Login</button>
+							<button class="btn btn-primary btn-lg btn-block">Register</button>
 						</div>
 					</form>
+					<div id="registrationResponse"></div>
 				</div>
+				
 		</div>
+		<!-- Node Chat login section -->
+		<!-- Node Chat login section -->
+		<!-- Node Chat login section -->
+		
+		
+		<!-- Node Chat application section -->
+		<!-- Node Chat application section -->
+		<!-- Node Chat application section -->
 		<div class="row" id="nodeChat_username">
 			<div class="col-xs-12"><p class="bg-success" style="padding:2px;">Logged in as...<span></span></p></div>
 		</div>
@@ -125,6 +143,10 @@
 				<div class="col-xs-3"><button class="btn btn-primary btn-md btn-block">Send</button></div>
 			</form>
 		</div>
+		<!-- Node Chat application section -->
+		<!-- Node Chat application section -->
+		<!-- Node Chat application section -->
+		
 	</div>
 
 

@@ -50,6 +50,7 @@
 			
 			// - Login
 			$('#login_username').keypress(function(){
+				console.log('login: Button pressed!');
 				$('#nodeChat_loginForm button').prop('disabled',true);
 				loginCheck = setTimeout(function(){
 					name = trim($('#username').val());
@@ -64,6 +65,7 @@
 			
 			// - Registration
 			$('#login_username').keypress(function(){
+				console.log('registration: Button pressed!');
 				$('#nodeChat_registerForm button').prop('disabled',true);
 				registrationCheck = setTimeout(function(){
 					name = trim($('#username').val());

@@ -25,7 +25,7 @@
 
 		$(document).ready(function(){		
 			// User login
-			$('#nodeChat_login form').submit(function(evt){
+			$('#nodeChat_loginForm').submit(function(evt){
 				evt.preventDefault();
 				username = trim($('#username').val());
 				var obj = {
@@ -33,26 +33,52 @@
 				};
 				//initChat();
 			});
+			
+			// New User Registration
+			$('#nodeChat_registerForm').submit(function(evt){
+				evt.preventDefault();
+				username = trim($('#username').val());
+				var obj = {
+					'type': 'USER_REGISTRATION'
+				};
+				//initChat();
+			});
+			
+			// Check if Username is available
+			loginCheck = '';
+			registrationCheck = '';
+			
+			// - Login
+			$('#login_username').keypress(function(){
+				$('#nodeChat_loginForm button').prop('disabled',true);
+				loginCheck = setTimeout(function(){
+					name = trim($('#username').val());
+					var obj = {
+						'type': 'USER_CHECK_LOGIN_AVAILABILITY',
+						'username': name
+						};
+					
+					checkAvailability(obj,ws);
+				},1000);
+			});
+			
+			// - Registration
+			$('#login_username').keypress(function(){
+				$('#nodeChat_registerForm button').prop('disabled',true);
+				registrationCheck = setTimeout(function(){
+					name = trim($('#username').val());
+					var obj = {
+						'type': 'USER_CHECK_REGISTRATION_AVAILABILITY',
+						'username': name
+					};
+					
+					checkAvailability(obj,ws);
+				},1000);
+			});
 		});
-		
-		function initChat(){
-			log('init chat');
-			
-			// Check if Username isn't blank and available
-			if(username != ''){
-			
-				// Setup once only processed items
-				loggedIn = true;
-				pingRequest = JSON.stringify({'type':'ping','username': username});
-				
-				// Setup chat box
-				$('#nodeChat_login').fadeOut(500,function(){
-					//nodeChat();
-					$('#nodeChat_username').fadeIn(500);
-					$('#nodeChat_chatbox').fadeIn(500);
-					$('#nodeChat_input').fadeIn(500);
-				});
-			}
+
+		function checkAvailability(obj,connection){
+			connection.send(JSON.stringify(obj));
 		}
 		
 	</script>
@@ -75,21 +101,21 @@
 
 				<div class="col-xs-6">
 					
-					<form action="">
+					<form action="" id="nodeChat_loginForm">
 						<div class="form-group">
-							<label for="anon_username">Login</label>
-							<input id="anon_username" class="form-control" length="16" placeholder="username" />
-							<input id="anon_password" placeholder="password" class="form-control"/>
+							<label for="login_username">Login</label>
+							<input id="login_username" class="form-control" length="16" placeholder="username" />
+							<input id="login_password" placeholder="password" class="form-control"/>
 							
-							<button class="btn btn-primary btn-lg btn-block">Login</button>
+							<button class="btn btn-primary btn-lg btn-block" disabled>Login</button>
 						</div>
 					</form>					
 					<div id="loginResponse"></div>
 				</div>
 				<div class="col-xs-6">
-					<form action="">
+					<form action="" id="nodeChat_registerForm">
 						<div class="form-group">
-							<label for="anon_username">Register</label>
+							<label for="register_username">Register</label>
 							<input id="register_username" placeholder="username" class="form-control" length="16"/>
 							<input id="register_password" placeholder="password" class="form-control"/>
 							<input id="register_email" placeholder="email@email.net" class="form-control"/>

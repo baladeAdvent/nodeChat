@@ -55,6 +55,7 @@
 				if(trim($(this).val()) != ''){
 					loginCheck = setTimeout(function(){
 						name = trim($('#login_username').val());
+						console.log(name);
 						var obj = {
 							'type': 'USER_CHECK_LOGIN_AVAILABILITY',
 							'username': name

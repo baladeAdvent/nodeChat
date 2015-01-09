@@ -52,9 +52,9 @@
 			$('#login_username').keypress(function(){
 				$('#nodeChat_loginForm button').prop('disabled',true);
 				clearTimeout(loginCheck);
-				if(trim($(this).val()) != ''){
+				if(trim($('#login_username').val()) != ''){
 					loginCheck = setTimeout(function(){
-						name = trim($(this).val());
+						name = trim($('#login_username').val());
 						console.log(name);
 						var obj = {
 							'type': 'USER_CHECK_LOGIN_AVAILABILITY',
@@ -70,9 +70,9 @@
 			$('#register_username').keypress(function(){				
 				$('#nodeChat_registerForm button').prop('disabled',true);
 				clearTimeout(registrationCheck);
-				if(trim($(this).val()) != ''){
+				if(trim($('#register_username').val()) != ''){
 					registrationCheck = setTimeout(function(){
-						name = trim($(this).val());
+						name = trim($('#register_username').val());
 						console.log(name);
 						var obj = {
 							'type': 'USER_CHECK_REGISTRATION_AVAILABILITY',

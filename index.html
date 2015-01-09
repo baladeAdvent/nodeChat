@@ -55,7 +55,6 @@
 				if(trim($('#login_username').val()) != ''){
 					loginCheck = setTimeout(function(){
 						name = trim($('#login_username').val());
-						console.log(name);
 						var obj = {
 							'type': 'USER_CHECK_LOGIN_AVAILABILITY',
 							'username': name
@@ -73,7 +72,6 @@
 				if(trim($('#register_username').val()) != ''){
 					registrationCheck = setTimeout(function(){
 						name = trim($('#register_username').val());
-						console.log(name);
 						var obj = {
 							'type': 'USER_CHECK_REGISTRATION_AVAILABILITY',
 							'username': name
@@ -87,7 +85,7 @@
 		});
 
 		function checkAvailability(obj,connection){
-			console.log('Check username availability');
+			//console.log('Check username availability');
 			connection.send(JSON.stringify(obj));
 		}
 		

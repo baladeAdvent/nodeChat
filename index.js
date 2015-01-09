@@ -9,6 +9,9 @@ var express = require('express');
 var app = express();
 var port = (process.env.PORT || 5000);
 
+var mongoClient = require('mongodb').MongoClient;
+
+
 var chatLog = new Array();
 var clients = new Array();
 var channels = new Array();
@@ -96,7 +99,12 @@ wss.on("connection", function(ws){
 });
 
 function checkNameAvailability(type,name){
-	console.log('checkNameAvailability(): '+ type + ' : ' + name);
+	for(x in clients){
+		if(client[x]['username'] == name){
+			return false;
+		}
+	}
+	
 }
 //////////////////////////////////////////
 function setUserName(index,userName){

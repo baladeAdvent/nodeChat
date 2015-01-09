@@ -54,7 +54,7 @@
 				clearTimeout(loginCheck);
 				if(trim($(this).val()) != ''){
 					loginCheck = setTimeout(function(){
-						name = trim($('#login_username').val());
+						name = trim($(this).val());
 						console.log(name);
 						var obj = {
 							'type': 'USER_CHECK_LOGIN_AVAILABILITY',
@@ -70,7 +70,7 @@
 			$('#register_username').keypress(function(){				
 				$('#nodeChat_registerForm button').prop('disabled',true);
 				clearTimeout(registrationCheck);
-				if(trim($('#register_username').val()) != ''){
+				if(trim($(this).val()) != ''){
 					registrationCheck = setTimeout(function(){
 						name = trim($(this).val());
 						console.log(name);

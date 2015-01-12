@@ -9,17 +9,17 @@ var express = require('express');
 var app = express();
 var port = (process.env.PORT || 5000);
 
-//var mongo = require('./mongo_lib.js');
-//mongo.open();
+var mongo = require('./mongo_lib.js');
+mongo.open();
 
-var MongoClient = require('mongodb').MongoClient;
-	MongoClient.connect("mongodb://nodechatsystem:nodechat123456nodechat@ds031661.mongolab.com:31661/nodechattest",function(err, db){
-		if(!err) {
-			console.log("Connected to MongoDB");
-		}else{
-			console.log("Unable to connect to MongoDB");
-		}
-	});
+//var MongoClient = require('mongodb').MongoClient;
+//	MongoClient.connect("mongodb://nodechatsystem:nodechat123456nodechat@ds031661.mongolab.com:31661/nodechattest",function(err, db){
+//		if(!err) {
+//			console.log("Connected to MongoDB");
+//		}else{
+//			console.log("Unable to connect to MongoDB");
+//		}
+//	});
 
 var chatLog = new Array();
 var clients = new Array();

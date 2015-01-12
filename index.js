@@ -11,7 +11,9 @@ var port = (process.env.PORT || 5000);
 
 var mongo = require('./mongo_lib.js');
 
-var mongoClient = require('mongodb').MongoClient;
+	mongo.open();
+
+//var mongoClient = require('mongodb').MongoClient;
 
 
 var chatLog = new Array();

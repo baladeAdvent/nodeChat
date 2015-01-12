@@ -13,6 +13,6 @@ exports.open = function(){
 			console.log("Unable to connect to MongoDB");
 		}
 		
-		db.users.find({"type": "user"});
+		db.users.find({});
 	});
 }

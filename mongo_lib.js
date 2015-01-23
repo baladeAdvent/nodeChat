@@ -14,8 +14,10 @@ exports.open = function(){
 			console.log("Unable to connect to MongoDB");
 		}
 		
-		collection = db.collection('users');
-		console.log(collection);
+		var collection = db.collection('users');
+		collection.findOne({'username':'admin'},function(err,item){
+		console.log(item);
+		});
 		
 	});
 }

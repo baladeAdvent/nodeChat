@@ -95,7 +95,7 @@
 			edata = JSON.parse(event.data);
 			switch(edata.type){
 				case 'USER_CHECK_REGISTRATION_AVAILABILITY':
-					console.log('Username Availability Response:' + edata);
+					console.log('Username Availability Response:' + edata.available);
 					break;
 			}
 		}

@@ -1,5 +1,5 @@
 //////////////////////////////
-updateRegistrationButton(status){
+function updateRegistrationButton(status){
 	usernameAddon = $('#register_username_addon').find('i');
 	if(status == 'true'){
 		usernameAddon.attr('class','glyphicon glyphicon-ok');

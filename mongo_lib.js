@@ -23,7 +23,7 @@ exports.open = function(){
 }
 
 exports.checkUsername = function(name){
-	console.log('Check Username');
+	console.log('Check Username:' + name);
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(err) {
 			return false;
@@ -31,13 +31,11 @@ exports.checkUsername = function(name){
 		
 		var collection = db.collection('users');
 		collection.findOne({'username':name},function(err,item){
-			if(err){
-				console.log(err);
+			if(item == null){
+				return false;
 			}else{
-				console.log(name + ': ' + item);
+				return true;
 			}
-		
 		});
-		
 	});
 }

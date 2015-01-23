@@ -85,10 +85,21 @@
 		});
 
 		function checkAvailability(obj,connection){
-			//console.log('Check username availability');
+			console.log('Check username availability');
 			connection.send(JSON.stringify(obj));
 		}
 		
+		
+		// WS Response handling //
+		ws.onmessage = function(event){		
+			edata = JSON.parse(event.data);
+			switch(edata.type){
+				case 'USER_CHECK_REGISTRATION_AVAILABILITY':
+					console.log('Username Availability Response:' + edata);
+					break;
+			}
+		}
+		// WS Response handling //
 	</script>
 	<style>
 		div.container-fluid {

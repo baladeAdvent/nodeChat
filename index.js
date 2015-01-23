@@ -10,7 +10,6 @@ var app = express();
 var port = (process.env.PORT || 5000);
 
 var mongo = require('./mongo_lib.js');
-mongo.checkUsername('cornhusk');
 
 //var MongoClient = require('mongodb').MongoClient;
 //	MongoClient.connect("mongodb://nodechatsystem:nodechat123456nodechat@ds031661.mongolab.com:31661/nodechattest",function(err, db){
@@ -108,12 +107,21 @@ wss.on("connection", function(ws){
 });
 
 function checkNameAvailability(type,name){
+	nameAvailability = true;
 	for(x in clients){
 		if(client[x]['username'] == name){
-			return false;
+			nameAvailability = false;
 		}
 	}
-	
+	if(mongo.checkUsername(name) == true){
+		nameAvailability = false;
+	}
+	mdata = {
+		'time': (new Date()).getTime(),
+		'type': type,
+		'available': nameAvailability
+	};
+	ws.send( JSON.stringify(mdata) );
 }
 //////////////////////////////////////////
 function setUserName(index,userName){
@@ -128,7 +136,7 @@ function setUserName(index,userName){
 				'username': userName,
 				'color': getUserColor(index)
 			};
-			clients[x]['ws'].send(JSON.stringify(mdata));
+			clients[x]['ws'].send( JSON.stringify(mdata) );
 		}
 	}
 }

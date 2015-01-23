@@ -32,8 +32,10 @@ exports.checkUsername = function(name){
 		var collection = db.collection('users');
 		collection.findOne({'username':name},function(err,item){
 			if(item == null){
+				console.log(name + ': Not found in collection');
 				return false;
 			}else{
+				console.log(name + ': Found in collection');
 				return true;
 			}
 		});

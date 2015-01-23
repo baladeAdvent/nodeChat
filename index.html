@@ -23,22 +23,16 @@
 		
 		log('Starting node chat ' + host);
 
-		$(document).ready(function(){		
-			// User login
+		$(document).ready(function(){
+			//disable login/register buttons
+			$('#nodeChat_loginForm button, #nodeChat_registerForm button').prop('disabled',true);
+			
+			// Login button
 			$('#nodeChat_loginForm').submit(function(evt){
 				evt.preventDefault();
-				username = trim($('#username').val());
-				var obj = {
-					'type': 'USER_LOGIN'
-				};
-				//initChat();
 			});
 			
-			// Check if user name is available
-			loginCheck = '';
-			registrationCheck = '';
-			
-			// - Login
+			// - Login Username Check
 			$('#login_username').keypress(function(){
 				$('#nodeChat_loginForm button').prop('disabled',true);
 				clearTimeout(loginCheck);
@@ -54,8 +48,9 @@
 					},3000);
 				}
 			});
+			// - Login Username Check
 			
-			// - Registration
+			// - Registration Username Check
 			$('#register_username').keypress(function(){				
 				$('#nodeChat_registerForm button').prop('disabled',true);
 				clearTimeout(registrationCheck);
@@ -70,8 +65,8 @@
 						checkAvailability(obj,ws);
 					},3000);
 				}
-				
 			});
+			// - Registration Username Check
 		});
 
 		function checkAvailability(obj,connection){

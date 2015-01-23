@@ -13,6 +13,10 @@ function updateRegistrationButton(nameStatus,connection){
 	}else{
 		// Set icon to unavailable, clear functions from register button
 		usernameAddon.attr('class','glyphicon glyphicon-remove');
+		registerButton.prop('disabled',true);
+		registerButton.click(function(evt){
+			evt.preventDefault();
+		});
 	}
 }
 //////////////////////////////

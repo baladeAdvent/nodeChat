@@ -110,7 +110,7 @@ function checkNameAvailability(type,name){
 	console.log('Check username availablilty: ' + name);
 	nameAvailability = true;
 	for(x in clients){
-		if(client[x]['username'] == name){
+		if(clients[x]['username'] == name){
 			nameAvailability = false;
 		}
 	}

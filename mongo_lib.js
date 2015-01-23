@@ -53,7 +53,7 @@ exports.registernewUser = function (doc,callback){
 		}
 		
 		//var collection = db.collection('users');
-		result = db.users.insert(doc);
+		result = db.collection('users').insert(doc);
 		callback(result);
 	});
 }

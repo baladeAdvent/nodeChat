@@ -53,7 +53,7 @@ wss.on("connection", function(ws){
 			
 			case 'USER_CHECK_LOGIN_AVAILABILITY':
 			case 'USER_CHECK_REGISTRATION_AVAILABILITY':
-				checkNameAvailability(data['type'],data['username']);
+				checkNameAvailability(data['type'],data['username'],ws);
 				break;
 
 /*			
@@ -106,7 +106,7 @@ wss.on("connection", function(ws){
 	});
 });
 
-function checkNameAvailability(type,name){
+function checkNameAvailability(type,name,ws){
 	console.log('Check username availablilty: ' + name);
 	nameAvailability = true;
 	for(x in clients){

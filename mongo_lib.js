@@ -4,22 +4,18 @@ var exports = module.exports = {};
 
 var MONGO_USER = 'nodechatsystem';
 var MONGO_PASS = 'nodechat123456nodechat';
+var MONGO_DB = 'nodechattest';
 
 exports.open = function(){
-	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/nodechattest",function(err, db){
+	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(!err) {
 			console.log("Connected to MongoDB");
 		}else{
 			console.log("Unable to connect to MongoDB");
 		}
 		
-		db.collectionNames(function(err, collections){
-			console.log(collections);
-		});
-		
-		db.collection("users",function(err, collection){
-			console.log(collection);
-		});
+		collection = db.collection('users');
+		console.log(collection);
 		
 	});
 }

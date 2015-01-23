@@ -133,20 +133,39 @@
 				</div>
 				<div class="col-xs-6">
 					<form action="" id="nodeChat_registerForm">
-						<div class="form-group">
-							<label for="register_username">Register</label>
-							<div class="input-group input-group-sm">
-								<input id="register_username" name="registerUsername" placeholder="username" class="form-control" length="16"/>
-								<span class="input-group-addon" id="register_username_addon"><i class="glyphicon glyphicon-remove"></i></span>
+						<div clsss="row">
+							<div class="col-xs-12">						
+								<div class="form-group">
+									<label for="register_username">Register</label>
+									<div class="input-group input-group-sm">
+										<input id="register_username" name="registerUsername" placeholder="username" class="form-control" length="16"/>
+										<span class="input-group-addon" id="register_username_addon"><i class="glyphicon glyphicon-remove"></i></span>
+									</div>
+								</div>	
 							</div>
-							
-							<input id="register_password" name="registerPassword" placeholder="password" class="form-control"/>
-							<input id="register_email" name="registerEmail" placeholder="email@email.net" class="form-control"/>
-							
-							<button class="btn btn-primary btn-lg btn-block" disabled>Register</button>
+						</div>
+						
+						<div clsss="row">
+							<div class="col-xs-12">
+								<input id="register_password" name="registerPassword" placeholder="password" class="form-control"/>
+							</div>
+						</div>
+						<div clsss="row">
+							<div class="col-xs-12">
+								<input id="register_email" name="registerEmail" placeholder="email@email.net" class="form-control"/>
+							</div>
+						</div>
+						<div clsss="row">
+							<div class="col-xs-12">
+								<button class="btn btn-primary btn-lg btn-block" disabled>Register</button>
+							</div>
+						</div>
+						<div clsss="row">
+							<div class="col-xs-12">
+								<div id="registrationResponse"></div>
+							</div>
 						</div>
 					</form>
-					<div id="registrationResponse"></div>
 				</div>
 				
 		</div>

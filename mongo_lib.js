@@ -43,3 +43,17 @@ exports.checkUsername = function(name,callback){
 		});
 	});
 }
+
+exports.registernewUser = function (doc,callback){
+	console.log('Mongo: Registering new user...');
+	status = 'false';
+	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
+		if(err) {
+			status = 'false';
+		}
+		
+		var collection = db.collection('users');
+		result = collection.save(doc);
+		callback(result);
+	});
+}

@@ -57,7 +57,7 @@ wss.on("connection", function(ws){
 				break;
 
 			case 'USER_REQUEST_REGISTRATION':
-				console.log('Registration Request: ' + data);
+				registerNewUser(data);
 				break;
 /*			
 			case 'USER_LOGIN':
@@ -109,7 +109,20 @@ wss.on("connection", function(ws){
 	});
 });
 
-function checkNameAvailability(type,name,ws){
+//////////////////////////////////////////
+function registerNewUser(data,connection){
+	newUser = {
+		'type': 'user',
+		'username': data.username,
+		'password': data.password,
+		'email': data.email
+	};
+	
+	mongo.registernewUser(newUser,function(res){
+		console.log(res);
+	});
+}
+function checkNameAvailability(type,name,connection){
 	// True if name is available
 	// False if name is in use
 	nameAvailability = true;
@@ -127,7 +140,7 @@ function checkNameAvailability(type,name,ws){
 			'type': type,
 			'available': nameAvailability
 		};
-		ws.send( JSON.stringify(mdata) );
+		connection.send( JSON.stringify(mdata) );
 	});	
 }
 //////////////////////////////////////////

@@ -119,52 +119,52 @@
 		<div class="row" id="nodeChat_login">
 
 				<div class="col-xs-6">
-					
 					<form action="" id="nodeChat_loginForm">
 						<div class="form-group">
 							<label for="login_username">Login</label>
 							<input id="login_username" name="loginUsername" class="form-control" length="16" placeholder="username" />
+						</div>
+						<div class="form-group">
 							<input id="login_password" name="loginPassword" placeholder="password" class="form-control"/>
-							
-							<button class="btn btn-primary btn-lg btn-block" disabled>Login</button>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<button class="btn btn-primary btn-lg btn-block" disabled>Login</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12">
+								<div id="loginResponse"></div>
+							</div>
 						</div>
 					</form>					
-					<div id="loginResponse"></div>
 				</div>
+				
 				<div class="col-xs-6">
 					<form action="" id="nodeChat_registerForm">
-						<div clsss="row">
-							<div class="col-xs-12">						
-								<div class="form-group">
-									<label for="register_username">Register</label>
-									<div class="input-group input-group-sm">
-										<input id="register_username" name="registerUsername" placeholder="username" class="form-control" length="16"/>
-										<span class="input-group-addon" id="register_username_addon"><i class="glyphicon glyphicon-remove"></i></span>
-									</div>
-								</div>	
+						<div class="form-group">
+							<label for="register_username">Register</label>
+							<div class="input-group">
+								<input id="register_username" name="registerUsername" placeholder="username" class="form-control" length="16"/>
+								<span class="input-group-addon" id="register_username_addon"><i class="glyphicon glyphicon-search"></i></span>
 							</div>
+						</div>	
+						<div class="form-group">
+							<input id="register_password" name="registerPassword" placeholder="password" class="form-control"/>
+						</div>
+						<div class="form-group">
+							<input id="register_email" name="registerEmail" placeholder="email@email.net" class="form-control"/>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-primary btn-lg btn-block" disabled>Register</button>
 						</div>
 						
-						<div clsss="row">
-							<div class="col-xs-12">
-								<input id="register_password" name="registerPassword" placeholder="password" class="form-control"/>
-							</div>
-						</div>
-						<div clsss="row">
-							<div class="col-xs-12">
-								<input id="register_email" name="registerEmail" placeholder="email@email.net" class="form-control"/>
-							</div>
-						</div>
-						<div clsss="row">
-							<div class="col-xs-12">
-								<button class="btn btn-primary btn-lg btn-block" disabled>Register</button>
-							</div>
-						</div>
 						<div clsss="row">
 							<div class="col-xs-12">
 								<div id="registrationResponse"></div>
 							</div>
 						</div>
+						
 					</form>
 				</div>
 				

@@ -1,4 +1,12 @@
-
+//////////////////////////////
+updateRegistrationButton(status){
+	usernameAddon = $('#register_username_addon').find('i');
+	if(status == 'true'){
+		usernameAddon.attr('class','glyphicon glyphicon-ok');
+	}else{
+		usernameAddon.attr('class','glyphicon glyphicon-remove');
+	}
+}
 //////////////////////////////
 function appendToChat(str,scrollStatus){
 	var message = $('<li class="message">').html(str).hide();

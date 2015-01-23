@@ -17,14 +17,15 @@ function updateRegistrationButton(nameStatus){
 }
 //////////////////////////////
 function validateRegistration(){
-	status = true;
+	validationStatus = true;
 	$('#nodeChat_registerForm input').each(function(index){
 		if($(this).val() == ''){
-			status = false;
+			validationStatus = false;
 		}
 	});
 	
-	if(status == false){
+	console.log(validationStatus);
+	if(validationStatus == false){
 		message = $('<div><div>').html('Please fill out all form fields to register!');
 	 $('#registrationResponse').append( message.animate({height:'show'},1000).delay(5000).animate({height:'hide'},1000) );
 	}else{

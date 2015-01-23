@@ -26,7 +26,7 @@ function validateRegistration(connection){
 
 	if(validationStatus == false){
 		message = $('<div><div>').html('Please fill out all form fields to register!');
-	 $('#registrationResponse').append( message ).animate({height:'show'},1000).delay(5000).animate({height:'hide'},1000);
+	 $('#registrationResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 	}else{
 		console.log('Register new user');
 		form = $('#nodeChat_registerForm');

@@ -56,6 +56,9 @@ wss.on("connection", function(ws){
 				checkNameAvailability(data['type'],data['username'],ws);
 				break;
 
+			case 'USER_REQUEST_REGISTRATION':
+				console.log('Registration Request: ' + data);
+				break;
 /*			
 			case 'USER_LOGIN':
 				userName = processUserName(data['username']);

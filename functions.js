@@ -1,12 +1,34 @@
 //////////////////////////////
 function updateRegistrationButton(nameStatus){
 	usernameAddon = $('#register_username_addon').find('i');
+	registerButton = $('#nodeChat_registerForm').find('button');
 	if(nameStatus == true){
-		console.log('Username is okay to use! (' + nameStatus + ')');
+		// Set icon to ok, bind functions to register button
 		usernameAddon.attr('class','glyphicon glyphicon-ok');
+		registerButton.prop('disabled',false);
+		registerButton.click(function(evt){
+			evt.preventDefault();
+			validateRegistration();
+		});
 	}else{
-		console.log('Username is NOT okay to use! (' + nameStatus + ')');
+		// Set icon to unavailable, clear functions from register button
 		usernameAddon.attr('class','glyphicon glyphicon-remove');
+	}
+}
+//////////////////////////////
+function validateRegistration(){
+	status = true;
+	$('#nodeChat_registerForm input').each(function(index){
+		if($(this).val() == ''){
+			status = false;
+		}
+	});
+	
+	if(status == false){
+		message = $('<div><div>').html('Please fill out all form fields to register!');
+	 $('#registrationResponse').append( message.animate({height:'show'},1000).delay(5000).animate({height:'hide'},1000) );
+	}else{
+		console.log('Register new user');
 	}
 }
 //////////////////////////////

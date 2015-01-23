@@ -30,7 +30,7 @@ exports.checkUsername = function(name){
 		
 		var collection = db.collection('users');
 		collection.findOne({'username':name},function(err,item){
-		console.log(item);
+		console.log(name + ': ' + item);
 		});
 		
 	});

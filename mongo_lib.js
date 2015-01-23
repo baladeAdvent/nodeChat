@@ -52,8 +52,8 @@ exports.registernewUser = function (doc,callback){
 			status = 'false';
 		}
 		
-		var collection = db.collection('users');
-		result = collection.save(doc);
+		//var collection = db.collection('users');
+		result = db.users.insert(doc);
 		callback(result);
 	});
 }

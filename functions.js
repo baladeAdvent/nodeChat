@@ -30,14 +30,13 @@ function validateRegistration(connection){
 		message = $('<div><div>').html('Please fill out all form fields to register!');
 		 $('#registrationResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 	}else{
-		console.log('Register new user');
 		var obj = {
 			'type': 'USER_REQUEST_REGISTRATION',
 			'name':	trim($('#register_username').val()),
 			'password': trim($('#register_password').val()),
 			'email': trim($('#register_email').val())
 		};
-		connection.send(obj);
+		connection.send(JSON.stringify(obj));
 	}
 }
 //////////////////////////////

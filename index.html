@@ -55,7 +55,7 @@
 			// - Login Username Check
 			
 			// - Registration Username Check
-			$('#register_username').keypress(function(){				
+			$('#register_username').change(function(){				
 				$('#nodeChat_registerForm button').prop('disabled',true);
 				clearTimeout(registrationCheck);
 				if(trim($('#register_username').val()) != ''){

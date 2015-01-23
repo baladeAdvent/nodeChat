@@ -22,7 +22,7 @@ exports.open = function(){
 	});
 }
 
-exports.checkUsername = function(name){
+exports.checkUsername = function(name,callback){
 	console.log('Check Username:' + name);
 	status = 'default';
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){

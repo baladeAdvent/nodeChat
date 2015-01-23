@@ -117,18 +117,18 @@ function checkNameAvailability(type,name,ws){
 		}
 	}
 	console.log('testing: ' + mongo.checkUsername(name));
-	mongoUserCheck = mongo.checkUsername(name);
-	sleep(1000);
-	if(mongoUserCheck == 'true'){
-		nameAvailability = false;
-	}
-	mdata = {
-		'time': (new Date()).getTime(),
-		'type': type,
-		'available': nameAvailability
-	};
-	console.log(mdata);
-	ws.send( JSON.stringify(mdata) );
+	mongo.checkUsername(name,function(ret){
+		if(mongoCheckResult == 'true'){
+			nameAvailability = false;
+		}
+		mdata = {
+			'time': (new Date()).getTime(),
+			'type': type,
+			'available': nameAvailability
+		};
+		console.log(mdata);
+		ws.send( JSON.stringify(mdata) );
+	});	
 }
 //////////////////////////////////////////
 function setUserName(index,userName){

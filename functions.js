@@ -1,5 +1,5 @@
 //////////////////////////////
-function updateRegistrationButton(nameStatus){
+function updateRegistrationButton(nameStatus,connection){
 	usernameAddon = $('#register_username_addon').find('i');
 	registerButton = $('#nodeChat_registerForm').find('button');
 	if(nameStatus == true){
@@ -8,7 +8,7 @@ function updateRegistrationButton(nameStatus){
 		registerButton.prop('disabled',false);
 		registerButton.click(function(evt){
 			evt.preventDefault();
-			validateRegistration();
+			validateRegistration(connection);
 		});
 	}else{
 		// Set icon to unavailable, clear functions from register button
@@ -16,20 +16,22 @@ function updateRegistrationButton(nameStatus){
 	}
 }
 //////////////////////////////
-function validateRegistration(){
+function validateRegistration(connection){
 	validationStatus = true;
 	$('#nodeChat_registerForm input').each(function(index){
 		if($(this).val() == ''){
 			validationStatus = false;
 		}
 	});
-	
-	console.log(validationStatus);
+
 	if(validationStatus == false){
 		message = $('<div><div>').html('Please fill out all form fields to register!');
-	 $('#registrationResponse').append( message.animate({height:'show'},1000).delay(5000).animate({height:'hide'},1000) );
+	 $('#registrationResponse').append( message ).animate({height:'show'},1000).delay(5000).animate({height:'hide'},1000);
 	}else{
 		console.log('Register new user');
+		form = $('#nodeChat_registerForm');
+		data = JSON.stringify(form);
+		console.log(data);
 	}
 }
 //////////////////////////////

@@ -95,7 +95,7 @@
 			edata = JSON.parse(event.data);
 			switch(edata.type){
 				case 'USER_CHECK_REGISTRATION_AVAILABILITY':
-					updateRegistrationButton(edata.available);
+					updateRegistrationButton(edata.available,ws);
 					break;
 			}
 		}

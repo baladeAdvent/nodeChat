@@ -51,8 +51,7 @@ exports.registernewUser = function (doc,callback){
 		if(err) {
 			status = 'false';
 		}
-		
-		//var collection = db.collection('users');
+
 		db.collection('users').insert(doc,{w:1},function(err,doc){
 			callback(err,doc);
 		});

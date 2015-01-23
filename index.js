@@ -113,7 +113,7 @@ wss.on("connection", function(ws){
 function registerNewUser(data,connection){
 	newUser = {
 		'type': 'user',
-		'username': data.username,
+		'username': data.name,
 		'password': data.password,
 		'email': data.email
 	};

@@ -29,7 +29,7 @@ function validateRegistration(connection){
 	 $('#registrationResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 	}else{
 		console.log('Register new user');
-		form = $('#nodeChat_registerForm');
+		form = $('#nodeChat_registerForm input');
 		data = JSON.stringify(form);
 		console.log(data);
 	}

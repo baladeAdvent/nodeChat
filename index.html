@@ -34,19 +34,6 @@
 				//initChat();
 			});
 			
-			// New User Registration
-			$('#nodeChat_registerForm').submit(function(evt){
-				evt.preventDefault();
-				username = trim($('#register_username').val());
-				var obj = {
-					'type': 'USER_REQUEST_REGISTRATION',
-					'name':	trim($('#register_username').val()),
-					'password': trim($('#register_password').val()),
-					'email': trim($('#register_email').val())
-				};
-				//initChat();
-			});
-			
 			// Check if user name is available
 			loginCheck = '';
 			registrationCheck = '';

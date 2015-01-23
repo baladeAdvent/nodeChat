@@ -39,7 +39,7 @@ exports.checkUsername = function(name,callback){
 				console.log(name + ': Found in collection');
 				status = 'true';
 			}
+			callback(status);
 		});
-		callback(status);
 	});
 }

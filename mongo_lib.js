@@ -24,7 +24,7 @@ exports.open = function(){
 
 exports.checkUsername = function(name){
 	console.log('Check Username:' + name);
-	status = 'false';
+	status = 'default';
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(err) {
 			status = 'false';

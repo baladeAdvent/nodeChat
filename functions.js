@@ -1,11 +1,11 @@
 //////////////////////////////
-function updateRegistrationButton(status){
+function updateRegistrationButton(nameStatus){
 	usernameAddon = $('#register_username_addon').find('i');
-	if(status == 'true'){
-		console.log('Username is okay to use! (' + status + ')');
+	if(nameStatus == 'true'){
+		console.log('Username is okay to use! (' + nameStatus + ')');
 		usernameAddon.attr('class','glyphicon glyphicon-ok');
 	}else{
-		console.log('Username is NOT okay to use! (' + status + ')');
+		console.log('Username is NOT okay to use! (' + nameStatus + ')');
 		usernameAddon.attr('class','glyphicon glyphicon-remove');
 	}
 }

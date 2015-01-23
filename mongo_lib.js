@@ -26,17 +26,17 @@ exports.checkUsername = function(name){
 	console.log('Check Username:' + name);
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(err) {
-			return false;
+			return 'false';
 		}
 		
 		var collection = db.collection('users');
 		collection.findOne({'username':name},function(err,item){
 			if(item == null){
 				console.log(name + ': Not found in collection');
-				return false;
+				return 'false';
 			}else{
 				console.log(name + ': Found in collection');
-				return true;
+				return 'true';
 			}
 		});
 	});

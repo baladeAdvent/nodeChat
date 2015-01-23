@@ -114,7 +114,8 @@ function checkNameAvailability(type,name,ws){
 			nameAvailability = false;
 		}
 	}
-	if(mongo.checkUsername(name) == true){
+	console.log(mongo.checkUsername(name));
+	if(mongo.checkUsername(name) == 'true'){
 		nameAvailability = false;
 	}
 	mdata = {

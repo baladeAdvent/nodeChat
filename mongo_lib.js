@@ -13,6 +13,13 @@ exports.open = function(){
 			console.log("Unable to connect to MongoDB");
 		}
 		
-		db.users.find({});
+		db.collectionNames(function(err, collections){
+			console.log(collections);
+		});
+		
+		db.collection("users",function(err, collection){
+			console.log(collection);
+		});
+		
 	});
 }

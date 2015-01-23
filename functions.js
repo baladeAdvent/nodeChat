@@ -23,14 +23,12 @@ function updateRegistrationButton(nameStatus,connection){
 function validateRegistration(connection){
 	validationStatus = true;
 	$('#nodeChat_registerForm input').each(function(index){
-		if($(this).val() == ''){
-			validationStatus = false;
-		}
+		if($(this).val() == '') validationStatus = false;
 	});
 
 	if(validationStatus == false){
 		message = $('<div><div>').html('Please fill out all form fields to register!');
-	 $('#registrationResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+		 $('#registrationResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 	}else{
 		console.log('Register new user');
 		var obj = {
@@ -39,7 +37,7 @@ function validateRegistration(connection){
 			'password': trim($('#register_password').val()),
 			'email': trim($('#register_email').val())
 		};
-		console.log(obj);
+		connection.send(obj);
 	}
 }
 //////////////////////////////

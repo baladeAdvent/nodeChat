@@ -95,7 +95,7 @@
 			edata = JSON.parse(event.data);
 			switch(edata.type){
 				case 'USER_CHECK_REGISTRATION_AVAILABILITY':
-					console.log('Username Availability Response:' + edata.available);
+					updateRegistrationButton(edata.available);
 					break;
 			}
 		}
@@ -135,7 +135,11 @@
 					<form action="" id="nodeChat_registerForm">
 						<div class="form-group">
 							<label for="register_username">Register</label>
-							<input id="register_username" name="registerUsername" placeholder="username" class="form-control" length="16"/>
+							<div class="input-group">
+								<input id="register_username" name="registerUsername" placeholder="username" class="form-control" length="16"/>
+								<span class="input-group-addon" id="register_username_addon"><i class="glyphicon glyphicon-remove"></i></span>
+							</div>
+							
 							<input id="register_password" name="registerPassword" placeholder="password" class="form-control"/>
 							<input id="register_email" name="registerEmail" placeholder="email@email.net" class="form-control"/>
 							

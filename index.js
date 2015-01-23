@@ -109,7 +109,6 @@ wss.on("connection", function(ws){
 function checkNameAvailability(type,name,ws){
 	// True if name is available
 	// False if name is in use
-	console.log('Check username availablilty: ' + name);
 	nameAvailability = true;
 	for(x in clients){
 		if(clients[x]['username'] == name){
@@ -117,7 +116,6 @@ function checkNameAvailability(type,name,ws){
 		}
 	}
 	mongo.checkUsername(name,function(ret){
-		console.log('checkUsername returned: ' + ret);
 		if(ret == 'true'){
 			nameAvailability = false;
 		}
@@ -126,7 +124,6 @@ function checkNameAvailability(type,name,ws){
 			'type': type,
 			'available': nameAvailability
 		};
-		console.log(mdata);
 		ws.send( JSON.stringify(mdata) );
 	});	
 }

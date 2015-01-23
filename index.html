@@ -32,6 +32,10 @@
 				evt.preventDefault();
 			});
 			
+			// Empty containers for timers
+			loginCheck = '';
+			registrationCheck = '';
+			
 			// - Login Username Check
 			$('#login_username').keypress(function(){
 				$('#nodeChat_loginForm button').prop('disabled',true);

@@ -40,6 +40,6 @@ exports.checkUsername = function(name){
 				status = 'true';
 			}
 		});
+		return status;
 	});
-	return status;
 }

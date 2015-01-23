@@ -114,7 +114,7 @@ function checkNameAvailability(type,name,ws){
 			nameAvailability = false;
 		}
 	}
-	console.log(mongo.checkUsername(name));
+	console.log('testing: ' + mongo.checkUsername(name));
 	if(mongo.checkUsername(name) == 'true'){
 		nameAvailability = false;
 	}

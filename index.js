@@ -107,6 +107,8 @@ wss.on("connection", function(ws){
 });
 
 function checkNameAvailability(type,name,ws){
+	// True if name is available
+	// False if name is in use
 	console.log('Check username availablilty: ' + name);
 	nameAvailability = true;
 	for(x in clients){

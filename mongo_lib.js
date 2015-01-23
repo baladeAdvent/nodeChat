@@ -24,20 +24,22 @@ exports.open = function(){
 
 exports.checkUsername = function(name){
 	console.log('Check Username:' + name);
+	status = 'true';
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(err) {
-			return 'false';
+			status = 'false';
 		}
 		
 		var collection = db.collection('users');
 		collection.findOne({'username':name},function(err,item){
 			if(item == null){
 				console.log(name + ': Not found in collection');
-				return 'false';
+				status = 'false';
 			}else{
 				console.log(name + ': Found in collection');
-				return 'true';
+				status = 'true';
 			}
 		});
 	});
+	return status;
 }

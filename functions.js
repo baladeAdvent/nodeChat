@@ -5,10 +5,12 @@
 		console.log('updateLoginButton: ' + nameStatus);
 		usernameAddon = $('#login_username').find('i');
 		loginButton = $('#nodeChat_loginForm').find('button');
-		if(nameStatus == 'true'){
+		if(nameStatus == true){
+			console.log('nameStatus ==  true(' + typeof nameStatus + ')');
 			// Set icon to ok, bind functions to register button
 			usernameAddon.attr('class','glyphicon glyphicon-ok');
 		}else{
+			console.log('nameStatus !=  true');
 			// Set icon to unavailable, clear functions from register button
 			usernameAddon.attr('class','glyphicon glyphicon-remove');
 		}

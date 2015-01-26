@@ -32,16 +32,16 @@ exports.registernewUser = function (doc,callback){
 	console.log('Mongo: Registering new user...');
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(err) {
-			callback(err,null,doc);
+			callback(err,null);
 		}
 		var collection = db.collection('users');
 		collection.findOne({ $or:[{'username':doc.username},{'email':doc.email}]},function(err,item){
 			if(item == null){
 				collection.insert(doc,{w:1},function(err,returned_doc){
-					callback(true,item,returned_doc);
+					callback(true,returned_doc);
 				});
 			}else{
-				callback(err,null,doc);
+				callback(err,null);
 			}
 		});
 	});

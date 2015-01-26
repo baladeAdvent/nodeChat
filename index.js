@@ -51,13 +51,21 @@ wss.on("connection", function(ws){
 		var data = JSON.parse(event.data);
 		switch(data['type']){
 			
+			//* Name Availability Checks *//
 			case 'USER_CHECK_LOGIN_AVAILABILITY':
 			case 'USER_CHECK_REGISTRATION_AVAILABILITY':
 				checkNameAvailability(data['type'],data['username'],ws);
 				break;
 
+			//* Registration Request Handling *//
 			case 'USER_REQUEST_REGISTRATION':
 				registerNewUser(data,ws);
+				break;
+			
+			//* Login Request Handling *//
+			case 'USER_REQUEST_LOGIN_ANONYMOUS':
+			case 'USER_REQUEST_LOGIN_VERIFY':
+				loginNewUser(data['type'],data,ws);
 				break;
 /*			
 			case 'USER_LOGIN':
@@ -109,6 +117,28 @@ wss.on("connection", function(ws){
 	});
 });
 
+//////////////////////////////////////////
+// Login functions
+//////////////////////////////////////////
+function loginNewUser(type,data,connection){
+	// If user supplied password verify login authenticity
+	if(type == 'USER_REQUEST_LOGIN_VERIFY'){
+		mongo.verifyUser(data.username,data.password,function(err,res){
+			console.log('Verify user results:' + res);
+		});
+		
+		// If credentials are good log user in
+		// If credential fail deny and notify
+	}else{ // If user logged in anonymously
+		// Check if username is in-use/registered
+			// If username is in-use/registered deny login attempt and notify
+			// If username is not log user in
+	}
+}
+
+
+//////////////////////////////////////////
+// Registration functions
 //////////////////////////////////////////
 function registerNewUser(data,connection){
 	newUser = {

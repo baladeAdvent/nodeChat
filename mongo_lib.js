@@ -28,6 +28,23 @@ exports.checkUsername = function(name,callback){
 	});
 }
 
+exports.verifyUser = function(name, pass, callback){
+	console.log('Mongo: Verifying user credentials');
+	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
+		if(err) {
+			callback(err,false);
+		}
+		var collection = db.collection('users');
+		collection.findOne({ $and:[{'username':name},{'password':pass}]},function(err,item){
+			if(item == null){
+				callback(err,false);
+			}else{
+				callback(err,true);
+			}
+		});
+	});
+}
+
 exports.registernewUser = function (doc,callback){
 	console.log('Mongo: Registering new user...');
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){

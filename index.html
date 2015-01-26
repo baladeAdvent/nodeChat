@@ -37,7 +37,7 @@
 			registrationCheck = '';
 			
 			// - Login Username Check
-			$('#login_username').keypress(function(){
+			$('#login_username').bind('keypress change',function(){
 				$('#nodeChat_loginForm button').prop('disabled',true);
 				clearTimeout(loginCheck);
 				if(trim($('#login_username').val()) != ''){
@@ -55,7 +55,7 @@
 			// - Login Username Check
 			
 			// - Registration Username Check
-			$('#register_username').change(function(){	
+			$('#register_username').bind('keypress change',function(){	
 				$('#register_username_addon').find('i').attr('class','glyphicon glyphicon-search');			
 				$('#nodeChat_registerForm button').prop('disabled',true);
 				clearTimeout(registrationCheck);
@@ -87,6 +87,12 @@
 			console.log('System Message: ' + edata.type);
 			switch(edata.type){
 			
+				// Login
+				case 'SYSTEM_CHECK_LOGIN_AVAILABILITY':
+					updateLoginButton(edata.available,ws);
+					break;
+				
+				// Registration
 				case 'SYSTEM_REGISTRATION_RESPONSE':
 					registrationResponse(edata.result,edata.username);
 					break;
@@ -119,14 +125,17 @@
 					<form action="" id="nodeChat_loginForm">
 						<div class="form-group">
 							<label for="login_username">Login</label>
-							<input id="login_username" name="loginUsername" class="form-control" length="16" placeholder="username" />
+							<div class="input-group">
+								<input id="login_username" name="loginUsername" class="form-control" length="16" placeholder="username" />
+								<span class="input-group-addon" id="login_username_addon"><i class="glyphicon glyphicon-search"></i></span>
+							</div>				
 						</div>
 						<div class="form-group">
 							<input id="login_password" name="loginPassword" placeholder="password" class="form-control"/>
 						</div>
 						<div class="row">
 							<div class="col-xs-12">
-								<button class="btn btn-primary btn-lg btn-block" disabled>Login</button>
+								<button class="btn btn-primary btn-lg btn-block">Login</button>
 							</div>
 						</div>
 						<div class="row">

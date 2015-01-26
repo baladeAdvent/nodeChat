@@ -152,7 +152,7 @@ function checkNameAvailability(type,name,connection){
 			nameAvailability = 'false';
 		}
 		
-		typeMessage = type.replace('/USER/','SYSTEM');
+		typeMessage = (type).replace('USER','SYSTEM');
 		
 		mdata = {
 			'time': (new Date()).getTime(),

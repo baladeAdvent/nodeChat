@@ -135,6 +135,7 @@
 				logProperties(list[x]);
 				des.append( $('<li style="color:rgb(' + user['color'] + ');">').html(user['name']) );
 			}
+
 	}
 	//////////////////////////////
 	function trim(str){
@@ -151,9 +152,6 @@
 		return status;
 	}
 	//////////////////////////////
-	function log(msg){
-		console.log(msg);
-	}
 
 	function logProperties(obj){
 		for(x in obj){

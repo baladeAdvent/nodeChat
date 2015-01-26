@@ -24,7 +24,7 @@
 
 		$(document).ready(function(){
 			//disable login/register buttons
-			$('#nodeChat_loginForm button, #nodeChat_registerForm button').prop('disabled',true);
+			$('#nodeChat_registerForm button').prop('disabled',true);
 			
 			// Login button
 			$('#nodeChat_loginForm').submit(function(evt){
@@ -37,7 +37,7 @@
 			
 			// - Login Username Check
 			$('#login_username').bind('keypress change',function(){
-				$('#nodeChat_loginForm button').prop('disabled',true);
+				//$('#nodeChat_loginForm button').prop('disabled',true);
 				clearTimeout(loginCheck);
 				if(trim($('#login_username').val()) != ''){
 					loginCheck = setTimeout(function(){

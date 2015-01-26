@@ -70,6 +70,10 @@
 					},1000);
 				}
 			});
+			//Set search icon when starting new availability check
+			$('#register_username').keypress(function(){
+				$('#register_username_addon').find('i').attr('class','glyphicon glyphicon-search');
+			});
 			// - Registration Username Check
 		});
 
@@ -83,7 +87,12 @@
 		ws.onmessage = function(event){		
 			edata = JSON.parse(event.data);
 			switch(edata.type){
-				case 'USER_CHECK_REGISTRATION_AVAILABILITY':
+			
+				case 'SYSTEM_REGISTRATION_RESPONSE':
+					registrationResponse(edata.result,edata.username);
+					break;
+					
+				case 'SYSTEM_CHECK_REGISTRATION_AVAILABILITY':
 					updateRegistrationButton(edata.available,ws);
 					break;
 			}

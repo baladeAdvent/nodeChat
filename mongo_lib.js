@@ -6,22 +6,6 @@ var MONGO_USER = 'nodechatsystem';
 var MONGO_PASS = 'nodechat123456nodechat';
 var MONGO_DB = 'nodechattest';
 
-exports.open = function(){
-	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
-		if(!err) {
-			console.log("Connected to MongoDB");
-		}else{
-			console.log("Unable to connect to MongoDB");
-		}
-		
-		var collection = db.collection('users');
-		collection.findOne({'username':'admin'},function(err,item){
-		console.log(item);
-		});
-		
-	});
-}
-
 exports.checkUsername = function(name,callback){
 	console.log('Check Username:' + name);
 	status = 'default';
@@ -48,16 +32,16 @@ exports.registernewUser = function (doc,callback){
 	console.log('Mongo: Registering new user...');
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(err) {
-			callback(err,doc);
+			callback(err,null);
 		}
 		var collection = db.collection('users');
-		collection.findOne({'username':doc.username},function(err,item){
+		collection.findOne({ $or:[{'username':doc.username},{'email':doc.email}]},function(err,item){
 			if(item == null){
 				collection.insert(doc,{w:1},function(err,returned_doc){
-					callback(true,returned_doc)
+					callback(true,returned_doc);
 				});
 			}else{
-				callback(err,returned_doc);
+				callback(err,null);
 			}
 		});
 	});

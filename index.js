@@ -118,7 +118,24 @@ function registerNewUser(data,connection){
 		'email': data.email
 	};
 	mongo.registernewUser(newUser,function(err,res){
-		console.log(res);
+		console.log('mongo.registernewUser returned: ' + res);
+		if(res != null){
+				var obj = {
+					time: (new Date()).getTime(),
+					type:'SYSTEM_REGISTRATION_RESPONSE',
+					result: 'success',
+					username: res.username
+				};
+		}else{
+				var obj = {
+					time: (new Date()).getTime(),
+					type:'SYSTEM_REGISTRATION_RESPONSE',
+					result: 'failed',
+					username: res.username,
+					error: err
+				};
+		}
+		connection.send(JSON.stringify(obj));
 	});
 }
 function checkNameAvailability(type,name,connection){
@@ -136,7 +153,7 @@ function checkNameAvailability(type,name,connection){
 		}
 		mdata = {
 			'time': (new Date()).getTime(),
-			'type': type,
+			'type': type.replace(/USER/g,'SYSTEM')
 			'available': nameAvailability
 		};
 		connection.send( JSON.stringify(mdata) );

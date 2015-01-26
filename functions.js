@@ -1,3 +1,23 @@
+///////////////////////////////////////////////////////////////////
+// Login functions
+///////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////
+// Registration functions
+///////////////////////////////////////////////////////////////////
+//////////////////////////////
+function registrationResponse(result,username){
+	registrationForm = $('#nodeChat_registerForm');
+	registerButton = registrationForm.find('button');
+	message = $('<div></div>');
+	
+	if(result == 'success'){
+		message.attr('class','alert alert-success').html('Success! The following username  has been registered and is available for your use! : ' + username);
+	}else{
+		message.attr('class','alert alert-danger').html('An error has occured while trying to register this username! Please try a different username or use a different email account. : ' + username);
+	}
+	$('#registrationResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+}
 //////////////////////////////
 function updateRegistrationButton(nameStatus,connection){
 	usernameAddon = $('#register_username_addon').find('i');
@@ -36,9 +56,15 @@ function validateRegistration(connection){
 			'password': trim($('#register_password').val()),
 			'email': trim($('#register_email').val())
 		};
+		// Note: Disable Registration Form at this point, wait for response from server
+		$('#nodeChat_registerForm button').prop('disabled',true);
 		connection.send(JSON.stringify(obj));
 	}
 }
+
+///////////////////////////////////////////////////////////////////
+// Chat functions
+///////////////////////////////////////////////////////////////////
 //////////////////////////////
 function appendToChat(str,scrollStatus){
 	var message = $('<li class="message">').html(str).hide();

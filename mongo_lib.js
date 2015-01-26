@@ -46,15 +46,19 @@ exports.checkUsername = function(name,callback){
 
 exports.registernewUser = function (doc,callback){
 	console.log('Mongo: Registering new user...');
-	status = 'false';
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(err) {
-			status = 'false';
-		}
-
-		db.collection('users').insert(doc,{w:1},function(err,doc){
 			callback(err,doc);
+		}
+		var collection = db.collection('users');
+		collection.findOne({'username':doc.username},function(err,item){
+			if(item == null){
+				collection.insert(doc,{w:1},function(err,returned_doc){
+					callback(true,returned_doc)
+				});
+			}else{
+				callback(err,returned_doc);
+			}
 		});
-		
 	});
 }

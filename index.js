@@ -117,7 +117,6 @@ function registerNewUser(data,connection){
 		'password': data.password,
 		'email': data.email
 	};
-	
 	mongo.registernewUser(newUser,function(err,res){
 		console.log(res);
 	});

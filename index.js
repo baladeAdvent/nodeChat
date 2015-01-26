@@ -151,9 +151,12 @@ function checkNameAvailability(type,name,connection){
 		if(ret == 'true'){
 			nameAvailability = false;
 		}
+		
+		typeMessage = type.replace('/USER/g','SYSTEM');
+		
 		mdata = {
 			'time': (new Date()).getTime(),
-			'type': type.replace(/USER/g,'SYSTEM')
+			'type': typeMessage,
 			'available': nameAvailability
 		};
 		connection.send( JSON.stringify(mdata) );

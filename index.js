@@ -57,7 +57,7 @@ wss.on("connection", function(ws){
 				break;
 
 			case 'USER_REQUEST_REGISTRATION':
-				registerNewUser(data);
+				registerNewUser(data,ws);
 				break;
 /*			
 			case 'USER_LOGIN':

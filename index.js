@@ -141,15 +141,15 @@ function registerNewUser(data,connection){
 function checkNameAvailability(type,name,connection){
 	// True if name is available
 	// False if name is in use
-	nameAvailability = true;
+	nameAvailability = 'true';
 	for(x in clients){
 		if(clients[x]['username'] == name){
-			nameAvailability = false;
+			nameAvailability = 'false';
 		}
 	}
 	mongo.checkUsername(name,function(ret){
 		if(ret == 'true'){
-			nameAvailability = false;
+			nameAvailability = 'false';
 		}
 		
 		typeMessage = type.replace('/USER/g','SYSTEM');

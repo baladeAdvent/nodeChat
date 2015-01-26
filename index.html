@@ -55,7 +55,8 @@
 			// - Login Username Check
 			
 			// - Registration Username Check
-			$('#register_username').change(function(){				
+			$('#register_username').change(function(){	
+				$('#register_username_addon').find('i').attr('class','glyphicon glyphicon-search');			
 				$('#nodeChat_registerForm button').prop('disabled',true);
 				clearTimeout(registrationCheck);
 				if(trim($('#register_username').val()) != ''){
@@ -70,10 +71,7 @@
 					},1000);
 				}
 			});
-			//Set search icon when starting new availability check
-			$('#register_username').keypress(function(){
-				$('#register_username_addon').find('i').attr('class','glyphicon glyphicon-search');
-			});
+
 			// - Registration Username Check
 		});
 

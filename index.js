@@ -117,21 +117,21 @@ function registerNewUser(data,connection){
 		'password': data.password,
 		'email': data.email
 	};
-	mongo.registernewUser(newUser,function(err,res){
+	mongo.registernewUser(newUser,function(err,res,doc){
 		console.log('mongo.registernewUser returned: ' + res);
 		if(res != null){
 				var obj = {
 					time: (new Date()).getTime(),
 					type:'SYSTEM_REGISTRATION_RESPONSE',
 					result: 'success',
-					username: res.username
+					username: doc.username
 				};
 		}else{
 				var obj = {
 					time: (new Date()).getTime(),
 					type:'SYSTEM_REGISTRATION_RESPONSE',
 					result: 'failed',
-					username: res.username,
+					username: doc.username,
 					error: err
 				};
 		}

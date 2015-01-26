@@ -15,7 +15,7 @@ function registrationResponse(result,username){
 		message.attr('class','alert alert-success').html('Success! The following username  has been registered and is available for your use! : ' + username);
 	}else{
 		message.attr('class','alert alert-danger').html('An error has occured while trying to register this username! Please try a different username or use a different email account. : ' + username);
-		registrationButton.prop('disabled',false);
+		registerButton.prop('disabled',false);
 	}
 	$('#registrationResponse').append( message ).hide().animate({height:'show'},500).delay(7000).animate({height:'hide'},500);
 }

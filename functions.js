@@ -135,7 +135,6 @@
 				logProperties(list[x]);
 				des.append( $('<li style="color:rgb(' + user['color'] + ');">').html(user['name']) );
 			}
-
 	}
 	//////////////////////////////
 	function trim(str){

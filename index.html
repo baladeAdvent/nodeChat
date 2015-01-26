@@ -86,6 +86,7 @@
 		// WS Response handling //
 		ws.onmessage = function(event){		
 			edata = JSON.parse(event.data);
+			console.log('System Message: ' + edata.type);
 			switch(edata.type){
 			
 				case 'SYSTEM_REGISTRATION_RESPONSE':

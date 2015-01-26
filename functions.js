@@ -22,7 +22,8 @@ function registrationResponse(result,username){
 function updateRegistrationButton(nameStatus,connection){
 	usernameAddon = $('#register_username_addon').find('i');
 	registerButton = $('#nodeChat_registerForm').find('button');
-	if(nameStatus == true){
+	console.log('updateRegistrationButton: ' + nameStatus);
+	if(nameStatus == 'true'){
 		// Set icon to ok, bind functions to register button
 		usernameAddon.attr('class','glyphicon glyphicon-ok');
 		registerButton.prop('disabled',false);

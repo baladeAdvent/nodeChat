@@ -2,6 +2,7 @@
 // Login functions
 ///////////////////////////////////////////////////////////////////
 	function updateLoginButton(nameStatus,connection){
+		console.log('updateLoginButton: ' + nameStatus);
 		usernameAddon = $('#login_username').find('i');
 		loginButton = $('#nodeChat_loginForm').find('button');
 		if(nameStatus == 'true'){

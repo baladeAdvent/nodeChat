@@ -135,6 +135,7 @@
 				logProperties(list[x]);
 				des.append( $('<li style="color:rgb(' + user['color'] + ');">').html(user['name']) );
 			}
+<<<<<<< HEAD
 	}
 	//////////////////////////////
 	function trim(str){
@@ -151,6 +152,24 @@
 		return status;
 	}
 	//////////////////////////////
+=======
+	}
+	//////////////////////////////
+	function trim(str){
+		var pattern = /^( ){1,}|( ){1,}$/;
+		return str.replace(pattern,'');
+	}
+	//////////////////////////////
+	function validateMessage(str){
+		var pattern = /^( ){1,}$|^()$/;
+		var status = true;
+		if(pattern.test(str) === true){
+			status = false;
+		}
+		return status;
+	}
+	//////////////////////////////
+>>>>>>> 26e097793f08f001fef702beb3dec522cb5e0551
 	function log(msg){
 		console.log(msg);
 	}

@@ -92,7 +92,7 @@
 					
 				case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 				case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
-					logProperties(edata);
+					startNodeChat(edata.result,edata.username);
 					break;
 				
 				// Registration
@@ -186,40 +186,45 @@
 		<!-- Node Chat application section -->
 		<!-- Node Chat application section -->
 		<!-- Node Chat application section -->
-		<div class="row" id="nodeChat_username">
-			<div class="col-xs-12"><p class="bg-success" style="padding:2px;">Logged in as...<span></span></p></div>
-		</div>
-		<div class="row" id="nodeChat_chatbox">
-			<div class="col-xs-9">
-				<ul id="nodeChat_messages">
-				</ul>
-			</div>
-			<div class="col-xs-3">
-				<ul id="nodeChat_users">
-				</ul>
-			</div>
-		</div>
-		<div class="row" id="nodeChat_input">
-				<div class="col-xs-1">
-					<div class="dropdown">
-						<button class="btn btn-default dropdown-toggle" type="button" id="userSettings" data-toggle="dropdown" aria-expanded="true"><i class="glyphicon glyphicon-cog"></i></button>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="userSettings" id="userOptions">
-							<li role="presentation">
-								<img src='images/select2.png' id="textColor" />
-								<div id="colorpickerSwatch">&nbsp;</div>
-							</li>
-							<li role="presentation">Additional Options</li>
-							<li role="presentation">Additional Options</li>
-							<li role="presentation">Additional Options</li>
-							<li role="presentation">Additional Options</li>
-						</ul>
-					</div>
+		
+		<div id="nodeChat_chatClient">
+			<div class="row" id="nodeChat_username">
+				<div class="col-xs-12"><p class="bg-success" style="padding:2px;">Logged in as...<span></span></p></div>
+			</div>	
+			<div class="row" id="nodeChat_chatbox">
+				<div class="col-xs-9">
+					<ul id="nodeChat_messages">
+					</ul>
 				</div>
-			<form action="">
-				<div class="col-xs-8"><input id="m" autocomplete="off" class="form-control" /></div>
-				<div class="col-xs-3"><button class="btn btn-primary btn-md btn-block">Send</button></div>
-			</form>
+				<div class="col-xs-3">
+					<ul id="nodeChat_users">
+					</ul>
+				</div>
+			</div>
+			<div class="row" id="nodeChat_input">
+					<div class="col-xs-1">
+						<div class="dropdown">
+							<button class="btn btn-default dropdown-toggle" type="button" id="userSettings" data-toggle="dropdown" aria-expanded="true"><i class="glyphicon glyphicon-cog"></i></button>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="userSettings" id="userOptions">
+								<li role="presentation">
+									<img src='images/select2.png' id="textColor" />
+									<div id="colorpickerSwatch">&nbsp;</div>
+								</li>
+								<li role="presentation">Additional Options</li>
+								<li role="presentation">Additional Options</li>
+								<li role="presentation">Additional Options</li>
+								<li role="presentation">Additional Options</li>
+							</ul>
+						</div>
+					</div>
+				<form action="">
+					<div class="col-xs-8"><input id="m" autocomplete="off" class="form-control" /></div>
+					<div class="col-xs-3"><button class="btn btn-primary btn-md btn-block">Send</button></div>
+				</form>
+			</div>			
 		</div>
+
+		
 		<!-- Node Chat application section -->
 		<!-- Node Chat application section -->
 		<!-- Node Chat application section -->

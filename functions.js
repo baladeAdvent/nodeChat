@@ -13,10 +13,6 @@
 			// Set icon to unavailable, clear functions from register button
 			usernameAddon.attr('class','glyphicon glyphicon-remove');
 		}
-		//$('nodeChat_loginForm button').click(function(evt){
-		//	evt.preventDefault();
-		//	validateLogin(connection);
-		//});
 	}
 	
 	function validateLogin(connection){
@@ -41,7 +37,6 @@
 				'password': trim($('#login_password').val()),
 			};
 			// Note: Disable Login Form at this point, wait for response from server
-			//$('nodeChat_loginForm button').prop('disabled',true);
 			connection.send(JSON.stringify(obj));
 		}
 	}
@@ -110,6 +105,29 @@
 ///////////////////////////////////////////////////////////////////
 // Chat functions
 ///////////////////////////////////////////////////////////////////
+	function startNodeChat(result,username){
+		loginContainer = $('#nodeChat_login').hide();
+		chatContainer = $('#nodeChat_chatClient').show();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	function appendToChat(str,scrollStatus){
 		var message = $('<li class="message">').html(str).hide();
@@ -117,7 +135,6 @@
 	}
 	//////////////////////////////
 	function scrollChat(scrollStatus){
-		//console.log('Scroll Chat...' + scrollStatus);
 		if(scrollStatus === true){
 			el = $('#nodeChat_messages');
 			height = el.prop('scrollHeight');

@@ -247,6 +247,7 @@ function checkNameAvailability(type,name,connection){
 }
 //////////////////////////////////////////
 function setUserName(index,userName){
+	console.log('setUsername()');
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['username'] = userName;
@@ -254,6 +255,7 @@ function setUserName(index,userName){
 	}
 }
 function setActive(index){
+	console.log('setActive()');
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['active'] = true;

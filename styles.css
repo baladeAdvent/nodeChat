@@ -59,7 +59,7 @@ body { font: 13px Helvetica, Arial; }
 #nodeChat_login {
 	display:block;
 }
-#nodeChat_chatbox, #nodeChat_input, #nodeChat_username{
+#nodeChat_chatClient{
 	display:none;
 }
 

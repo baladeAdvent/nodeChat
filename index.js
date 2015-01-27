@@ -66,7 +66,7 @@ wss.on("connection", function(ws){
 			case 'USER_REQUEST_LOGIN_ANONYMOUS':
 			case 'USER_REQUEST_LOGIN_VERIFY':
 				console.log(data);
-				loginNewUser(data['type'],data,ws);
+				loginNewUser(data['type'],data,ws,index);
 				break;
 /*			
 			case 'USER_LOGIN':
@@ -121,7 +121,7 @@ wss.on("connection", function(ws){
 //////////////////////////////////////////
 // Login functions
 //////////////////////////////////////////
-function loginNewUser(type,data,connection){
+function loginNewUser(type,data,connection,index){
 	obj = {
 		type: type.replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
 		time: (new Date()).getTime(),
@@ -132,9 +132,8 @@ function loginNewUser(type,data,connection){
 	// If user supplied password verify login authenticity
 	if(type == 'USER_REQUEST_LOGIN_VERIFY'){
 		mongo.verifyUser(data.name,data.password,function(err,res){
-			console.log('Verify user results:' + err + ':' + res);
-
 			if(res == true){ // If credentials are good log user in
+				processLogin(type,name,index);
 				obj.result = 'success';
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
@@ -159,6 +158,7 @@ function loginNewUser(type,data,connection){
 				obj.result = 'failed';
 			}else{	// If username is not log user in
 				obj.result = 'success';
+				processLogin(type,name,index);
 			}
 			connection.send(JSON.stringify(obj));			
 		});
@@ -167,6 +167,25 @@ function loginNewUser(type,data,connection){
 	}
 }
 
+function processLogin(type,name,index){
+	// Disconnect any other user using this userName
+	for(x in clients){
+		if(clients[x]['username'] == name){\			
+			obj = {
+				'time': (new Date()).getTime(),
+				'type': 'SYSTEM_MESSAGE',
+				'username': 'System',
+				'message': 'Another user has logged in using this login',
+				'color': __SYSTEM_COLOR	
+			};
+			connection.send(JSON.stringify(obj));
+			connection.close();
+		}
+	}
+	
+	//Update username
+	setUserName(index,name);
+}
 
 //////////////////////////////////////////
 // Registration functions

@@ -37,9 +37,8 @@
 		
 			var obj = {
 				'type': type,
-				'name':	trim($('#register_username').val()),
-				'password': trim($('#register_password').val()),
-				'email': trim($('#register_email').val())
+				'name':	trim($('#login_username').val()),
+				'password': trim($('#login_password').val()),
 			};
 			// Note: Disable Login Form at this point, wait for response from server
 			//$('nodeChat_loginForm button').prop('disabled',true);

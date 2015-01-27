@@ -170,7 +170,7 @@ function loginNewUser(type,data,connection,index){
 function processLogin(type,name,index){
 	// Disconnect any other user using this userName
 	for(x in clients){
-		if(clients[x]['username'] == name){\			
+		if(clients[x]['username'] == name){			
 			obj = {
 				'time': (new Date()).getTime(),
 				'type': 'SYSTEM_MESSAGE',
@@ -183,8 +183,11 @@ function processLogin(type,name,index){
 		}
 	}
 	
-	//Update username
+	// Update username
 	setUserName(index,name);
+
+	// set Client to active
+	setActive(index);
 }
 
 //////////////////////////////////////////
@@ -247,18 +250,18 @@ function setUserName(index,userName){
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['username'] = userName;
-			clients[x]['active'] = true;
-			
-			mdata = {
-				'time': (new Date()).getTime(),
-				'type': 'SYSTEM_LOGIN_UPDATE_USERNAME',
-				'username': userName,
-				'color': getUserColor(index)
-			};
-			clients[x]['ws'].send( JSON.stringify(mdata) );
 		}
 	}
 }
+function setActive(index){
+	for(x in clients){
+		if(clients[x]['id'] == index){
+			clients[x]['active'] = true;
+		}
+	}
+}
+
+
 //////////////////////////////////////////
 function setUserTextColor(name,color){
 	for(x in clients){

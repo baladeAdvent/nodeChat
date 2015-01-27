@@ -133,7 +133,7 @@ function loginNewUser(type,data,connection,index){
 	if(type == 'USER_REQUEST_LOGIN_VERIFY'){
 		mongo.verifyUser(data.name,data.password,function(err,res){
 			if(res == true){ // If credentials are good log user in
-				processLogin(type,name,index);
+				processLogin(type,data.name,index);
 				obj.result = 'success';
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';

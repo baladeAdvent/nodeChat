@@ -88,7 +88,7 @@
 
 		if(validationStatus == false){
 			message = $('<div><div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
-			 $('#registrationResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+			 $('#registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 		}else{
 			var obj = {
 				'type': 'USER_REQUEST_REGISTRATION',
@@ -111,7 +111,7 @@
 			chatContainer = $('#nodeChat_chatClient').show();
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
-			$('#loginResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+			$('#loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 		}
 		
 	}

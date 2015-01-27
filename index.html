@@ -23,13 +23,11 @@
 		
 
 		$(document).ready(function(){
-			//disable login/register buttons
-			//$('#nodeChat_registerForm button').prop('disabled',true);
 
 			// Login button
 			$('#nodeChat_loginForm button').click(function(evt){
 				evt.preventDefault();
-				validateLogin(connection);
+				validateLogin(ws);
 			});
 			
 			// Empty containers for timers

@@ -21,7 +21,7 @@ exports.checkUsername = function(name,callback){
 				status = 'false';
 			}else{
 				console.log(name + ': Found in collection');
-				status = 'true';
+				status = 'true';	
 			}
 			callback(status);
 		});
@@ -29,7 +29,7 @@ exports.checkUsername = function(name,callback){
 }
 
 exports.verifyUser = function(name, pass, callback){
-	console.log('Mongo: Verifying user credentials');
+	console.log('Mongo: Verifying user credentials: ' + name + '/' + pass);
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
 		if(err) {
 			callback(err,false);

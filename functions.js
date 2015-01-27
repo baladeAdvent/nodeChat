@@ -30,7 +30,6 @@
 			}else{
 				type = 'USER_REQUEST_LOGIN_VERIFY';
 			}
-		
 			var obj = {
 				'type': type,
 				'name':	trim($('#login_username').val()),
@@ -48,7 +47,6 @@
 		registrationForm = $('#nodeChat_registerForm');
 		registerButton = registrationForm.find('button');
 		message = $('<div></div>');
-		
 		if(result == 'success'){
 			message.attr('class','alert alert-success').html('Success! The following username  has been registered and is available for your use! : ' + username);
 		}else{
@@ -113,7 +111,6 @@
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
 			$('#loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 		}
-		
 	}
 
 

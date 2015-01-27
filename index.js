@@ -142,12 +142,28 @@ function loginNewUser(type,data,connection){
 			connection.send(JSON.stringify(obj));
 		});
 		
-		
-		
 	}else{ // If user logged in anonymously
-		// Check if username is in-use/registered
-			// If username is in-use/registered deny login attempt and notify
-			// If username is not log user in
+		nameAvailable = true;
+		
+		mongo.isNameReserved(data.name,function(res){			
+			if(res == true){
+				nameAvailable = false;
+			}
+			for(x in clients){// Check if username is in-use/registered
+				if(clients[x]['username'] == data.name){
+					nameAvailable = false;
+				}
+			}
+			
+			if(nameAvailable == false){ // If username is in-use/registered deny login attempt and notify
+				obj.result = 'failed';
+			}else{	// If username is not log user in
+				obj.result = 'success';
+			}
+			connection.send(JSON.stringify(obj));			
+		});
+			
+			
 	}
 }
 

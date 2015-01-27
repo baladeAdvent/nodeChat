@@ -28,6 +28,25 @@ exports.checkUsername = function(name,callback){
 	});
 }
 
+exports.isNameReserved = function(name,callback){
+	console.log('Mongo: Check if username is available');
+	status = true;
+	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
+		
+		var collection = db.collection('users');
+		collection.findOne({'username':name},function(err,item){
+			if(item == null){
+				console.log(name + ': Not found in collection');
+				status = false;
+			}else{
+				console.log(name + ': Found in collection');
+				status = true;	
+			}
+			callback(status);
+		});
+	});
+}
+
 exports.verifyUser = function(name, pass, callback){
 	console.log('Mongo: Verifying user credentials: ' + name + '/' + pass);
 	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){

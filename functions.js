@@ -13,7 +13,7 @@
 			// Set icon to unavailable, clear functions from register button
 			usernameAddon.attr('class','glyphicon glyphicon-remove');
 		}
-		$('#nodeChat_loginForm').click(function(evt){
+		$('#nodeChat_loginForm button').click(function(evt){
 			evt.preventDefault();
 			validateLogin(connection);
 		});

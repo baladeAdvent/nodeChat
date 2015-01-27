@@ -158,7 +158,7 @@ function loginNewUser(type,data,connection,index){
 				obj.result = 'failed';
 			}else{	// If username is not log user in
 				obj.result = 'success';
-				processLogin(type,name,index);
+				processLogin(type,data.name,index);
 			}
 			connection.send(JSON.stringify(obj));			
 		});

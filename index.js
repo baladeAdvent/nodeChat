@@ -139,7 +139,7 @@ function loginNewUser(type,data,connection){
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
 			}
-			
+			connection.send(JSON.stringify(obj));
 		});
 		
 		

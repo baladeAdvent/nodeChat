@@ -13,7 +13,7 @@
 			// Set icon to unavailable, clear functions from register button
 			usernameAddon.attr('class','glyphicon glyphicon-remove');
 		}
-		//$('#//console.log button').click(function(evt){
+		//$('nodeChat_loginForm button').click(function(evt){
 		//	evt.preventDefault();
 		//	validateLogin(connection);
 		//});
@@ -21,7 +21,7 @@
 	
 	function validateLogin(connection){
 		validationStatus = true;
-		$('#//console.log input').each(function(index){
+		$('nodeChat_loginForm input').each(function(index){
 			if($(this).val() == '') validationStatus = false;
 		});
 
@@ -42,7 +42,7 @@
 				'email': trim($('#register_email').val())
 			};
 			// Note: Disable Login Form at this point, wait for response from server
-			//$('#//console.log button').prop('disabled',true);
+			//$('nodeChat_loginForm button').prop('disabled',true);
 			connection.send(JSON.stringify(obj));
 		}
 	}

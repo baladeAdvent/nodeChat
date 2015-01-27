@@ -29,6 +29,7 @@
 			// Login button
 			$('#nodeChat_loginForm').submit(function(evt){
 				evt.preventDefault();
+				validateLogin(connection);
 			});
 			
 			// Empty containers for timers

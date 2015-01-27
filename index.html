@@ -89,6 +89,10 @@
 				case 'SYSTEM_CHECK_LOGIN_AVAILABILITY':
 					updateLoginButton(edata.available,ws);
 					break;
+					
+				case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
+					console.log(edata);
+					break;
 				
 				// Registration
 				case 'SYSTEM_REGISTRATION_RESPONSE':

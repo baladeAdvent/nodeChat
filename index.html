@@ -82,7 +82,7 @@
 		// WS Response handling //
 		ws.onmessage = function(event){		
 			edata = JSON.parse(event.data);
-			console.log('System Message: ' + edata.type);
+			logProperties(edata);
 			switch(edata.type){
 			
 				// Login
@@ -93,6 +93,7 @@
 				case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 				case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
 					startNodeChat(edata.result,edata.username);
+					
 					break;
 				
 				// Registration

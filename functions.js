@@ -106,8 +106,14 @@
 // Chat functions
 ///////////////////////////////////////////////////////////////////
 	function startNodeChat(result,username){
-		loginContainer = $('#nodeChat_login').hide();
-		chatContainer = $('#nodeChat_chatClient').show();
+		if(result == 'success'){
+			loginContainer = $('#nodeChat_login').hide();
+			chatContainer = $('#nodeChat_chatClient').show();
+		}else{
+			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
+			$('#loginResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+		}
+		
 	}
 
 

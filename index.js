@@ -122,14 +122,26 @@ wss.on("connection", function(ws){
 // Login functions
 //////////////////////////////////////////
 function loginNewUser(type,data,connection){
+	obj = {
+		type:'SYSTEM_REGISTRATION_RESPONSE',
+		time: (new Date()).getTime(),
+		result: '',
+		username: data.name
+	};
+
 	// If user supplied password verify login authenticity
 	if(type == 'USER_REQUEST_LOGIN_VERIFY'){
 		mongo.verifyUser(data.name,data.password,function(err,res){
-			console.log('Verify user results:' + res);
+			console.log('Verify user results:' + err);
+			if(res == true){ // If credentials are good log user in
+				obj.result = 'success';
+			}else{	// If credential fail deny and notify
+				obj.result = 'failed';
+			}
 		});
 		
-		// If credentials are good log user in
-		// If credential fail deny and notify
+		
+		
 	}else{ // If user logged in anonymously
 		// Check if username is in-use/registered
 			// If username is in-use/registered deny login attempt and notify

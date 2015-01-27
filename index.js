@@ -123,7 +123,7 @@ wss.on("connection", function(ws){
 //////////////////////////////////////////
 function loginNewUser(type,data,connection){
 	obj = {
-		type:'SYSTEM_REGISTRATION_RESPONSE',
+		type: type.replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
 		time: (new Date()).getTime(),
 		result: '',
 		username: data.name
@@ -132,12 +132,14 @@ function loginNewUser(type,data,connection){
 	// If user supplied password verify login authenticity
 	if(type == 'USER_REQUEST_LOGIN_VERIFY'){
 		mongo.verifyUser(data.name,data.password,function(err,res){
-			console.log('Verify user results:' + err);
+			console.log('Verify user results:' + err + ':' + res);
+
 			if(res == true){ // If credentials are good log user in
 				obj.result = 'success';
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
 			}
+			
 		});
 		
 		

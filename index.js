@@ -65,6 +65,7 @@ wss.on("connection", function(ws){
 			//* Login Request Handling *//
 			case 'USER_REQUEST_LOGIN_ANONYMOUS':
 			case 'USER_REQUEST_LOGIN_VERIFY':
+				console.log(data);
 				loginNewUser(data['type'],data,ws);
 				break;
 /*			
@@ -123,7 +124,7 @@ wss.on("connection", function(ws){
 function loginNewUser(type,data,connection){
 	// If user supplied password verify login authenticity
 	if(type == 'USER_REQUEST_LOGIN_VERIFY'){
-		mongo.verifyUser(data.username,data.password,function(err,res){
+		mongo.verifyUser(data.name,data.password,function(err,res){
 			console.log('Verify user results:' + res);
 		});
 		

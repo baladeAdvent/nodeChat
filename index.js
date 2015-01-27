@@ -235,19 +235,18 @@ function checkNameAvailability(type,name,connection){
 			nameAvailability = 'false';
 		}
 		
-		typeMessage = (type).replace('USER','SYSTEM');
-		
 		mdata = {
 			'time': (new Date()).getTime(),
-			'type': typeMessage,
+			'type': type.replace('USER','SYSTEM'),
 			'available': nameAvailability
 		};
 		connection.send( JSON.stringify(mdata) );
 	});	
 }
+
 //////////////////////////////////////////
 function setUserName(index,userName){
-	console.log('setUsername()');
+	console.log('setUsername(' + index + ')');
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['username'] = userName;
@@ -255,7 +254,7 @@ function setUserName(index,userName){
 	}
 }
 function setActive(index){
-	console.log('setActive()');
+	console.log('setActive(' + index + ')');
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['active'] = true;

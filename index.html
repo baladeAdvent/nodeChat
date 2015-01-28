@@ -91,7 +91,7 @@
 				case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 				case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
 					console.log('login verification recieved');
-					startNodeChat(edata.result,edata.username);
+					startNodeChat(edata.result,edata.username,ws);
 					break;
 				
 				// Registration
@@ -103,7 +103,7 @@
 					updateRegistrationButton(edata.available,ws);
 					break;
 					
-				// System Notice
+				// Chat
 				case 'SYSTEM_MESSAGE':
 					appendSystemToChat(edata.message,edata.color);
 					break;

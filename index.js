@@ -11,15 +11,6 @@ var port = (process.env.PORT || 5000);
 
 var mongo = require('./mongo_lib.js');
 
-//var MongoClient = require('mongodb').MongoClient;
-//	MongoClient.connect("mongodb://nodechatsystem:nodechat123456nodechat@ds031661.mongolab.com:31661/nodechattest",function(err, db){
-//		if(!err) {
-//			console.log("Connected to MongoDB");
-//		}else{
-//			console.log("Unable to connect to MongoDB");
-//		}
-//	});
-
 var chatLog = new Array();
 var clients = new Array();
 var channels = new Array();
@@ -28,7 +19,7 @@ app.use(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
-},500);
+},1000);
 
 var server = http.createServer(app);
 server.listen(port,function(){});
@@ -67,6 +58,11 @@ wss.on("connection", function(ws){
 			case 'USER_REQUEST_LOGIN_ANONYMOUS':
 			case 'USER_REQUEST_LOGIN_VERIFY':
 				loginNewUser(data['type'],data,ws,index);
+				break;
+				
+			//* CHAT Request Handling *//
+			case 'USER_REQUEST_CHAT_LOG':
+				console.log('Chat Log Request'+index);
 				break;
 /*			
 			case 'USER_LOGIN':

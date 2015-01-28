@@ -101,20 +101,35 @@
 ///////////////////////////////////////////////////////////////////
 // Chat functions
 ///////////////////////////////////////////////////////////////////
-	function startNodeChat(result,username){
+	function startNodeChat(result,username,connection){
 		if(result == 'success'){
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
 			
 			$('#nodeChat_header').find('span').html(username);
+			requestChatLog(connection);
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
 			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}
 	}
+	
+	function requestChatLog(connection){
+		var obj = {
+			'type': 'USER_REQUEST_CHAT_LOG'
+		};
+		connection.send(JSON.stringify(obj));
+		
+	}
 
 	function appendSystemToChat(message,color){
-		var label = $('<span></span>').css('color','rgb('+color+')').css('weight',800).text('SYSTEM >> ');
+		var label = $('<span></span>').css('color','rgb('+color+')').css('font-weight',800).text('SYSTEM: ');
+		var message = $('<li></li>').attr('class','').html(message).prepend(label);
+		$('#nodeChat_messages').append( message );
+	}
+	
+	function appendToChat(username,message,color){
+		var label = $('<span></span>').css('color','rgb('+color+')').css('font-weight',800).text(username + ': ');
 		var message = $('<li></li>').attr('class','').html(message).prepend(label);
 		$('#nodeChat_messages').append( message );
 	}
@@ -135,11 +150,12 @@
 
 
 
-
+/*
 	function appendToChat(str,scrollStatus){
 		var message = $('<li class="message">').html(str).hide();
 			message.appendTo('#nodeChat_messages').slideDown(300, function(){ scrollChat(scrollStatus) });
 	}
+*/
 	//////////////////////////////
 	function scrollChat(scrollStatus){
 		if(scrollStatus === true){

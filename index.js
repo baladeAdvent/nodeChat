@@ -187,9 +187,10 @@ function processLogin(type,name,index){
 	// Update username
 	setUserName(index,name);
 
-	// set Client to active
+	// Set Client to active
 	setActive(index);
 	
+	// Send login notice to all active clients
 	systemNotice( name + ' has logged in...' );
 }
 

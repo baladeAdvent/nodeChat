@@ -114,6 +114,17 @@
 		}
 	}
 	
+	function processChatMessage(connection){
+		var message = $('#nodeChat_message').val();
+		if( validateMessage(message) == true){
+			var obj = {
+				'type': 'USER_PUBLIC_CHAT_MESSAGE',
+				'message': message
+			};
+			connection.send(JSON.stringify(obj));
+		}
+	}
+	
 	// Requests
 	function requestChatLog(connection){
 		var obj = {

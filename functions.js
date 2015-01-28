@@ -5,11 +5,9 @@
 		console.log('updateLoginButton: ' + nameStatus);
 		usernameAddon = $('#nodeChat_login_username_addon').find('i');
 		if(nameStatus == 'true'){
-			console.log('nameStatus ==  true(' + typeof nameStatus + ')');
 			// Set icon to ok, bind functions to register button
 			usernameAddon.attr('class','glyphicon glyphicon-ok');
 		}else{
-			console.log('nameStatus !=  false(' + typeof nameStatus + ')');
 			// Set icon to unavailable, clear functions from register button
 			usernameAddon.attr('class','glyphicon glyphicon-remove');
 		}
@@ -22,8 +20,8 @@
 		});
 
 		if(validationStatus == false){
-			message = $('<div><div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
-			 $('#nodeChat_loginResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+			message = $('<div></div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
+			 $('#nodeChat_loginResponse').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}else{
 			if( trim($('#nodeChat_login_password').val()) == ''){
 				type = 'USER_REQUEST_LOGIN_ANONYMOUS';
@@ -85,7 +83,7 @@
 		});
 
 		if(validationStatus == false){
-			message = $('<div><div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
+			message = $('<div></div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
 			 $('#nodeChat_registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 		}else{
 			var obj = {
@@ -105,8 +103,8 @@
 ///////////////////////////////////////////////////////////////////
 	function startNodeChat(result,username){
 		if(result == 'success'){
-			loginContainer = $('#nodeChat_login').animate({height:['hide'},500,'swing');
-			chatContainer = $('#nodeChat_client').animate({height:'show'},500,'swing');
+			loginContainer = $('#nodeChat_login').animate({height:'hide'},500,'ease');
+			chatContainer = $('#nodeChat_client').animate({height:'show'},500,'ease');
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
 			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);

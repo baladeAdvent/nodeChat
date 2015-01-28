@@ -102,6 +102,11 @@
 				case 'SYSTEM_CHECK_REGISTRATION_AVAILABILITY':
 					updateRegistrationButton(edata.available,ws);
 					break;
+					
+				// System Notice
+				case 'SYSTEM_MESSAGE':
+					appendSystemToChat(edata.message)
+					break;
 			}
 		}
 		// WS Response handling //

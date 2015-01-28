@@ -188,6 +188,8 @@ function processLogin(type,name,index){
 
 	// set Client to active
 	setActive(index);
+	
+	systemNotice( name + ' has logged in...' );
 }
 
 //////////////////////////////////////////
@@ -261,6 +263,37 @@ function setActive(index){
 		}
 	}
 }
+
+
+
+//////////////////////////////////////////
+function systemNotice(msg){
+	obj = {
+		'time': (new Date()).getTime(),
+		'type': 'SYSTEM_MESSAGE',
+		'message': msg,
+		'color': __SYSTEM_COLOR
+	};	
+	for(i=0;i<clients.length;i++){
+		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
+			var connection = clients[i]['ws']; 
+			connection.send(JSON.stringify(obj));
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //////////////////////////////////////////

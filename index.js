@@ -60,9 +60,13 @@ wss.on("connection", function(ws){
 				loginNewUser(data['type'],data,ws,index);
 				break;
 				
-			//* CHAT Request Handling *//
+			//* CHAT Handling *//
 			case 'USER_REQUEST_CHAT_LOG':
 				sendChatlog(ws);
+				break;
+				
+			case 'USER_PUBLIC_CHAT_MESSAGE':
+				processChatMessage(index,data);
 				break;
 /*			
 			case 'USER_LOGIN':
@@ -245,24 +249,6 @@ function checkNameAvailability(type,name,connection){
 }
 
 //////////////////////////////////////////
-function setUserName(index,userName){
-	console.log('setUsername(' + index + ')');
-	for(x in clients){
-		if(clients[x]['id'] == index){
-			clients[x]['username'] = userName;
-		}
-	}
-}
-function setActive(index){
-	console.log('setActive(' + index + ')');
-	for(x in clients){
-		if(clients[x]['id'] == index){
-			clients[x]['active'] = true;
-		}
-	}
-}
-
-//////////////////////////////////////////
 // Chat Functions
 //////////////////////////////////////////
 function sendChatlog(connection){
@@ -292,6 +278,10 @@ function systemNotice(msg){
 	}
 }
 
+function processChatMessage(id,data){
+		console.log('processChatMessage(): ' + id);
+		console.log(data);
+}
 
 
 
@@ -301,6 +291,29 @@ function systemNotice(msg){
 
 
 
+//////////////////////////////////////////
+// User Setters
+//////////////////////////////////////////
+function setUserName(index,userName){
+	console.log('setUsername(' + index + ')');
+	for(x in clients){
+		if(clients[x]['id'] == index){
+			clients[x]['username'] = userName;
+		}
+	}
+}
+function setActive(index){
+	console.log('setActive(' + index + ')');
+	for(x in clients){
+		if(clients[x]['id'] == index){
+			clients[x]['active'] = true;
+		}
+	}
+}
+
+//////////////////////////////////////////
+// User Getters
+//////////////////////////////////////////
 
 
 

@@ -116,7 +116,7 @@
 	
 	function processChatMessage(connection){
 		var message = $('#nodeChat_message').val();
-		console.log('processChatMessage:' + message);
+		console.log('processChatMessage:' + message + ':' + validateMessage(message));
 		if( validateMessage(message) == true){
 			var obj = {
 				'type': 'USER_PUBLIC_CHAT_MESSAGE',

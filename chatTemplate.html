@@ -12,106 +12,12 @@
 	<script src="functions.js"></script>
 	
 	<script>
-		var username = '';
-		var loggedIn = false;
-		var keepalive = '';
-		var autoScroll = true;
-		
-		var pingRequest = '';
-		var host = location.origin.replace(/^http/,'ws');
-		ws = new WebSocket(host);
-		
-		$(document).ready(function(){
-
-			// Login button
-			$('#nodeChat_loginForm button').click(function(evt){
-				evt.preventDefault();
-				validateLogin(ws);
-			});
-			
-			// Empty containers for timers
-			loginCheck = '';
-			registrationCheck = '';
-			
-			// - Login Username Check
-			$('#nodeChat_login_username').bind('keypress change',function(){
-				clearTimeout(loginCheck);
-				if(trim($('#nodeChat_login_username').val()) != ''){
-					loginCheck = setTimeout(function(){
-						name = trim($('#nodeChat_login_username').val());
-						var obj = {
-							'type': 'USER_CHECK_LOGIN_AVAILABILITY',
-							'username': name
-							};
-						
-						checkAvailability(obj,ws);
-					},1000);
-				}
-			});
-			// - Login Username Check
-			
-			// - Registration Username Check
-			$('#nodeChat_register_username').bind('keypress change',function(){	
-				$('#nodeChat_register_username_addon').find('i').attr('class','glyphicon glyphicon-search');			
-				$('#nodeChat_registerForm button').prop('disabled',true);
-				clearTimeout(registrationCheck);
-				if(trim($('#nodeChat_register_username').val()) != ''){
-					registrationCheck = setTimeout(function(){
-						name = trim($('#nodeChat_register_username').val());
-						var obj = {
-							'type': 'USER_CHECK_REGISTRATION_AVAILABILITY',
-							'username': name
-						};
-						
-						checkAvailability(obj,ws);
-					},1000);
-				}
-			});
-
-			// - Registration Username Check
-		});
-
-		function checkAvailability(obj,connection){
-			console.log('Check username availability');
-			connection.send(JSON.stringify(obj));
-		}
-		
-		
-		// WS Response handling //
-		ws.onmessage = function(event){		
-			edata = JSON.parse(event.data);
-			logProperties(edata);
-			switch(edata.type){
-			
-				// Login
-				case 'SYSTEM_CHECK_LOGIN_AVAILABILITY':
-					updateLoginButton(edata.available,ws);
-					break;
-					
-				case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
-				case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
-					startNodeChat(edata.result,edata.username);
-					
-					break;
-				
-				// Registration
-				case 'SYSTEM_REGISTRATION_RESPONSE':
-					registrationResponse(edata.result,edata.username);
-					break;
-					
-				case 'SYSTEM_CHECK_REGISTRATION_AVAILABILITY':
-					updateRegistrationButton(edata.available,ws);
-					break;
-			}
-		}
-		// WS Response handling //
 	</script>
 	<style>
-
 	</style>
   </head>
   <body>
-  
+
 <!-- Chat Container -->
 <div class="container-fluid" id="nodeChat_container">
 
@@ -229,6 +135,7 @@
 	
 </div>
 <!-- Chat Container -->
+
 
   </body>
 </html>

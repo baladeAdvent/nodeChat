@@ -103,8 +103,8 @@
 ///////////////////////////////////////////////////////////////////
 	function startNodeChat(result,username){
 		if(result == 'success'){
-			loginContainer = $('#nodeChat_login').animate({height:'hide'},500,'ease');
-			chatContainer = $('#nodeChat_client').animate({height:'show'},500,'ease');
+			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
+			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
 			
 			$('#nodeChat_header').find('span').html(username);
 		}else{

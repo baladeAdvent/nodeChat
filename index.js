@@ -242,12 +242,12 @@ function checkNameAvailability(type,name,connection){
 			nameAvailability = 'false';
 		}
 		
-		mdata = {
+		var obj = {
 			'time': (new Date()).getTime(),
 			'type': type.replace('USER','SYSTEM'),
 			'available': nameAvailability
 		};
-		connection.send( JSON.stringify(mdata) );
+		connection.send( JSON.stringify(obj) );
 	});	
 }
 
@@ -274,7 +274,7 @@ function setActive(index){
 //////////////////////////////////////////
 function systemNotice(msg){
 	console.log('systemNotice("' + msg + '")');
-	obj = {
+	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_MESSAGE',
 		'message': msg,
@@ -363,7 +363,7 @@ function removeClient(index){
 }
 //////////////////////////////////////////
 function sendUpdatedUserList(){
-	mdata = {
+	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'UPDATE_USERLIST',
 		'username': 'System',
@@ -373,7 +373,7 @@ function sendUpdatedUserList(){
 	for(i=0;i<clients.length;i++){
 		if('undefined' != typeof clients[i]['ws'] && clients[i]['ws']['readyState'] == '1' && clients[i]['active'] == true){
 			var conn = clients[i]['ws']; 
-			conn.send(JSON.stringify(mdata));
+			conn.send(JSON.stringify(obj));
 		}
 	}
 }
@@ -393,27 +393,27 @@ function get_userList(){
 }
 //////////////////////////////////////////
 function noticeUserLogin(username){
-	mdata = {
+	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_MESSAGE',
 		'username': 'System',
 		'message': username + ' has logged in...',
 		'color': __SYSTEM_COLOR
 	};
-	chatLog.push(mdata);
-	broadcast(mdata);
+	chatLog.push(obj);
+	broadcast(obj);
 }
 //////////////////////////////////////////
 function noticeUserLogout(username){
-	mdata = {
+	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_MESSAGE',
 		'username': 'System',
 		'message': username + ' has logged out...',
 		'color': __SYSTEM_COLOR
 	};
-	chatLog.push(mdata);
-	broadcast(mdata);
+	chatLog.push(obj);
+	broadcast(obj);
 }
 
 //////////////////////////////

@@ -269,6 +269,7 @@ function setActive(index){
 
 //////////////////////////////////////////
 function systemNotice(msg){
+	console.log('systemNotice("' + msg + '")');
 	obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_MESSAGE',

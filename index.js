@@ -49,6 +49,7 @@ wss.on("connection", function(ws){
 		
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);
+		console.log(data);
 		switch(data['type']){
 			
 			//* Name Availability Checks *//
@@ -133,8 +134,8 @@ function loginNewUser(type,data,connection,index){
 	if(type == 'USER_REQUEST_LOGIN_VERIFY'){
 		mongo.verifyUser(data.name,data.password,function(err,res){
 			if(res == true){ // If credentials are good log user in
-				processLogin(type,data.name,index);
 				obj.result = 'success';
+				processLogin(type,data.name,index);
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
 			}

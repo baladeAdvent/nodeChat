@@ -62,7 +62,7 @@ wss.on("connection", function(ws){
 				
 			//* CHAT Request Handling *//
 			case 'USER_REQUEST_CHAT_LOG':
-				console.log('Chat Log Request'+index);
+				sendChatlog(ws);
 				break;
 /*			
 			case 'USER_LOGIN':
@@ -262,7 +262,18 @@ function setActive(index){
 	}
 }
 
-
+//////////////////////////////////////////
+// Chat Functions
+//////////////////////////////////////////
+function sendChatlog(connection){
+	var sendThis = chatLog.slice(-15)
+	var obj = {
+		'time': (new Date()).getTime(),
+		'type': 'SYSTEM_RESPONSE_CHAT_LOG',
+		'chatlog': sendThis
+	};
+	connection.send(JSON.stringify(obj));
+}
 
 //////////////////////////////////////////
 function systemNotice(msg){

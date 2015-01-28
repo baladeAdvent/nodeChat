@@ -114,14 +114,19 @@
 		}
 	}
 	
+	// Requests
 	function requestChatLog(connection){
 		var obj = {
 			'type': 'USER_REQUEST_CHAT_LOG'
 		};
 		connection.send(JSON.stringify(obj));
-		
 	}
 
+	// Utilities
+	function appendChatLog(log){
+			logProperties(log);
+	}
+	
 	function appendSystemToChat(message,color){
 		var label = $('<span></span>').css('color','rgb('+color+')').css('font-weight',800).text('SYSTEM: ');
 		var message = $('<li></li>').attr('class','').html(message).prepend(label);

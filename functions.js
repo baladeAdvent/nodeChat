@@ -115,7 +115,7 @@
 
 function appendSystemToChat(message,color){
 		message = $('<li></li>').attr('class','').html('SYSTEM> ' + message);
-		$('#nodeChat_messages').append( message.hide().animate({height:'show'},500) );
+		$('#nodeChat_messages').append( message );
 }
 
 

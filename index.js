@@ -66,7 +66,6 @@ wss.on("connection", function(ws){
 			//* Login Request Handling *//
 			case 'USER_REQUEST_LOGIN_ANONYMOUS':
 			case 'USER_REQUEST_LOGIN_VERIFY':
-				console.log(data);
 				loginNewUser(data['type'],data,ws,index);
 				break;
 /*			
@@ -123,7 +122,6 @@ wss.on("connection", function(ws){
 // Login functions
 //////////////////////////////////////////
 function loginNewUser(type,data,connection,index){
-	console.log('loginNewUser(): '+type);
 	var obj = {
 		type: (type).replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
 		time: (new Date()).getTime(),
@@ -170,7 +168,6 @@ function loginNewUser(type,data,connection,index){
 }
 
 function processLogin(type,name,index){
-	console.log('processLogin: ' + type);
 	// Disconnect any other user using this userName
 	for(x in clients){
 		if(clients[x]['username'] == name){			

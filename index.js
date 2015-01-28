@@ -138,6 +138,7 @@ function loginNewUser(type,data,connection,index){
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
 			}
+			console.log('Connection Ready: ' + connection.readyState);
 			connection.send(JSON.stringify(obj));
 		});
 		

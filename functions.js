@@ -114,11 +114,10 @@
 	}
 
 	function appendSystemToChat(message,color){
-		logProperties(message);
-		logProperties(color);
-		label = $('<span></span>').css('color','rgb('+color+')').css('weight',800).text('SYSTEM >>');
-		message = $('<li></li>').attr('class','').html(label + message);
-		$('#nodeChat_messages').append( message.hide().animate({height:'show'},1500) );
+		var label = $('<span></span>').css('color','rgb('+color+')').css('weight',800).text('SYSTEM >>');
+		logProperties(label);
+		var message = $('<li></li>').attr('class','').html(label.html() + message);
+		$('#nodeChat_messages').append( message );
 	}
 
 

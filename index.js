@@ -178,6 +178,7 @@ function processLogin(type,name,index){
 				'message': 'Another user has logged in using this login',
 				'color': __SYSTEM_COLOR	
 			};
+			connection = clients[x]['ws'];
 			connection.send(JSON.stringify(obj));
 			connection.close();
 		}

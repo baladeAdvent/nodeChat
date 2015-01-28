@@ -3,7 +3,7 @@
 ///////////////////////////////////////////////////////////////////
 	function updateLoginButton(nameStatus,connection){
 		console.log('updateLoginButton: ' + nameStatus);
-		usernameAddon = $('#login_username_addon').find('i');
+		usernameAddon = $('#nodeChat_login_username_addon').find('i');
 		if(nameStatus == 'true'){
 			console.log('nameStatus ==  true(' + typeof nameStatus + ')');
 			// Set icon to ok, bind functions to register button
@@ -23,17 +23,17 @@
 
 		if(validationStatus == false){
 			message = $('<div><div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
-			 $('#loginResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+			 $('#nodeChat_loginResponse').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 		}else{
-			if( trim($('#login_password').val()) == ''){
+			if( trim($('#nodeChat_login_password').val()) == ''){
 				type = 'USER_REQUEST_LOGIN_ANONYMOUS';
 			}else{
 				type = 'USER_REQUEST_LOGIN_VERIFY';
 			}
 			var obj = {
 				'type': type,
-				'name':	trim($('#login_username').val()),
-				'password': trim($('#login_password').val()),
+				'name':	trim($('#nodeChat_login_username').val()),
+				'password': trim($('#nodeChat_login_password').val()),
 			};
 			// Note: Disable Login Form at this point, wait for response from server
 			connection.send(JSON.stringify(obj));
@@ -53,11 +53,11 @@
 			message.attr('class','alert alert-danger').html('An error has occured while trying to register this username! Please try a different username or use a different email account. : ' + username);
 			registerButton.prop('disabled',false);
 		}
-		$('#registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(10000).animate({height:'hide'},500);
+		$('#nodeChat_registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(10000).animate({height:'hide'},500);
 	}
 	
 	function updateRegistrationButton(nameStatus,connection){
-		usernameAddon = $('#register_username_addon').find('i');
+		usernameAddon = $('#nodeChat_register_username_addon').find('i');
 		registerButton = $('#nodeChat_registerForm').find('button');
 		console.log('updateRegistrationButton: ' + nameStatus);
 		if(nameStatus == 'true'){
@@ -86,13 +86,13 @@
 
 		if(validationStatus == false){
 			message = $('<div><div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
-			 $('#registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+			 $('#nodeChat_registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 		}else{
 			var obj = {
 				'type': 'USER_REQUEST_REGISTRATION',
-				'name':	trim($('#register_username').val()),
-				'password': trim($('#register_password').val()),
-				'email': trim($('#register_email').val())
+				'name':	trim($('#nodeChat_register_username').val()),
+				'password': trim($('#nodeChat_register_password').val()),
+				'email': trim($('#nodeChat_register_email').val())
 			};
 			// Note: Disable Registration Form at this point, wait for response from server
 			$('#nodeChat_registerForm button').prop('disabled',true);
@@ -105,11 +105,11 @@
 ///////////////////////////////////////////////////////////////////
 	function startNodeChat(result,username){
 		if(result == 'success'){
-			loginContainer = $('#nodeChat_login').hide();
-			chatContainer = $('#nodeChat_chatClient').show();
+			loginContainer = $('#nodeChat_login').animate({height:'hide'});
+			chatContainer = $('#nodeChat_chatClient').animate({height:'show'});
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
-			$('#loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}
 	}
 

@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Websocket chat</title>
+	<link rel="stylesheet" type="text/css" href="nodeChatStyles.css" />	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />	
+	<link rel="stylesheet" media="screen" type="text/css" href="css/colorpicker.css" />
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/colorpicker.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="functions.js"></script>
+	
+	<script>
+	</script>
+	<style>
+	</style>
+  </head>
+  <body>
+
+  
+
+<div class="container-fluid" id="nodeChat_container">
+
+	<!-- Client  Header -->
+	<div class="row">
+		<div class="col-xs-12" id="nodeChat_header">
+			<div class="alert alert-success">Welcome to nodeChat: <span class="pull-right"></span></div>
+		</div>
+	</div>
+	<!-- Client  Header -->
+	
+	<!-- Client Login -->
+	<div class="row" id="nodeChat_login">
+		<div class="col-xs-6">
+			<form action="" id="nodeChat_loginForm">
+				<div class="form-group">
+					<label for="nodeChat_login_username">Login</label>
+					<div class="input-group">
+						<input id="nodeChat_login_username" name="nodeChat_loginUsername" class="form-control" length="16" placeholder="username" />
+						<span class="input-group-addon" id="nodeChat_login_username_addon"><i class="glyphicon glyphicon-search"></i></span>
+					</div>				
+				</div>
+				<div class="form-group">
+					<input id="nodeChat_login_password" name="loginPassword" placeholder="password" class="form-control"/>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<button class="btn btn-primary btn-md btn-block">Login</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="nodeChat_loginResponse"></div>
+					</div>
+				</div>
+			</form>					
+		</div>
+		<div class="col-xs-6">
+			<form action="" id="nodeChat_registerForm">
+				<div class="form-group">
+					<label for="nodeChat_register_username">Register</label>
+					<div class="input-group">
+						<input id="nodeChat_register_username" name="registerUsername" placeholder="username" class="form-control" length="16"/>
+						<span class="input-group-addon" id="nodeChat_register_username_addon"><i class="glyphicon glyphicon-search"></i></span>
+					</div>
+				</div>	
+				<div class="form-group">
+					<input id="nodeChat_register_password" name="registerPassword" placeholder="password" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<input id="nodeChat_register_email" name="registerEmail" placeholder="email@email.net" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-md btn-block" disabled>Register</button>
+				</div>
+				
+				<div clsss="row">
+					<div class="col-xs-12">
+						<div id="nodeChat_registrationResponse"></div>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+	</div>
+	<!-- Client Login -->
+	
+	<!-- Client Chat -->
+	<div class="row" id="nodeChat_client">
+		<div class="col-xs-12">
+			<!-- Client  Main/Userlist -->
+			<div class="row">
+				<div class="col-xs-9">
+					<ul id="nodeChat_messages">
+						<li>Message</li>
+						<li>Message</li>
+						<li>Message</li>
+					</ul>
+				</div>
+				<div class="col-xs-3">
+					<ul id="nodeChat_userlist">
+						<li>User</li>
+						<li>User</li>
+						<li>User</li>
+					</ul>
+				</div>
+			</div>			
+			<!-- Client  Footer/Input -->
+			<div class="row">
+				<div class="col-xs-1">
+					<div class="dropdown">
+						<button class="btn btn-default btn-block dropdown-toggle " type="button" id="nodeChat_userSettings" data-toggle="dropdown" aria-expanded="true"><i class="glyphicon glyphicon-cog"></i></button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="nodeChat_userSettings" id="nodeChat_userOptions">
+							<li>
+								<img src='images/select2.png' id="textColor" />
+								<div id="colorpickerSwatch"></div>
+							</li>
+							<li>Additional Options</li>
+							<li>Additional Options</li>
+						</ul>
+					</div>			
+				</div>
+				<div class="col-xs-11">
+					<div class="input-group">
+						<input id="nodeChat_message" autocomplete="off" class="form-control" />
+						<span class="input-group-btn">
+							<button class="btn btn-primary" type="button">Submit</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Client Chat -->
+
+</div>
+
+
+
+  </body>
+</html>

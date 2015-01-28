@@ -55,6 +55,7 @@ exports.verifyUser = function(name, pass, callback){
 		}
 		var collection = db.collection('users');
 		collection.findOne({ $and:[{'username':name},{'password':pass}]},function(err,item){
+			console.log('Mongo: findOne / '+item);
 			if(item == null){
 				callback(err,false);
 			}else{

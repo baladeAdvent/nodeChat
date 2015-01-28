@@ -72,13 +72,7 @@
 			// - Submit - //
 			$('#sendToChat').click(function(evt){
 				evt.preventDefault();
-				var message = $('#nodeChat_message').val();
-				if( validateMessage(message) == true){
-					var obj = {
-						'type': 'USER_PUBLIC_CHAT_MESSAGE',
-						'message': message
-					};
-				}
+				processChatMessage(ws);
 			});
 		});
 

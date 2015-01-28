@@ -116,6 +116,7 @@
 	
 	function processChatMessage(connection){
 		var message = $('#nodeChat_message').val();
+		console.log('processChatMessage:' + message);
 		if( validateMessage(message) == true){
 			var obj = {
 				'type': 'USER_PUBLIC_CHAT_MESSAGE',
@@ -193,6 +194,8 @@
 				des.append( $('<li style="color:rgb(' + user['color'] + ');">').html(user['name']) );
 			}
 	}
+	
+	
 	//////////////////////////////
 	function trim(str){
 		var pattern = /^( ){1,}|( ){1,}$/;

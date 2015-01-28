@@ -105,7 +105,7 @@
 ///////////////////////////////////////////////////////////////////
 	function startNodeChat(result,username){
 		if(result == 'success'){
-			loginContainer = $('#nodeChat_login').animate({height:['hide'},500,'swing');
+			loginContainer = $('#nodeChat_login').animate({height:'hide'},500,'swing');
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500,'swing');
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');

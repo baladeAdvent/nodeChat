@@ -91,7 +91,6 @@
 				case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 				case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
 					startNodeChat(edata.result,edata.username);
-					
 					break;
 				
 				// Registration
@@ -105,7 +104,7 @@
 					
 				// System Notice
 				case 'SYSTEM_MESSAGE':
-					appendSystemToChat(edata.message)
+					appendSystemToChat(edata.message,edata.color);
 					break;
 			}
 		}

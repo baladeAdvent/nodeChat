@@ -113,10 +113,10 @@
 		}
 	}
 
-function appendSystemToChat(message,color){
+	function appendSystemToChat(message,color){
 		message = $('<li></li>').attr('class','').html('SYSTEM> ' + message);
 		$('#nodeChat_messages').append( message );
-}
+	}
 
 
 

@@ -115,7 +115,6 @@
 
 	function appendSystemToChat(message,color){
 		var label = $('<span></span>').css('color','rgb('+color+')').css('weight',800).text('SYSTEM >> ');
-		logProperties(label);
 		var message = $('<li></li>').attr('class','').html(message).prepend(label);
 		$('#nodeChat_messages').append( message );
 	}

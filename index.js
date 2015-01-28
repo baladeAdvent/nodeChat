@@ -1,6 +1,6 @@
 process.title = 'node-chat';
 
-var __SYSTEM_COLOR = '255,255,255';
+var __SYSTEM_COLOR = '255,30,30';
 var __USERNAME_LENGTH = 16;
 
 var WebSocketServer = require('ws').Server;

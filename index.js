@@ -442,6 +442,7 @@ function noticeUserLogout(username){
 }
 
 //////////////////////////////
+/*
 function processChatMessage(str){
 	// Trim empty space
 	str = trim(str);
@@ -453,6 +454,7 @@ function processChatMessage(str){
 	// Return final chat entry
 	return str;
 }
+*/
 
 //////////////////////////////
 function processUserName(name){

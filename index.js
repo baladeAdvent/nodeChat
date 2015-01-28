@@ -139,7 +139,7 @@ function loginNewUser(type,data,connection,index){
 				obj.result = 'failed';
 			}
 			console.log('Connection Ready: ' + connection.readyState);
-			connection.send(JSON.stringify(obj));
+			sendMessage(connection,obj);
 		});
 		
 	}else{ // If user logged in anonymously
@@ -161,7 +161,7 @@ function loginNewUser(type,data,connection,index){
 				obj.result = 'success';
 				processLogin(type,data.name,index);
 			}
-			connection.send(JSON.stringify(obj));			
+			sendMessage(connection,obj);			
 		});
 			
 			
@@ -180,7 +180,7 @@ function processLogin(type,name,index){
 				'color': __SYSTEM_COLOR	
 			};
 			connection = clients[x]['ws'];
-			connection.send(JSON.stringify(obj));
+			sendMessage(connection,obj);
 			connection.close();
 		}
 	}
@@ -223,7 +223,7 @@ function registerNewUser(data,connection){
 					error: err
 				};
 		}
-		connection.send(JSON.stringify(obj));
+		sendMessage(connection,obj);
 	});
 }
 function checkNameAvailability(type,name,connection){
@@ -245,7 +245,7 @@ function checkNameAvailability(type,name,connection){
 			'type': type.replace('USER','SYSTEM'),
 			'available': nameAvailability
 		};
-		connection.send( JSON.stringify(obj) );
+		sendMessage(connection,obj);
 	});	
 }
 
@@ -259,7 +259,7 @@ function sendChatlog(connection){
 		'type': 'SYSTEM_RESPONSE_CHAT_LOG',
 		'chatlog': sendThis
 	};
-	connection.send(JSON.stringify(obj));
+	sendMessage(connection,obj);
 }
 
 //////////////////////////////////////////
@@ -274,7 +274,7 @@ function systemNotice(msg){
 	for(i=0;i<clients.length;i++){
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			var connection = clients[i]['ws']; 
-			connection.send(JSON.stringify(obj));
+			sendMessage(connection,obj);
 		}
 	}
 }
@@ -317,7 +317,14 @@ function setActive(index){
 //////////////////////////////////////////
 
 
-
+//////////////////////////////////////////
+// Utility
+//////////////////////////////////////////
+function sendMessage(connection, obj){
+		if(connection.readyState == '1'){
+				connection.send(JSON.stringify(obj));
+		}
+}
 
 
 //////////////////////////////////////////

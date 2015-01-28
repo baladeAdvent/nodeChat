@@ -123,8 +123,9 @@ wss.on("connection", function(ws){
 // Login functions
 //////////////////////////////////////////
 function loginNewUser(type,data,connection,index){
-	obj = {
-		type: type.replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
+	console.log('loginNewUser(): '+type);
+	var obj = {
+		type: (type).replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
 		time: (new Date()).getTime(),
 		result: '',
 		username: data.name
@@ -169,10 +170,11 @@ function loginNewUser(type,data,connection,index){
 }
 
 function processLogin(type,name,index){
+	console.log('processLogin: ' + type);
 	// Disconnect any other user using this userName
 	for(x in clients){
 		if(clients[x]['username'] == name){			
-			obj = {
+			var obj = {
 				'time': (new Date()).getTime(),
 				'type': 'SYSTEM_MESSAGE',
 				'username': 'System',

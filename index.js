@@ -282,6 +282,17 @@ function systemNotice(msg){
 function processChatMessage(id,data){
 		console.log('processChatMessage(): ' + id);
 		console.log(data);
+		
+		var obj = {
+			'time': (new Date()).getTime(),
+			'type': 'SYSTEM_RESPONSE_CHAT_MESSAGE',
+			'username': getUserName(id),
+			'message': cleanString(data.message),
+			'color': getUserColor(id)	
+		};
+		
+		addToChatLog(obj);
+		broadcast(obj);
 }
 
 
@@ -303,6 +314,14 @@ function setUserName(index,userName){
 		}
 	}
 }
+function setUserColor(index,color){
+	console.log('setUserColor(' + color + ')');
+	for(x in clients){
+		if(clients[x]['id'] == index){
+			clients[x]['color'] = color;
+		}
+	}
+}
 function setActive(index){
 	console.log('setActive(' + index + ')');
 	for(x in clients){
@@ -315,7 +334,22 @@ function setActive(index){
 //////////////////////////////////////////
 // User Getters
 //////////////////////////////////////////
-
+function getUserName(id){
+	for(x in clients){
+			if(clients[x]['id'] == id){
+				return clients[x]['username'];
+			}
+	}
+	return 'Default_Username';
+}
+function getUserColor(id){
+		for(x in clients){
+			if(clients[x]['id'] == id){
+				return clients[x]['color'];
+			}
+	}
+	return '0,0,0';
+}
 
 //////////////////////////////////////////
 // Utility
@@ -326,6 +360,19 @@ function sendMessage(connection, obj){
 		}
 }
 
+function cleanString(msg){
+	// Trim empty space
+	str = trim(msg);
+	//strip html carets
+	str = htmlentities(str);
+	// Process 'bbCode'
+	// Return final chat entry
+	return str;
+}
+
+function addToChatLog(obj){
+	chatLog.push(obj);
+}
 
 //////////////////////////////////////////
 function setUserTextColor(name,color){
@@ -340,13 +387,10 @@ function setUserTextColor(name,color){
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
 		console.log("broadcast to: " + clients[i]);
-		for(x in clients[i]){
-			console.log('client has property: ' + x);
-		}
 		
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
-			var conn = clients[i]['ws']; 
-			conn.send(JSON.stringify(data));
+			var connection = clients[i]['ws']; 
+			connection.send(JSON.stringify(data));
 		}
 	}
 }

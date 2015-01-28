@@ -116,6 +116,10 @@
 				case 'SYSTEM_RESPONSE_CHAT_LOG':
 					appendChatLog(edata.chatlog);
 					break;
+					
+				case 'SYSTEM_RESPONSE_CHAT_MESSAGE':
+					appendToChat(edata.username,edata.message,edata.color);
+					break;
 			}
 		}
 		// WS Response handling //

@@ -67,7 +67,7 @@ wss.on("connection", function(ws){
 				break;
 				
 			case 'USER_REQUEST_USER_LIST':
-				sendUserList();
+				sendUserList(ws);
 				break;
 				
 			case 'USER_PUBLIC_CHAT_MESSAGE':
@@ -373,7 +373,6 @@ function checkConnections(){
 	var sendUpdate = false;
 	for(i=0;i<clients.length;i++){
 		var id = i;
-		
 		if('undefined' != typeof clients[i]['ws'] && clients[i]['ws']['readyState'] == '3'){
 			removeClient(clients[i].id);
 			sendUpdate = true;
@@ -406,13 +405,18 @@ function removeClient(index){
 }
 
 //////////////////////////////////////////
-function sendUserList(){
+function sendUserList(connection){
 	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_UPDATE_USER_LIST',
 		'userlist': getUserList()
 	};
-	sendToAll(obj); // Rework this function to not blast updates constantly
+	if(connection == null){
+		sendToAll(obj); // Rework this function to not blast updates constantly	
+	}else{
+		sendToOne(connection);
+	}
+	
 }
 //////////////////////////////////////////
 function getUserList(){

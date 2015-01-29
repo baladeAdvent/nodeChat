@@ -157,7 +157,7 @@
 	}
 	
 	function appendToChat(username,message,color){
-		var label = $('<span></span>').css('color','rgb('+color+')').css('font-weight',800).text(username + ': ');
+		var label = $('<span></span>').css('color','rgb('+color+')').css('font-weight',300).text(username + ': ');
 		var message = $('<li></li>').attr('class','').html(message).prepend(label);
 		$('#nodeChat_messages').append( message );
 	}

@@ -21,6 +21,11 @@
 		var host = location.origin.replace(/^http/,'ws');
 		ws = new WebSocket(host);
 		
+		// Heartbeat
+		var heartbeat_msg = '--heartbeat--';
+		var	heartbeat_interval = null;
+		var missed_heartbeats = 0;		
+		
 		$(document).ready(function(){
 
 			// Login button
@@ -74,11 +79,32 @@
 				evt.preventDefault();
 				processChatMessage(ws);
 			});
+			
+
 		});
 
 		function checkAvailability(obj,connection){
 			console.log('Check username availability');
 			connection.send(JSON.stringify(obj));
+		}
+		
+		ws.onopen = function(event){
+			if (heartbeat_interval === null){
+				missed_heartbeats = 0;
+				heartbeat_interval = setInterval(function(){
+					try {
+						if(missed_heartbeats >= 3){
+							throw new Error('ping timeout...');
+						}
+						ws.send(JSON.stringify({}'type':'USER_HEARTBEAT'));
+					} catch(e) {
+						clearInterval(heartbeat_interval);
+						heartbeat_interval = null;
+						appendSystemToChat(e,'255,30,30');
+						ws.close();
+					}
+				},5000);
+			}
 		}
 		
 		// WS Response handling //
@@ -127,7 +153,7 @@
 		}
 		
 		ws.onclose = function(event){
-			appendToChat('Connection closed...','150,150,150');
+			appendSystemToChat('Connection closed...','150,150,150');
 		}
 		// WS Response handling //
 	</script>

@@ -36,7 +36,9 @@ wss.on("connection", function(ws){
 		'textColor': randomColor()
 	};
 	clients.push(userObj);
-		
+	
+	console.log(clients);
+	
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);
 		console.log(data);
@@ -71,46 +73,12 @@ wss.on("connection", function(ws){
 			case 'USER_PUBLIC_CHAT_MESSAGE':
 				processChatMessage(index,data);
 				break;
-/*			
-			case 'USER_LOGIN':
-				userName = processUserName(data['username']);
-				setUserName(index,userName);
-				noticeUserLogin(userName);
-				// update user lists
-				sendUpdatedUserList();
-				break;
-			
-			case 'USER_PUBLIC_MESSAGE':
-				mdata = {
-					'time': (new Date()).getTime(),
-					'type': 'CHAT_MESSAGE',
-					'username': data['username'],
-					'message': processChatMessage(data['message']),
-					'color': getUserColor(index)
-				}
-				chatLog.push(mdata);
-				sendToAll(mdata);
-				break;
 				
-			case 'USER_LOG_REQUEST':
-				for(x in chatLog){				
-					mdata = {
-						'time': chatLog[x]['time'],
-						'type': 'LOG_MESSAGE',
-						'username': chatLog[x]['username'],
-						'message': chatLog[x]['message'],
-						'color': chatLog[x]['color']
-					}
-					ws.send(JSON.stringify(mdata));
-				}
+			//* Heart beat *//
+			case 'USER_HEARTBEAT':
+				returnHeartbeat();
 				break;
-			
-			case 'UPDATE_USER_TEXTCOLOR':
-				console.log('processing color change for user: ' + data['username'] + ':' + data['value']);
-				setUserTextColor(data['username'],data['value']);
-				sendUpdatedUserList();
-				break;
-*/
+
 		}
 
 	};
@@ -329,6 +297,14 @@ function setActive(index){
 		}
 	}
 }
+function setInactive(index){
+	console.log('setInactive(' + index + ')');
+	for(x in clients){
+		if(clients[x]['id'] == index){
+			clients[x]['active'] = false;
+		}
+	}
+}
 
 //////////////////////////////////////////
 // User Getters
@@ -418,6 +394,7 @@ function removeClient(index){
 			
 			if(activeStatus == true){
 				systemNotice(username + ' has logged out...');
+				setInactive(index);
 			}
 		}
 	}

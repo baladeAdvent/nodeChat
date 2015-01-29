@@ -125,6 +125,10 @@
 					break;
 			}
 		}
+		
+		ws.onclose = function(event){
+			appendToChat('Connection closed...','150,150,150');
+		}
 		// WS Response handling //
 	</script>
 	<style>

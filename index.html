@@ -96,7 +96,7 @@
 						if(missed_heartbeats >= 3){
 							throw new Error('ping timeout...');
 						}
-						ws.send(JSON.stringify({}'type':'USER_HEARTBEAT'));
+						ws.send(JSON.stringify({'type':'USER_HEARTBEAT'}));
 					} catch(e) {
 						clearInterval(heartbeat_interval);
 						heartbeat_interval = null;
@@ -148,6 +148,11 @@
 					
 				case 'SYSTEM_RESPONSE_CHAT_MESSAGE':
 					appendToChat(edata.username,edata.message,edata.color);
+					break;
+					
+				// Heartbeat
+				case 'SYSTEM_HEARTBEAT':
+					missed_heartbeats = 0;
 					break;
 			}
 		}

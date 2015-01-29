@@ -76,7 +76,7 @@ wss.on("connection", function(ws){
 				
 			//* Heart beat *//
 			case 'USER_HEARTBEAT':
-				returnHeartbeat();
+				returnHeartbeat(ws);
 				break;
 
 		}
@@ -360,7 +360,11 @@ function sendToOne(connection, obj){
 				connection.send(JSON.stringify(obj));
 		}
 }
-
+function returnHeartbeat(connection){
+	if(connection.readyState == '1'){
+		connection.send(JSON.stringify({'type':'SYSTEM_HEARTBEAT'}));
+	}
+}
 
 //////////////////////////////////////////
 // Client clean up

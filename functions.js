@@ -167,7 +167,7 @@
 			destination.html('');
 		
 		for(i=0;i<data.length;i++){
-			//logProperties(data[i]);
+			logProperties(data[i]);
 			var item = $('<li></li>').css('color',data[i]['color']).html(data[i]['name']);
 			destination.append( item );
 		}

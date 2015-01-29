@@ -108,6 +108,7 @@
 			
 			$('#nodeChat_header').find('span').html(username);
 			requestChatLog(connection);
+			requestUserlist(connection);
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
 			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
@@ -133,6 +134,12 @@
 		};
 		connection.send(JSON.stringify(obj));
 	}
+	function requestUserlist(connection){
+		var obj = {
+			'type': 'USER_REQUEST_USER_LIST'
+		};
+		connection.send(JSON.stringify(obj));
+	}
 
 	// Utilities
 	function appendChatLog(log){
@@ -151,28 +158,20 @@
 		$('#nodeChat_messages').append( message );
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-	function appendToChat(str,scrollStatus){
-		var message = $('<li class="message">').html(str).hide();
-			message.appendTo('#nodeChat_messages').slideDown(300, function(){ scrollChat(scrollStatus) });
+	function updateUserlist(data){
+		console.log('userlist data: '+data);
+		//var list = JSON.parse(json);
+		//var des = $('#nodeChat_users');
+		//	des.html('');
+		//	for(x in list){
+		//		user = list[x];
+		//		logProperties(list[x]);
+		//		des.append( $('<li style="color:rgb(' + user['color'] + ');">').html(user['name']) );
+		//	}
 	}
-*/
+
+
+
 	//////////////////////////////
 	function scrollChat(scrollStatus){
 		if(scrollStatus === true){
@@ -181,20 +180,7 @@
 			console.log('height: ' + height);
 			el.animate({ scrollTop:height},300);
 		}
-	}
-	//////////////////////////////
-	function updateUserlist(json){
-		console.log('userlistJSON: '+json);
-		var list = JSON.parse(json);
-		var des = $('#nodeChat_users');
-			des.html('');
-			for(x in list){
-				user = list[x];
-				logProperties(list[x]);
-				des.append( $('<li style="color:rgb(' + user['color'] + ');">').html(user['name']) );
-			}
-	}
-	
+	}	
 	
 	//////////////////////////////
 	function trim(str){

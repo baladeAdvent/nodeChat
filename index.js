@@ -36,7 +36,6 @@ wss.on("connection", function(ws){
 		'textColor': randomColor()
 	};
 	clients.push(userObj);
-	ws.emit('test','test');
 		
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);
@@ -65,6 +64,10 @@ wss.on("connection", function(ws){
 				sendChatlog(ws);
 				break;
 				
+			case 'USER_REQUEST_USER_LIST':
+				sendUserList();
+				break;
+				
 			case 'USER_PUBLIC_CHAT_MESSAGE':
 				processChatMessage(index,data);
 				break;
@@ -86,7 +89,7 @@ wss.on("connection", function(ws){
 					'color': getUserColor(index)
 				}
 				chatLog.push(mdata);
-				broadcast(mdata);
+				sendToAll(mdata);
 				break;
 				
 			case 'USER_LOG_REQUEST':
@@ -115,6 +118,10 @@ wss.on("connection", function(ws){
 	/////////////
 	ws.onclose(function(event){
 		// Cannot get this event to trip... wth?
+		console.log('Close event detected for client(' + index + ')');
+	});
+	ws.onerror(function(event){
+		console.log('Error event detected for client(' + index + ')');
 	});
 });
 
@@ -126,7 +133,7 @@ function loginNewUser(type,data,connection,index){
 		type: (type).replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
 		time: (new Date()).getTime(),
 		result: '',
-		username: data.name
+		username: processUserName(data.name)
 	};
 
 	// If user supplied password verify login authenticity
@@ -139,7 +146,7 @@ function loginNewUser(type,data,connection,index){
 				obj.result = 'failed';
 			}
 			console.log('Connection Ready: ' + connection.readyState);
-			sendMessage(connection,obj);
+			sendToOne(connection,obj);
 		});
 		
 	}else{ // If user logged in anonymously
@@ -161,7 +168,7 @@ function loginNewUser(type,data,connection,index){
 				obj.result = 'success';
 				processLogin(type,data.name,index);
 			}
-			sendMessage(connection,obj);			
+			sendToOne(connection,obj);			
 		});
 			
 			
@@ -180,7 +187,7 @@ function processLogin(type,name,index){
 				'color': __SYSTEM_COLOR	
 			};
 			connection = clients[x]['ws'];
-			sendMessage(connection,obj);
+			sendToOne(connection,obj);
 			connection.close();
 		}
 	}
@@ -223,7 +230,7 @@ function registerNewUser(data,connection){
 					error: err
 				};
 		}
-		sendMessage(connection,obj);
+		sendToOne(connection,obj);
 	});
 }
 function checkNameAvailability(type,name,connection){
@@ -245,7 +252,7 @@ function checkNameAvailability(type,name,connection){
 			'type': type.replace('USER','SYSTEM'),
 			'available': nameAvailability
 		};
-		sendMessage(connection,obj);
+		sendToOne(connection,obj);
 	});	
 }
 
@@ -259,10 +266,8 @@ function sendChatlog(connection){
 		'type': 'SYSTEM_RESPONSE_CHAT_LOG',
 		'chatlog': sendThis
 	};
-	sendMessage(connection,obj);
+	sendToOne(connection,obj);
 }
-
-//////////////////////////////////////////
 function systemNotice(msg){
 	console.log('systemNotice("' + msg + '")');
 	var obj = {
@@ -270,14 +275,10 @@ function systemNotice(msg){
 		'type': 'SYSTEM_MESSAGE',
 		'message': msg,
 		'color': __SYSTEM_COLOR
-	};	
-	for(i=0;i<clients.length;i++){
-		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
-			var connection = clients[i]['ws']; 
-			sendMessage(connection,obj);
-		}
-	}
+	};
+	sendToAll(obj);
 }
+
 
 function processChatMessage(id,data){
 		console.log('processChatMessage(): ' + id);
@@ -292,15 +293,15 @@ function processChatMessage(id,data){
 		};
 		
 		addToChatLog(obj);
-		broadcast(obj);
+		sendToAll(obj);
+		mongo.addToChatLog(obj,function(res){
+			if(res == true){
+				console.log('message added to log');
+			}else{
+				console.log('error occured while adding message to log');
+			}
+		});
 }
-
-
-
-
-
-
-
 
 
 //////////////////////////////////////////
@@ -354,12 +355,6 @@ function getUserColor(id){
 //////////////////////////////////////////
 // Utility
 //////////////////////////////////////////
-function sendMessage(connection, obj){
-		if(connection.readyState == '1'){
-				connection.send(JSON.stringify(obj));
-		}
-}
-
 function cleanString(msg){
 	// Trim empty space
 	str = trim(msg);
@@ -369,13 +364,14 @@ function cleanString(msg){
 	// Return final chat entry
 	return str;
 }
-
 function addToChatLog(obj){
 	chatLog.push(obj);
 }
 
 //////////////////////////////////////////
-function broadcast(data){
+// Broadcasting
+//////////////////////////////////////////
+function sendToAll(data){
 	for(i=0;i<clients.length;i++){
 		console.log("broadcast to: " + clients[i]['username']);
 		
@@ -385,6 +381,15 @@ function broadcast(data){
 		}
 	}
 }
+function sendToOne(connection, obj){
+		if(connection.readyState == '1'){
+				connection.send(JSON.stringify(obj));
+		}
+}
+
+
+//////////////////////////////////////////
+// Client clean up
 //////////////////////////////////////////
 function checkConnections(){
 	var sendUpdate = false;
@@ -397,48 +402,46 @@ function checkConnections(){
 		}
 	}
 	if(sendUpdate === true){
-		sendUpdatedUserList();
+		sendUserList();
 		sendUpdate = false;
 	}
 }
-//////////////////////////////////////////
 function removeClient(index){
 	oldLength = clients.length;
 	var username = '';
 	for(i=0;i<clients.length;i++){
 		console.log('searching through clients:' + i + '....');
 		if(clients[i].id == index){
-			console.log('Client found:' + i);
+			console.log('Client found at:' + i);
 			username = clients[i].username;
 			activeStatus = clients[i].active;
 			
 			clients.splice(i,1);
 			
 			if(activeStatus == true){
-				noticeUserLogout(username);
+				systemNotice(username + ' has logged out...');
 			}
 		}
 	}
 	console.log('Remove client by id:' + index + ' - length: o' + oldLength + '/n' + clients.length);
 }
+
 //////////////////////////////////////////
-function sendUpdatedUserList(){
+function sendUserList(){
 	var obj = {
 		'time': (new Date()).getTime(),
-		'type': 'UPDATE_USERLIST',
-		'username': 'System',
-		'userlist': get_userList(),
-		'color': __SYSTEM_COLOR
+		'type': 'SYSTEM_UPDATE_USER_LIST',
+		'userlist': getUserList()
 	};
 	for(i=0;i<clients.length;i++){
 		if('undefined' != typeof clients[i]['ws'] && clients[i]['ws']['readyState'] == '1' && clients[i]['active'] == true){
-			var conn = clients[i]['ws']; 
-			conn.send(JSON.stringify(obj));
+			var connection = clients[i]['ws']; 
+			sendToOne(connection,obj);
 		}
 	}
 }
 //////////////////////////////////////////
-function get_userList(){
+function getUserList(){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
@@ -449,47 +452,8 @@ function get_userList(){
 		}
 	}
 	output.sort();
-	return JSON.stringify(output);
+	return output;
 }
-//////////////////////////////////////////
-function noticeUserLogin(username){
-	var obj = {
-		'time': (new Date()).getTime(),
-		'type': 'SYSTEM_MESSAGE',
-		'username': 'System',
-		'message': username + ' has logged in...',
-		'color': __SYSTEM_COLOR
-	};
-	chatLog.push(obj);
-	broadcast(obj);
-}
-//////////////////////////////////////////
-function noticeUserLogout(username){
-	var obj = {
-		'time': (new Date()).getTime(),
-		'type': 'SYSTEM_MESSAGE',
-		'username': 'System',
-		'message': username + ' has logged out...',
-		'color': __SYSTEM_COLOR
-	};
-	chatLog.push(obj);
-	broadcast(obj);
-}
-
-//////////////////////////////
-/*
-function processChatMessage(str){
-	// Trim empty space
-	str = trim(str);
-	//strip html carets
-	str = htmlentities(str);
-	
-	// Process 'bbCode'
-	
-	// Return final chat entry
-	return str;
-}
-*/
 
 //////////////////////////////
 function processUserName(name){
@@ -500,7 +464,7 @@ function processUserName(name){
 	pattern = /[^a-zA-Z0-9.' ]/g;
 	name = name.replace(pattern,'');
 	
-	// Replace spaces with underscored
+	// Replace spaces with underscores
 	pattern = /[ ]{1,}/g;
 	name = name.replace(pattern,'_');
 	
@@ -539,13 +503,4 @@ function randomColor(){
 	randomRGB = r + ',' + g + ',' + b;
 	console.log('RGB: ' + randomRGB);
 	return randomRGB;
-}
-//////////////////////////////
-function getUserColor(index){
-	for(x in clients){
-		if( clients[x]['id'] == index ){
-			return clients[x]['textColor'];
-		}
-	}
-	return '0,0,0';
 }

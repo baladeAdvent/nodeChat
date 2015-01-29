@@ -81,9 +81,6 @@
 			connection.send(JSON.stringify(obj));
 		}
 		
-		ws.on('test',function(data){
-			console.log('emit test: ' + data);
-		});
 		// WS Response handling //
 		ws.onmessage = function(event){		
 			edata = JSON.parse(event.data);
@@ -113,6 +110,10 @@
 				// Chat
 				case 'SYSTEM_MESSAGE':
 					appendSystemToChat(edata.message,edata.color);
+					break;
+					
+				case 'SYSTEM_UPDATE_USER_LIST':
+					updateUserList(edata.userlist);
 					break;
 					
 				case 'SYSTEM_RESPONSE_CHAT_LOG':

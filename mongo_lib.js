@@ -28,6 +28,22 @@ exports.checkUsername = function(name,callback){
 	});
 }
 
+exports.addToChatLog = function(doc,callback){
+	console.log('Mongo: Add message to chatlog DB');
+	status = true;
+	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
+		
+		var collection = db.collection('chatlog');
+		collection.insert(doc,{w:1},function(err,res){
+			if(res == null){
+				callback(false);
+			}else{
+				callback(true);
+			}
+		});
+	});
+}
+
 exports.isNameReserved = function(name,callback){
 	console.log('Mongo: Check if username is available');
 	status = true;

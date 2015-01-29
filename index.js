@@ -226,7 +226,7 @@ function checkNameAvailability(type,name,connection){
 //////////////////////////////////////////
 function sendChatlog(connection){
 	var sendThis = chatLog.slice(-15);
-	console.log(sendThis);
+	console.log('sendChatlog(): '+sendThis);
 	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_RESPONSE_CHAT_LOG',

@@ -110,7 +110,7 @@
 		// WS Response handling //
 		ws.onmessage = function(event){		
 			edata = JSON.parse(event.data);
-			//logProperties(edata);
+			logProperties(edata);
 			switch(edata.type){
 			
 				// Login

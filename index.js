@@ -411,6 +411,8 @@ function sendUserList(connection){
 		'type': 'SYSTEM_UPDATE_USER_LIST',
 		'userlist': getUserList()
 	};
+	
+	console.log('sendUserList(): ' + obj);
 	if(connection == null){
 		sendToAll(obj); // Rework this function to not blast updates constantly	
 	}else{

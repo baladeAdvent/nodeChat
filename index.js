@@ -67,7 +67,7 @@ wss.on("connection", function(ws){
 				break;
 				
 			case 'USER_REQUEST_USER_LIST':
-				sendUserList(ws);
+				//sendUserList(ws);
 				break;
 				
 			case 'USER_PUBLIC_CHAT_MESSAGE':
@@ -165,6 +165,7 @@ function processLogin(type,name,index){
 	
 	// Send login notice to all active clients
 	systemNotice( name + ' has logged in...' );
+	sendUserList();
 }
 
 //////////////////////////////////////////
@@ -397,7 +398,7 @@ function removeClient(index){
 			
 			if(activeStatus == true){
 				systemNotice(username + ' has logged out...');
-				//sendUserList();
+				setInactive(index);
 			}
 		}
 	}

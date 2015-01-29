@@ -143,7 +143,9 @@
 
 	// Utilities
 	function appendChatLog(log){
-			logProperties(log);
+			for(i=0;i<log.length;i++){
+					logProperties(log[i]);
+			}
 	}
 	
 	function appendSystemToChat(message,color){
@@ -168,14 +170,6 @@
 			var item = $('<li></li>').css('color',data[i]['color']).html(data[i]['name']);
 			destination.append( item );
 		}
-		//var list = JSON.parse(json);
-		//var des = $('#nodeChat_users');
-		//	des.html('');
-		//	for(x in list){
-		//		user = list[x];
-		//		logProperties(list[x]);
-		//		des.append( $('<li style="color:rgb(' + user['color'] + ');">').html(user['name']) );
-		//	}
 	}
 
 

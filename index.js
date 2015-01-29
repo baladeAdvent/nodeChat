@@ -430,14 +430,7 @@ function sendUserList(){
 		'type': 'SYSTEM_UPDATE_USER_LIST',
 		'userlist': getUserList()
 	};
-	/*
-	for(i=0;i<clients.length;i++){
-		if('undefined' != typeof clients[i]['ws'] && clients[i]['ws']['readyState'] == '1' && clients[i]['active'] == true){
-			var connection = clients[i]['ws']; 
-			sendToOne(connection,obj);
-		}
-	}
-	*/
+
 	sendToAll(obj); // Rework this function to not blast updates constantly
 }
 //////////////////////////////////////////

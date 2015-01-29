@@ -432,7 +432,7 @@ function getUserList(){
 		}
 	}
 	output.sort();
-	return JSON.stringify(output);
+	return output;
 }
 
 //////////////////////////////

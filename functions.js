@@ -143,6 +143,7 @@
 
 	// Utilities
 	function appendChatLog(log){
+			console.log('appendChatLog() ' + log);
 			for(i=0;i<log.length;i++){
 					logProperties(log[i]);
 			}

@@ -257,7 +257,8 @@ function checkNameAvailability(type,name,connection){
 // Chat Functions
 //////////////////////////////////////////
 function sendChatlog(connection){
-	var sendThis = chatLog.slice(-15)
+	var sendThis = chatLog.slice(-15);
+	console.log(sendThis);
 	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_RESPONSE_CHAT_LOG',

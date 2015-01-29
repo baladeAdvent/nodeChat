@@ -84,7 +84,7 @@
 		// WS Response handling //
 		ws.onmessage = function(event){		
 			edata = JSON.parse(event.data);
-			logProperties(edata);
+			//logProperties(edata);
 			switch(edata.type){
 			
 				// Login
@@ -94,7 +94,7 @@
 					
 				case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 				case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
-					console.log('login verification recieved');
+					//console.log('login verification recieved');
 					startNodeChat(edata.result,edata.username,ws);
 					break;
 				
@@ -211,9 +211,7 @@
 			<div class="row">
 				<div class="col-xs-9">
 					<ul id="nodeChat_messages">
-						<li>Message</li>
-						<li>Message</li>
-						<li>Message</li>
+
 					</ul>
 				</div>
 				<div class="col-xs-3">

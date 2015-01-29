@@ -2,7 +2,6 @@
 // Login functions
 ///////////////////////////////////////////////////////////////////
 	function updateLoginButton(nameStatus,connection){
-		console.log('updateLoginButton: ' + nameStatus);
 		usernameAddon = $('#nodeChat_login_username_addon').find('i');
 		if(nameStatus == 'true'){
 			// Set icon to ok, bind functions to register button
@@ -57,7 +56,6 @@
 	function updateRegistrationButton(nameStatus,connection){
 		usernameAddon = $('#nodeChat_register_username_addon').find('i');
 		registerButton = $('#nodeChat_registerForm').find('button');
-		console.log('updateRegistrationButton: ' + nameStatus);
 		if(nameStatus == 'true'){
 			// Set icon to ok, bind functions to register button
 			usernameAddon.attr('class','glyphicon glyphicon-ok');
@@ -117,13 +115,14 @@
 	
 	function processChatMessage(connection){
 		var message = $('#nodeChat_message').val();
-		console.log('processChatMessage:' + message + ':' + validateMessage(message));
+
 		if( validateMessage(message) == true){
 			var obj = {
 				'type': 'USER_PUBLIC_CHAT_MESSAGE',
 				'message': message
 			};
 			connection.send(JSON.stringify(obj));
+			$('#nodeChat_message').val('');
 		}
 	}
 	
@@ -164,12 +163,11 @@
 	}
 
 	function updateUserlist(data){
-		console.log('userlist data: '+data);
 		var destination = $('#nodeChat_userlist');
 			destination.html('');
 		
 		for(i=0;i<data.length;i++){
-			logProperties(data[i]);
+			//logProperties(data[i]);
 			var item = $('<li></li>').css('color',data[i]['color']).html(data[i]['name']);
 			destination.append( item );
 		}

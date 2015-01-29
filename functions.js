@@ -163,9 +163,9 @@
 		var destination = $('#nodeChat_userlist');
 			destination.html('');
 		
-		for(x in data){
-			logProperties(data[x]);
-			var item = $('<li></li>').css('color',data[x].color).html(data[x].name);
+		for(i=0;i<data.length;i++){
+			logProperties(data[i]);
+			var item = $('<li></li>').css('color',data[i]['color']).html(data[i]['name']);
 			destination.append( item );
 		}
 		//var list = JSON.parse(json);

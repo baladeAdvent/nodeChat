@@ -160,6 +160,11 @@
 
 	function updateUserlist(data){
 		console.log('userlist data: '+data);
+		var item = $('<li></li>');
+		var destination = $('#nodeChat_userlist').html('');
+		for(x in data){
+				destination.append( item.css('color',data[x].color).html(data[x].name) );
+		}
 		//var list = JSON.parse(json);
 		//var des = $('#nodeChat_users');
 		//	des.html('');

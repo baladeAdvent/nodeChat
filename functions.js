@@ -143,9 +143,11 @@
 
 	// Utilities
 	function appendChatLog(log){
-			console.log('appendChatLog() ' + log);
 			for(i=0;i<log.length;i++){
-					logProperties(log[i]);
+				logProperties(log[i]);
+				var label = $('<span></span>').css('color','rgb('+log[i].color+')').css('font-weight',800).text(log[i].username + ': ');
+				var message = $('<li></li>').attr('class','').html(message).prepend(label).hide();
+				$('#nodeChat_messages').append( message.slideDown(1000) );
 			}
 	}
 	

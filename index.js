@@ -343,7 +343,7 @@ function getUserName(id){
 function getUserColor(id){
 		for(x in clients){
 			if(clients[x]['id'] == id){
-				return clients[x]['color'];
+				return clients[x]['textColor'];
 			}
 	}
 	return '0,0,0';

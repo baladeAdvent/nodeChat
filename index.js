@@ -36,7 +36,7 @@ wss.on("connection", function(ws){
 		'textColor': randomColor()
 	};
 	clients.push(userObj);
-	ws.emti('test','test');
+	ws.emit('test','test');
 		
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);

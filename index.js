@@ -412,7 +412,6 @@ function sendUserList(){
 		'type': 'SYSTEM_UPDATE_USER_LIST',
 		'userlist': getUserList()
 	};
-
 	sendToAll(obj); // Rework this function to not blast updates constantly
 }
 //////////////////////////////////////////

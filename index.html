@@ -100,7 +100,7 @@
 					} catch(e) {
 						clearInterval(heartbeat_interval);
 						heartbeat_interval = null;
-						appendSystemToChat(e,'255,30,30');
+						appendSystemToChat(e.message,'255,30,30');
 						ws.close();
 					}
 				},5000);
@@ -158,7 +158,7 @@
 		}
 		
 		ws.onclose = function(event){
-			appendSystemToChat('Connection closed...','150,150,150');
+			appendSystemToChat('Connection closed...','100,100,100');
 		}
 		// WS Response handling //
 	</script>

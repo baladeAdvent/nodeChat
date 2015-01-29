@@ -120,9 +120,6 @@ wss.on("connection", function(ws){
 		// Cannot get this event to trip... wth?
 		console.log('Close event detected for client(' + index + ')');
 	});
-	ws.onerror(function(event){
-		console.log('Error event detected for client(' + index + ')');
-	});
 });
 
 //////////////////////////////////////////

@@ -397,7 +397,7 @@ function removeClient(index){
 			
 			if(activeStatus == true){
 				systemNotice(username + ' has logged out...');
-				setInactive(index);
+				//sendUserList();
 			}
 		}
 	}
@@ -414,8 +414,10 @@ function sendUserList(connection){
 	
 	console.log('sendUserList(): ' + obj);
 	if(connection == null){
+		console.log('sendUserList(): Update All');
 		sendToAll(obj); // Rework this function to not blast updates constantly	
 	}else{
+		console.log('sendUserList(): Update One');
 		sendToOne(connection,obj);
 	}
 	

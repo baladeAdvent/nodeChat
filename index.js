@@ -416,7 +416,7 @@ function sendUserList(connection){
 	if(connection == null){
 		sendToAll(obj); // Rework this function to not blast updates constantly	
 	}else{
-		sendToOne(connection);
+		sendToOne(connection,obj);
 	}
 	
 }

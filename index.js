@@ -419,7 +419,7 @@ function sendUserList(){
 function getUserList(){
 	output = new Array();
 	for(i=0;i<clients.length;i++){
-		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
+		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1' && clients[i].active === true){
 			output.push({
 				'name': clients[i]['username'],
 				'color': clients[i]['textColor']

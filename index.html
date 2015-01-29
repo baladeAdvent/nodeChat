@@ -26,6 +26,7 @@
 		var	heartbeat_interval = null;
 		var missed_heartbeats = 0;		
 		
+		
 		$(document).ready(function(){
 
 			// Login button
@@ -159,6 +160,7 @@
 		
 		ws.onclose = function(event){
 			appendSystemToChat('Connection closed...','100,100,100');
+			userlist_interval = null;
 		}
 		// WS Response handling //
 	</script>

@@ -1,3 +1,6 @@
+// Update userlist
+var userlist_interval = null;
+
 ///////////////////////////////////////////////////////////////////
 // Login functions
 ///////////////////////////////////////////////////////////////////
@@ -111,6 +114,10 @@
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
 			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}
+		
+		userlist_interval = setInterval(function(){
+			requestUserlist(connection);	
+		},5000);
 	}
 	
 	function processChatMessage(connection){

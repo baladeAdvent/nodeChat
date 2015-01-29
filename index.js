@@ -67,7 +67,7 @@ wss.on("connection", function(ws){
 				break;
 				
 			case 'USER_REQUEST_USER_LIST':
-				//sendUserList(ws);
+				sendUserList(ws);
 				break;
 				
 			case 'USER_PUBLIC_CHAT_MESSAGE':
@@ -416,7 +416,7 @@ function sendUserList(connection){
 	console.log('sendUserList(): ' + obj);
 	if(connection == null){
 		console.log('sendUserList(): Update All');
-		sendToAll(obj); // Rework this function to not blast updates constantly	
+		sendToAll(obj); 
 	}else{
 		console.log('sendUserList(): Update One');
 		sendToOne(connection,obj);

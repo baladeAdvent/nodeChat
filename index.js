@@ -28,7 +28,6 @@ var wss = new WebSocketServer({server: server});
 
 wss.on("connection", function(ws){
 	var index = clientID++;
-	
 	var userObj = {
 		'id': index,
 		'username': 'new_user' + Math.floor(Math.random() * 10000),
@@ -37,6 +36,7 @@ wss.on("connection", function(ws){
 		'textColor': randomColor()
 	};
 	clients.push(userObj);
+	ws.emti('test','test');
 		
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);
@@ -375,18 +375,9 @@ function addToChatLog(obj){
 }
 
 //////////////////////////////////////////
-function setUserTextColor(name,color){
-	for(x in clients){
-		console.log(clients[x]['username'] + ' : ' + name);
-		if(clients[x]['username'] == name){
-			clients[x]['textColor'] = color;
-		}
-	}
-}
-//////////////////////////////////////////
 function broadcast(data){
 	for(i=0;i<clients.length;i++){
-		console.log("broadcast to: " + clients[i]);
+		console.log("broadcast to: " + clients[i]['username']);
 		
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
 			var connection = clients[i]['ws']; 

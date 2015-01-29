@@ -81,7 +81,9 @@
 			connection.send(JSON.stringify(obj));
 		}
 		
-		
+		ws.on('test',function(data){
+			console.log('emit test: ' + data);
+		});
 		// WS Response handling //
 		ws.onmessage = function(event){		
 			edata = JSON.parse(event.data);

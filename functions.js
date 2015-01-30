@@ -359,7 +359,7 @@ $(document).ready(function(){
 		var obj = {
 			'type': 'USER_REQUEST_UPDATE_COLOR',
 			'color': color.r + ',' + color.g + ',' + color.b
-		}
+		};
 		sendToServer(obj);
 	}
 

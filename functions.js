@@ -280,9 +280,8 @@ $(document).ready(function(){
 			$('#nodeChat_header').find('span').html(username);
 			
 			parts = color.split(',');
-			colorHash = {r:parts[0],g:parts[1],b:parts[2]};
-			console.log(colorHash);
-			$('#textColor').ColorPickerSetColor(colorHash);
+			$('#textColor').ColorPickerSetColor({r:parts[0],g:parts[1],b:parts[2]});
+			$('#textColor div').css('backgroundColor', 'rgb(' + color + ')');
 			requestChatLog(connection);
 			requestUserlist(connection);
 		}else{

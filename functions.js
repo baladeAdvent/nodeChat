@@ -179,11 +179,11 @@ $(document).ready(function(){
 		if(nameStatus == 'true'){
 			// Set icon to ok, bind functions to register button
 			usernameAddon.attr('class','glyphicon glyphicon-ok');
-			$('#nodeChat_login_password').prop('disabled',true);
+			$('#nodeChat_login_password').prop('disabled',true).val('');
 		}else{
 			// Set icon to unavailable, clear functions from register button
 			usernameAddon.attr('class','glyphicon glyphicon-remove');
-			$('#nodeChat_login_password').prop('disabled',false);
+			$('#nodeChat_login_password').prop('disabled',false).val('');
 		}
 	}
 	
@@ -251,13 +251,29 @@ $(document).ready(function(){
 	}
 	
 	function validateRegistration(){
+		errors = {};
 		validationStatus = true;
 		$('#nodeChat_registerForm input').each(function(index){
-			if($(this).val() == '') validationStatus = false;
+			if($(this).attr('id') == 'nodeChat_register_email'){
+				emailReg =/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/i;
+				if(emailReg.test( $(this).val() ) == false){
+						validationStatus = false;
+						errors.push('invalid email...');
+				}
+			}else{
+				if($(this).val() == '') validationStatus = false;
+						errors.push('missing input...');
+			}
 		});
 
 		if(validationStatus == false){
-			message = $('<div></div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
+		message = $('<div></div>').attr('class','alert alert-danger').html(function(){
+			output = '';
+			for(i=0;i<errors.length;i++){
+				output += "<div>" + errors[i] + "</div>";
+			}
+			return output;
+		});
 			 $('#nodeChat_registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 		}else{
 			var obj = {

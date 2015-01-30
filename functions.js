@@ -79,16 +79,14 @@ $(document).ready(function(){
 			return false;
 		},
 		onChange: function (hsb, hex, rgb) {
-			$('#textColor').css('backgroundColor', '#' + hex);
+			$('#colorpickerSwatch').css('backgroundColor', '#' + hex);
 		},
 		onSubmit: function(hsb, hex, rgb, el){
-			$('#textColor').css('backgroundColor', '#' + hex);
+			$('#colorpickerSwatch').css('backgroundColor', '#' + hex);
 			updateTextColor(rgb);
 			$(el).ColorPickerHide();
 		}
 		
-	}).bind('keyup',function(){
-		$(this).ColorPickerSetColor(this.value);
 	});
 	// - Color Picker - //
 	

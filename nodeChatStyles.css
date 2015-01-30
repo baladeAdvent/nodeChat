@@ -37,6 +37,10 @@ ul#nodeChat_messages, ul#nodeChat_userlist{
 	position:relative;
 }
 
+#colorpickerSwatch {
+	width:30px;
+	height;36px;
+}
 
 /* Initial display settings */
 #nodeChat_login {

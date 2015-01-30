@@ -12,9 +12,153 @@
 	<script src="functions.js"></script>
 	
 	<script>
+		var username = '';
+		var loggedIn = false;
+		var autoScroll = true;
 
+		var host = location.origin.replace(/^http/,'ws');
+		ws = new WebSocket(host);
+		
+		// Heartbeat
+		var	heartbeat_interval = null;
+		var missed_heartbeats = 0;		
 		
 		
+		$(document).ready(function(){
+
+			// Login button
+			$('#nodeChat_loginForm button').click(function(evt){
+				evt.preventDefault();
+				validateLogin(ws);
+			});
+			
+			// Empty containers for timers
+			loginCheck = '';
+			registrationCheck = '';
+			
+			// - Login Username Check
+			$('#nodeChat_login_username').bind('keypress change',function(){
+				clearTimeout(loginCheck);
+				if(trim($('#nodeChat_login_username').val()) != ''){
+					loginCheck = setTimeout(function(){
+						name = trim($('#nodeChat_login_username').val());
+						var obj = {
+							'type': 'USER_CHECK_LOGIN_AVAILABILITY',
+							'username': name
+							};
+						
+						checkAvailability(obj,ws);
+					},1000);
+				}
+			});
+			// - Login Username Check
+			
+			// - Registration Username Check
+			$('#nodeChat_register_username').bind('keypress change',function(){	
+				$('#nodeChat_register_username_addon').find('i').attr('class','glyphicon glyphicon-search');			
+				$('#nodeChat_registerForm button').prop('disabled',true);
+				clearTimeout(registrationCheck);
+				if(trim($('#nodeChat_register_username').val()) != ''){
+					registrationCheck = setTimeout(function(){
+						name = trim($('#nodeChat_register_username').val());
+						var obj = {
+							'type': 'USER_CHECK_REGISTRATION_AVAILABILITY',
+							'username': name
+						};
+						
+						checkAvailability(obj,ws);
+					},1000);
+				}
+			});
+			// - Registration Username Check
+			
+			// - Submit - //
+			$('#sendToChat').click(function(evt){
+				evt.preventDefault();
+				processChatMessage(ws);
+			});
+			
+		});
+
+		function checkAvailability(obj,connection){
+			console.log('Check username availability');
+			connection.send(JSON.stringify(obj));
+		}
+		
+		ws.onopen = function(event){
+			if (heartbeat_interval === null){
+				missed_heartbeats = 0;
+				heartbeat_interval = setInterval(function(){
+					try {
+						if(missed_heartbeats >= 3){
+							throw new Error('ping timeout...');
+						}
+						ws.send(JSON.stringify({'type':'USER_HEARTBEAT'}));
+					} catch(e) {
+						clearInterval(heartbeat_interval);
+						heartbeat_interval = null;
+						appendSystemToChat(e.message,'255,30,30');
+						ws.close();
+					}
+				},5000);
+			}
+		}
+		
+		// WS Response handling //
+		ws.onmessage = function(event){		
+			edata = JSON.parse(event.data);
+			logProperties(edata);
+			switch(edata.type){
+			
+				// Login
+				case 'SYSTEM_CHECK_LOGIN_AVAILABILITY':
+					updateLoginButton(edata.available,ws);
+					break;
+					
+				case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
+				case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
+					//console.log('login verification recieved');
+					startNodeChat(edata.result,edata.username,ws);
+					break;
+				
+				// Registration
+				case 'SYSTEM_REGISTRATION_RESPONSE':
+					registrationResponse(edata.result,edata.username);
+					break;
+					
+				case 'SYSTEM_CHECK_REGISTRATION_AVAILABILITY':
+					updateRegistrationButton(edata.available,ws);
+					break;
+					
+				// Chat
+				case 'SYSTEM_MESSAGE':
+					appendSystemToChat(edata.message,edata.color);
+					break;
+					
+				case 'SYSTEM_UPDATE_USER_LIST':
+					updateUserlist(edata.userlist);
+					break;
+					
+				case 'SYSTEM_RESPONSE_CHAT_LOG':
+					appendChatLog(edata.chatlog);
+					break;
+					
+				case 'SYSTEM_RESPONSE_CHAT_MESSAGE':
+					appendToChat(edata.username,edata.message,edata.color);
+					break;
+					
+				// Heartbeat
+				case 'SYSTEM_HEARTBEAT':
+					missed_heartbeats = 0;
+					break;
+			}
+		}
+		// WS Response handling //
+		
+		ws.onclose = function(event){
+			appendSystemToChat('Connection closed...','100,100,100');
+			userlist_interval = null;
+		}
 	</script>
 	<style>
 

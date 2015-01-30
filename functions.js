@@ -254,7 +254,7 @@ $(document).ready(function(){
 		errors = new Array();
 		validationStatus = true;
 		$('#nodeChat_registerForm input').each(function(index){
-			console.log($(this).attr('id'));
+			console.log($(this).attr('id') + ':' + trim($(this).val()));
 			if($(this).attr('id') == 'nodeChat_register_email'){
 				emailReg =/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/i;
 				if(emailReg.test( trim($(this).val()) ) == false){

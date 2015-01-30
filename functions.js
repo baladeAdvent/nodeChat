@@ -79,10 +79,11 @@ $(document).ready(function(){
 			return false;
 		},
 		onChange: function (hsb, hex, rgb) {
-			$('#textColor div').css('backgroundColor', '#' + hex);
+			$('#colorpickerSwatch').css('backgroundColor', '#' + hex);
 		},
 		onSubmit: function(hsb, hex, rgb, el){
 			updateTextColor(rgb);
+			$(el).ColorPickerHide();
 		}
 		
 	}).bind('keyup',function(){
@@ -279,6 +280,7 @@ $(document).ready(function(){
 			
 			$('#nodeChat_header').find('span').html(username);
 			$('#textColor').ColorPickerSetColor(function(color){
+				console.log(color);
 				parts = color.split(',');
 				return {'r':parts[0],'g':parts[1],'b':parts[2]};
 			});

@@ -71,7 +71,7 @@ $(document).ready(function(){
 	$('#textColor').ColorPicker({
 		color: '#0000ff',
 		onShow: function (colpkr) {
-			$(colpkr).fadeIn(500).css('z-index',10);
+			$(colpkr).fadeIn(500).css('z-index',1000);
 			return false;
 		},
 		onHide: function (colpkr) {
@@ -122,13 +122,13 @@ $(document).ready(function(){
 		
 			// Login
 			case 'SYSTEM_CHECK_LOGIN_AVAILABILITY':
-				updateLoginButton(edata.available,ws);
+				updateLoginButton(edata.available);
 				break;
 				
 			case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 			case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
 				//console.log('login verification recieved');
-				startNodeChat(edata.result,edata.username,edata.textColor,ws);
+				startNodeChat(edata.result,edata.username,edata.textColor);
 				break;
 			
 			// Registration
@@ -137,7 +137,7 @@ $(document).ready(function(){
 				break;
 				
 			case 'SYSTEM_CHECK_REGISTRATION_AVAILABILITY':
-				updateRegistrationButton(edata.available,ws);
+				updateRegistrationButton(edata.available);
 				break;
 				
 			// Chat
@@ -174,18 +174,20 @@ $(document).ready(function(){
 ///////////////////////////////////////////////////////////////////
 // Login functions
 ///////////////////////////////////////////////////////////////////
-	function updateLoginButton(nameStatus,connection){
+	function updateLoginButton(nameStatus){
 		usernameAddon = $('#nodeChat_login_username_addon').find('i');
 		if(nameStatus == 'true'){
 			// Set icon to ok, bind functions to register button
 			usernameAddon.attr('class','glyphicon glyphicon-ok');
+			$('#nodeChat_login_password').prop('disabled',true);
 		}else{
 			// Set icon to unavailable, clear functions from register button
 			usernameAddon.attr('class','glyphicon glyphicon-remove');
+			$('#nodeChat_login_password').prop('disabled',false);
 		}
 	}
 	
-	function validateLogin(connection){
+	function validateLogin(){
 		validationStatus = true;
 		$('nodeChat_loginForm input').each(function(index){
 			if($(this).val() == '') validationStatus = false;
@@ -219,6 +221,7 @@ $(document).ready(function(){
 		message = $('<div></div>');
 		if(result == 'success'){
 			message.attr('class','alert alert-success').html('Success! The following username  has been registered and is available for your use! : ' + username);
+			registrationForm[0].reset();
 		}else{
 			message.attr('class','alert alert-danger').html('An error has occured while trying to register this username! Please try a different username or use a different email account. : ' + username);
 			registerButton.prop('disabled',false);
@@ -226,7 +229,7 @@ $(document).ready(function(){
 		$('#nodeChat_registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(10000).animate({height:'hide'},500);
 	}
 	
-	function updateRegistrationButton(nameStatus,connection){
+	function updateRegistrationButton(nameStatus){
 		usernameAddon = $('#nodeChat_register_username_addon').find('i');
 		registerButton = $('#nodeChat_registerForm').find('button');
 		if(nameStatus == 'true'){
@@ -235,7 +238,7 @@ $(document).ready(function(){
 			registerButton.prop('disabled',false);
 			registerButton.click(function(evt){
 				evt.preventDefault();
-				validateRegistration(connection);
+				validateRegistration();
 			});
 		}else{
 			// Set icon to unavailable, clear functions from register button
@@ -247,7 +250,7 @@ $(document).ready(function(){
 		}
 	}
 	
-	function validateRegistration(connection){
+	function validateRegistration(){
 		validationStatus = true;
 		$('#nodeChat_registerForm input').each(function(index){
 			if($(this).val() == '') validationStatus = false;
@@ -272,7 +275,7 @@ $(document).ready(function(){
 ///////////////////////////////////////////////////////////////////
 // Chat functions
 ///////////////////////////////////////////////////////////////////
-	function startNodeChat(result,username,color,connection){
+	function startNodeChat(result,username,color){
 		if(result == 'success'){
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
@@ -282,19 +285,19 @@ $(document).ready(function(){
 			parts = color.split(',');
 			$('#textColor').ColorPickerSetColor({r:parts[0],g:parts[1],b:parts[2]});
 			$('#textColor div').css('backgroundColor', 'rgb(' + color + ')');
-			requestChatLog(connection);
-			requestUserlist(connection);
+			requestChatLog();
+			requestUserlist();
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
 			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}
 		
 		userlist_interval = setInterval(function(){
-			requestUserlist(connection);	
-		},30000);
+			requestUserlist();	
+		},15000);
 	}
 	
-	function processChatMessage(connection){
+	function processChatMessage(){
 		var message = $('#nodeChat_message').val();
 
 		if( validateMessage(message) == true){
@@ -308,13 +311,13 @@ $(document).ready(function(){
 	}
 	
 	// Requests
-	function requestChatLog(connection){
+	function requestChatLog(){
 		var obj = {
 			'type': 'USER_REQUEST_CHAT_LOG'
 		};
 		sendToServer(obj);
 	}
-	function requestUserlist(connection){
+	function requestUserlist(){
 		var obj = {
 			'type': 'USER_REQUEST_USER_LIST'
 		};
@@ -354,7 +357,7 @@ $(document).ready(function(){
 		}
 	}
 
-	function checkAvailability(obj,connection){
+	function checkAvailability(obj){
 		console.log('Check username availability');
 		sendToServer(obj);
 	}

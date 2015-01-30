@@ -459,13 +459,6 @@ function processUserName(name){
 	if(name.length > __USERNAME_LENGTH){
 		name = name.substr(0,__USERNAME_LENGTH);
 	}
-	
-	// Check if username is already in use
-	for(x in clients){
-		if(clients[x]['username'] == name){	// If username is in use, append suffixes
-			name = name + '_' + Math.floor(Math.random() * 1001);
-		}
-	}
 
 	// return processed name
 	return name;

@@ -79,10 +79,10 @@ $(document).ready(function(){
 			return false;
 		},
 		onChange: function (hsb, hex, rgb) {
-			$('#colorpickerSwatch').css('backgroundColor', '#' + hex);
+			$('#colorpickerSwatch div').css('backgroundColor', '#' + hex);
 		},
 		onSubmit: function(hsb, hex, rgb, el){
-			$('#colorpickerSwatch').css('backgroundColor', '#' + hex);
+			$('#colorpickerSwatch div').css('backgroundColor', '#' + hex);
 			updateTextColor(rgb);
 			$(el).ColorPickerHide();
 		}

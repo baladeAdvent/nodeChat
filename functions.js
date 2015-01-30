@@ -188,9 +188,10 @@ $(document).ready(function(){
 	}
 	
 	function validateLogin(){
+		console.log('validateLogin()');
 		var errors = new Array();
 		validationStatus = true;
-		$('nodeChat_loginForm input').each(function(index){
+		$('#nodeChat_loginForm input').each(function(index){
 			console.log($(this).attr('id') + ':' + trim($(this).val()) + ':' + $(this).prop('disabled'));
 
 			validationStatus = false;

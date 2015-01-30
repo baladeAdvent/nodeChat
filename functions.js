@@ -13,6 +13,7 @@ var missed_heartbeats = 0;
 var userlist_interval = null;
 
 $(document).ready(function(){
+	$('#nodeChat_login_password, #nodeChat_registration_button').prop('disabled',true);
 	
 	// Login button
 	$('#nodeChat_login_button').click(function(evt){

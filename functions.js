@@ -129,7 +129,7 @@ $(document).ready(function(){
 			case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 			case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
 				//console.log('login verification recieved');
-				startNodeChat(edata.result,edata.username,edata.textColor);
+				startNodeChat(edata.result,edata.username,edata.message,edata.textColor);
 				break;
 			
 			// Registration
@@ -300,7 +300,7 @@ $(document).ready(function(){
 ///////////////////////////////////////////////////////////////////
 // Chat functions
 ///////////////////////////////////////////////////////////////////
-	function startNodeChat(result,username,color){
+	function startNodeChat(result,username,message,color){
 		if(result == 'success'){
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
@@ -313,7 +313,7 @@ $(document).ready(function(){
 			requestChatLog();
 			requestUserlist();
 		}else{
-			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...');
+			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...' + message);
 			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}
 		

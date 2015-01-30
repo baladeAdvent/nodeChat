@@ -103,7 +103,8 @@ function loginNewUser(type,data,connection,index){
 		time: (new Date()).getTime(),
 		result: '',
 		username: processUserName(data.name),
-		textColor: getUserColor(index)
+		textColor: getUserColor(index),
+		message: ''
 	};
 
 	// If user supplied password verify login authenticity
@@ -114,6 +115,7 @@ function loginNewUser(type,data,connection,index){
 				processLogin(type,data.name,index);
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
+				obj.message = 'Invlaid login credentials...';
 			}
 			console.log('Connection Ready: ' + connection.readyState);
 			sendToOne(connection,obj);
@@ -134,6 +136,7 @@ function loginNewUser(type,data,connection,index){
 			
 			if(nameAvailable == false){ // If username is in-use/registered deny login attempt and notify
 				obj.result = 'failed';
+				obj.message = 'Username is registered, please choo choo choose another...';
 			}else{	// If username is not log user in
 				obj.result = 'success';
 				processLogin(type,data.name,index);
@@ -459,6 +462,8 @@ function processUserName(name){
 	if(name.length > __USERNAME_LENGTH){
 		name = name.substr(0,__USERNAME_LENGTH);
 	}
+	
+
 
 	// return processed name
 	return name;

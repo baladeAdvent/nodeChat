@@ -262,8 +262,10 @@ $(document).ready(function(){
 						errors.push('invalid email...');
 				}
 			}else{
-				if( trim($(this).val()) == '' ) validationStatus = false;
-						errors.push('missing input...');
+				if( trim($(this).val()) == '' ){
+					validationStatus = false;
+					errors.push('missing input...');
+				}
 			}
 		});
 

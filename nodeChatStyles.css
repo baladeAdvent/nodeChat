@@ -25,6 +25,7 @@ ul#nodeChat_messages, ul#nodeChat_userlist{
 	padding: 5px;
 	background: #fff url('nodeChat_msgBG.jpg') repeat-x bottom;
 	font-size: 12px;
+	word-wrap: break-word;
 }
 
 #nodeChat_userlist > li{

@@ -366,9 +366,10 @@ $(document).ready(function(){
 	}
 	
 	function appendToChat(username,message,color){
-		var label = $('<span></span>').css('color','rgb('+color+')').css('font-weight',300).text(username + ': ');
-		var message = $('<li></li>').attr('class','').html(message).prepend(label);
-		$('#nodeChat_messages').append( message );
+		var label = $('<div></div>').css('color','rgb('+color+')').css('font-weight',300).css('float','left').text(username + ': ');
+		var message = $('<div></div>').html(message);
+		var appendThis = $('<li></li>').attr('class','').append(label).append(message);
+		$('#nodeChat_messages').append( appendThis );
 	}
 
 	function updateUserlist(data){

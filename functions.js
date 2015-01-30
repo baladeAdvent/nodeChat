@@ -15,7 +15,7 @@ var userlist_interval = null;
 $(document).ready(function(){
 	
 	// Login button
-	$('#nodeChat_loginForm button').click(function(evt){
+	$('#nodeChat_login_button').click(function(evt){
 		evt.preventDefault();
 		validateLogin();
 	});
@@ -44,7 +44,7 @@ $(document).ready(function(){
 	// - Registration Username Check
 	$('#nodeChat_register_username').bind('keypress change',function(){	
 		$('#nodeChat_register_username_addon').find('i').attr('class','glyphicon glyphicon-search');			
-		$('#nodeChat_registerForm button').prop('disabled',true);
+		$('#nodeChat_registration_button').prop('disabled',true);
 		clearTimeout(registrationCheck);
 		if(trim($('#nodeChat_register_username').val()) != ''){
 			registrationCheck = setTimeout(function(){
@@ -222,7 +222,7 @@ $(document).ready(function(){
 ///////////////////////////////////////////////////////////////////
 	function registrationResponse(result,username){
 		registrationForm = $('#nodeChat_registerForm');
-		registerButton = registrationForm.find('button');
+		registerButton = $('#nodeChat_registration_button');
 		message = $('<div></div>');
 		if(result == 'success'){
 			message.attr('class','alert alert-success').html('Success! The following username  has been registered and is available for your use! : ' + username);
@@ -236,7 +236,7 @@ $(document).ready(function(){
 	
 	function updateRegistrationButton(nameStatus){
 		usernameAddon = $('#nodeChat_register_username_addon').find('i');
-		registerButton = $('#nodeChat_registerForm').find('button');
+		registerButton = $('#nodeChat_registration_button');
 		if(nameStatus == 'true'){
 			// Set icon to ok, bind functions to register button
 			usernameAddon.attr('class','glyphicon glyphicon-ok');

@@ -278,11 +278,9 @@ $(document).ready(function(){
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
 			
 			$('#nodeChat_header').find('span').html(username);
-			$('#textColor').ColorPickerSetColor(function(color){
-				console.log(color);
-				parts = color.split(',');
-				return {'r':parts[0],'g':parts[1],'b':parts[2]};
-			});
+			
+			parts = color.split(',');
+			$('#textColor').ColorPickerSetColor({r:parts[0],g:parts[1],b:parts[2]});
 			requestChatLog(connection);
 			requestUserlist(connection);
 		}else{

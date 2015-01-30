@@ -71,7 +71,7 @@ $(document).ready(function(){
 	$('#textColor').ColorPicker({
 		color: '#0000ff',
 		onShow: function (colpkr) {
-			$(colpkr).fadeIn(500).css('z-index',99999);
+			$(colpkr).fadeIn(500);
 			return false;
 		},
 		onHide: function (colpkr) {
@@ -79,7 +79,9 @@ $(document).ready(function(){
 			return false;
 		},
 		onChange: function (hsb, hex, rgb) {
-			$('#colorSelector div').css('backgroundColor', '#' + hex);
+			
+			console.log(rgb);
+			$('#textColor div').css('backgroundColor', '#' + hex);
 		}
 	}).bind('keyup',function(){
 		$(this).ColorPickerSetColor(this.value);

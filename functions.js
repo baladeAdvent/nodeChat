@@ -206,7 +206,7 @@ $(document).ready(function(){
 				'password': trim($('#nodeChat_login_password').val()),
 			};
 			// Note: Disable Login Form at this point, wait for response from server
-			connection.send(JSON.stringify(obj));
+			sendToServer(obj);
 		}
 	}
 	
@@ -265,7 +265,7 @@ $(document).ready(function(){
 			};
 			// Note: Disable Registration Form at this point, wait for response from server
 			$('#nodeChat_registerForm button').prop('disabled',true);
-			connection.send(JSON.stringify(obj));
+			sendToServer(obj);
 		}
 	}
 
@@ -302,7 +302,7 @@ $(document).ready(function(){
 				'type': 'USER_PUBLIC_CHAT_MESSAGE',
 				'message': message
 			};
-			connection.send(JSON.stringify(obj));
+			sendToServer(obj);
 			$('#nodeChat_message').val('');
 		}
 	}
@@ -312,13 +312,13 @@ $(document).ready(function(){
 		var obj = {
 			'type': 'USER_REQUEST_CHAT_LOG'
 		};
-		connection.send(JSON.stringify(obj));
+		sendToServer(obj);
 	}
 	function requestUserlist(connection){
 		var obj = {
 			'type': 'USER_REQUEST_USER_LIST'
 		};
-		connection.send(JSON.stringify(obj));
+		sendToServer(obj);
 	}
 
 	// Utilities
@@ -356,7 +356,7 @@ $(document).ready(function(){
 
 	function checkAvailability(obj,connection){
 		console.log('Check username availability');
-		connection.send(JSON.stringify(obj));
+		sendToServer(obj);
 	}
 	
 	function updateTextColor(color){

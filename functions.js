@@ -364,6 +364,8 @@ $(document).ready(function(){
 	}
 
 	function sendToServer(obj){
+		console.log('sendToServer()');
+		console.log(obj);
 		ws.send(JSON.stringify(obj));
 	}
 	

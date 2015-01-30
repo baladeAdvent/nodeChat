@@ -287,10 +287,10 @@ function setUserName(index,userName){
 	}
 }
 function setUserColor(index,color){
-	console.log('setUserColor(' + color + ')');
+	console.log('setUserColor(' + color + ') - ' + getUserName(index));
 	for(x in clients){
 		if(clients[x]['id'] == index){
-			clients[x]['color'] = color;
+			clients[x]['textColor'] = color;
 		}
 	}
 }

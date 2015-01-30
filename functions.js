@@ -363,7 +363,7 @@ $(document).ready(function(){
 		sendToServer(obj);
 	}
 
-	sendToServer(obj){
+	function sendToServer(obj){
 		ws.send(JSON.stringify(obj));
 	}
 	

@@ -193,8 +193,9 @@ $(document).ready(function(){
 		validationStatus = true;
 		$('#nodeChat_loginForm input').each(function(index){
 			console.log($(this).attr('id') + ':' + trim($(this).val()) + ':' + $(this).prop('disabled'));
-
-			validationStatus = false;
+			if( trim($(this).val()) == '' && $(this).prop('disabled') == false){
+				validationStatus = false;	
+			}
 		});
 
 		if(validationStatus == false){

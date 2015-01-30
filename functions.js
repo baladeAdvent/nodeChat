@@ -71,7 +71,7 @@ $(document).ready(function(){
 	$('#textColor').ColorPicker({
 		color: '#0000ff',
 		onShow: function (colpkr) {
-			$(colpkr).fadeIn(500);
+			$(colpkr).fadeIn(500).css('z-index',10);
 			return false;
 		},
 		onHide: function (colpkr) {
@@ -79,10 +79,12 @@ $(document).ready(function(){
 			return false;
 		},
 		onChange: function (hsb, hex, rgb) {
-			
-			console.log(rgb);
 			$('#textColor div').css('backgroundColor', '#' + hex);
+		},
+		onSubmit: function(hsb, hex, rgb, el){
+			updateTextColor(rgb);
 		}
+		
 	}).bind('keyup',function(){
 		$(this).ColorPickerSetColor(this.value);
 	});
@@ -351,6 +353,11 @@ $(document).ready(function(){
 	function checkAvailability(obj,connection){
 		console.log('Check username availability');
 		connection.send(JSON.stringify(obj));
+	}
+	
+	function updateTextColor(color){
+		console.log('Update Text Color: '+color);
+		console.log(ws);
 	}
 
 	

@@ -128,7 +128,7 @@ $(document).ready(function(){
 			case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 			case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
 				//console.log('login verification recieved');
-				startNodeChat(edata.result,edata.username,ws);
+				startNodeChat(edata.result,edata.username,edata.textColor,ws);
 				break;
 			
 			// Registration
@@ -272,12 +272,16 @@ $(document).ready(function(){
 ///////////////////////////////////////////////////////////////////
 // Chat functions
 ///////////////////////////////////////////////////////////////////
-	function startNodeChat(result,username,connection){
+	function startNodeChat(result,username,color,connection){
 		if(result == 'success'){
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
 			
 			$('#nodeChat_header').find('span').html(username);
+			$('#textColor').ColorPickerSetColor(function(color){
+				parts = color.split(',');
+				return {'r':parts[0],'g':parts[1],'b':parts[2]};
+			});
 			requestChatLog(connection);
 			requestUserlist(connection);
 		}else{

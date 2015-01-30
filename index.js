@@ -102,7 +102,8 @@ function loginNewUser(type,data,connection,index){
 		type: (type).replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
 		time: (new Date()).getTime(),
 		result: '',
-		username: processUserName(data.name)
+		username: processUserName(data.name),
+		textColor: getUserColor(index)
 	};
 
 	// If user supplied password verify login authenticity

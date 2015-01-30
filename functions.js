@@ -71,7 +71,7 @@ $(document).ready(function(){
 	$('#textColor').ColorPicker({
 		color: '#0000ff',
 		onShow: function (colpkr) {
-			$(colpkr).fadeIn(500);
+			$(colpkr).fadeIn(500).css('z-index',99999);
 			return false;
 		},
 		onHide: function (colpkr) {

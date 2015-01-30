@@ -199,8 +199,8 @@ $(document).ready(function(){
 		});
 
 		if(validationStatus == false){
-			message = $('<div></div>').attr('class','alert alert-danger').html('Please fill out all form fields to register!');
-			$('#nodeChat_loginResponse').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
+			message = $('<div></div>').attr('class','alert alert-danger').html('Please fill out all form fields to login
+			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}else{
 			if( trim($('#nodeChat_login_password').val()) == ''){
 				type = 'USER_REQUEST_LOGIN_ANONYMOUS';

@@ -17,7 +17,7 @@ $(document).ready(function(){
 	// Login button
 	$('#nodeChat_loginForm button').click(function(evt){
 		evt.preventDefault();
-		validateLogin(ws);
+		validateLogin();
 	});
 	
 	// Empty containers for timers
@@ -35,7 +35,7 @@ $(document).ready(function(){
 					'username': name
 					};
 				
-				checkAvailability(obj,ws);
+				checkAvailability(obj);
 			},1000);
 		}
 	});
@@ -54,7 +54,7 @@ $(document).ready(function(){
 					'username': name
 				};
 				
-				checkAvailability(obj,ws);
+				checkAvailability(obj);
 			},1000);
 		}
 	});
@@ -188,9 +188,13 @@ $(document).ready(function(){
 	}
 	
 	function validateLogin(){
+		var errors = new Array();
 		validationStatus = true;
 		$('nodeChat_loginForm input').each(function(index){
-			if($(this).val() == '') validationStatus = false;
+			console.log($(this).attr('id') + ':' + trim($(this).val()) + ':' + $(this).prop('disabled'));
+			if( trim($(this).val()) == ''){
+				validationStatus = false;
+			}
 		});
 
 		if(validationStatus == false){

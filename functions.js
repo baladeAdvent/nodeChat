@@ -201,7 +201,7 @@ $(document).ready(function(){
 
 		if(validationStatus == false){
 			message = $('<div></div>').attr('class','alert alert-danger').html('Please fill out all form fields to login');
-			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
+			$('#nodeChat_loginResponse').clearQueue().html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}else{
 			if( trim($('#nodeChat_login_password').val()) == ''){
 				type = 'USER_REQUEST_LOGIN_ANONYMOUS';
@@ -232,7 +232,7 @@ $(document).ready(function(){
 			message.attr('class','alert alert-danger').html('An error has occured while trying to register this username! Please try a different username or use a different email account. : ' + username);
 			registerButton.prop('disabled',false);
 		}
-		$('#nodeChat_registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(10000).animate({height:'hide'},500);
+		$('#nodeChat_registrationResponse').clearQueue().html('').append( message ).hide().animate({height:'show'},500).delay(10000).animate({height:'hide'},500);
 	}
 	
 	function updateRegistrationButton(nameStatus){
@@ -283,7 +283,7 @@ $(document).ready(function(){
 			}
 			return output;
 		});
-			 $('#nodeChat_registrationResponse').html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
+			 $('#nodeChat_registrationResponse').clearQueue().html('').append( message ).hide().animate({height:'show'},500).delay(5000).animate({height:'hide'},500);
 		}else{
 			var obj = {
 				'type': 'USER_REQUEST_REGISTRATION',
@@ -312,14 +312,14 @@ $(document).ready(function(){
 			$('#textColor div').css('backgroundColor', 'rgb(' + color + ')');
 			requestChatLog();
 			requestUserlist();
+		
+			userlist_interval = setInterval(function(){
+				requestUserlist();	
+			},15000);
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...' + message);
-			$('#nodeChat_loginResponse').html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
+			$('#nodeChat_loginResponse').clearQueue().html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}
-		
-		userlist_interval = setInterval(function(){
-			requestUserlist();	
-		},15000);
 	}
 	
 	function processChatMessage(){

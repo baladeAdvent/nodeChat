@@ -413,7 +413,6 @@ function sendUserList(connection){
 		'userlist': getUserList()
 	};
 	
-	console.log('sendUserList(): ' + obj);
 	if(connection == null){
 		console.log('sendUserList(): Update All');
 		sendToAll(obj); 

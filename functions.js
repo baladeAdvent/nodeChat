@@ -65,7 +65,26 @@ $(document).ready(function(){
 		evt.preventDefault();
 		processChatMessage(ws);
 	});
+	// - Submit - //
 	
+	// - Color Picker - //
+	$('#textColor').ColorPicker({
+		color: '#0000ff',
+		onShow: function (colpkr) {
+			$(colpkr).fadeIn(500);
+			return false;
+		},
+		onHide: function (colpkr) {
+			$(colpkr).fadeOut(500);
+			return false;
+		},
+		onChange: function (hsb, hex, rgb) {
+			$('#colorSelector div').css('backgroundColor', '#' + hex);
+		}
+	}).bind('keyup',function(){
+		$(this).ColorPickerSetColor(this.value);
+	});
+	// - Color Picker - //
 	
 });
 
@@ -264,7 +283,7 @@ $(document).ready(function(){
 		
 		userlist_interval = setInterval(function(){
 			requestUserlist(connection);	
-		},5000);
+		},30000);
 	}
 	
 	function processChatMessage(connection){

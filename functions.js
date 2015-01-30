@@ -251,7 +251,7 @@ $(document).ready(function(){
 	}
 	
 	function validateRegistration(){
-		errors = {};
+		errors = new Array();
 		validationStatus = true;
 		$('#nodeChat_registerForm input').each(function(index){
 			if($(this).attr('id') == 'nodeChat_register_email'){

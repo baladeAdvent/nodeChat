@@ -256,12 +256,12 @@ $(document).ready(function(){
 		$('#nodeChat_registerForm input').each(function(index){
 			if($(this).attr('id') == 'nodeChat_register_email'){
 				emailReg =/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/i;
-				if(emailReg.test( $(this).val() ) == false){
+				if(emailReg.test( trim($(this).val()) ) == false){
 						validationStatus = false;
 						errors.push('invalid email...');
 				}
 			}else{
-				if($(this).val() == '') validationStatus = false;
+				if( trim($(this).val()) == '' ) validationStatus = false;
 						errors.push('missing input...');
 			}
 		});

@@ -74,6 +74,10 @@ wss.on("connection", function(ws){
 				processChatMessage(index,data);
 				break;
 				
+			case 'USER_REQUEST_UPDATE_COLOR':
+				setUserColor(index,data.color);
+				break;
+				
 			//* Heart beat *//
 			case 'USER_HEARTBEAT':
 				returnHeartbeat(ws);

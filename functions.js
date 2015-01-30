@@ -356,11 +356,16 @@ $(document).ready(function(){
 	}
 	
 	function updateTextColor(color){
-		console.log('Update Text Color: '+color);
-		console.log(ws);
+		var obj = {
+			'type': 'USER_REQUEST_UPDATE_COLOR',
+			'color': color.r + ',' + color.g + ',' + color.b
+		}
+		sendToServer(obj);
 	}
 
-	
+	sendToServer(obj){
+		ws.send(JSON.stringify(obj));
+	}
 	
 	
 

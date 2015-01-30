@@ -14,10 +14,8 @@
 	<script>
 		var username = '';
 		var loggedIn = false;
-		var keepalive = '';
 		var autoScroll = true;
-		
-		var pingRequest = '';
+
 		var host = location.origin.replace(/^http/,'ws');
 		ws = new WebSocket(host);
 		
@@ -80,7 +78,6 @@
 				processChatMessage(ws);
 			});
 			
-
 		});
 
 		function checkAvailability(obj,connection){
@@ -156,12 +153,12 @@
 					break;
 			}
 		}
+		// WS Response handling //
 		
 		ws.onclose = function(event){
 			appendSystemToChat('Connection closed...','100,100,100');
 			userlist_interval = null;
 		}
-		// WS Response handling //
 	</script>
 	<style>
 

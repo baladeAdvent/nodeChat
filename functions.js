@@ -363,7 +363,7 @@ $(document).ready(function(){
 	function appendSystemToChat(message,color){
 		var label = $('<div></div>').css('color','rgb('+color+')').css('font-weight',800).css('display','table-cell').css('padding-right','5px').text('SYSTEM: ');
 		var message = $('<div></div>').css('display','table-cell').html(message);
-		var appendThis = $('<li></li>').attr('class','nodeChat_system_message alert alert-info').append(label).append(message);
+		var appendThis = $('<li></li>').attr('class','nodeChat_system_message bg-info').append(label).append(message);
 		$('#nodeChat_messages').append( appendThis );
 	}
 	

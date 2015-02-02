@@ -353,7 +353,7 @@ $(document).ready(function(){
 	function appendChatLog(log){
 			for(i=0;i<log.length;i++){
 				logProperties(log[i]);
-				var label = $('<div></div>').css('color','rgb('+log[i].color+')').css('font-weight',300).css('display','table-cell').text(log[i].username + ': ');
+				var label = $('<div></div>').css('color','rgb('+log[i].color+')').css('font-weight',300).css('display','table-cell').css('padding-right','5px').text(log[i].username + ': ');
 				var message = $('<div></div>').css('display','table-cell').text(log[i].message);
 				var appendThis = $('<li></li>').attr('class','nodeChat_chat_message').append(label).append(message);
 				$('#nodeChat_messages').append( appendThis );
@@ -361,14 +361,14 @@ $(document).ready(function(){
 	}
 	
 	function appendSystemToChat(message,color){
-		var label = $('<div></div>').css('color','rgb('+color+')').css('font-weight',800).css('display','table-cell').text('SYSTEM: ');
+		var label = $('<div></div>').css('color','rgb('+color+')').css('font-weight',800).css('display','table-cell').css('padding-right','5px').text('SYSTEM: ');
 		var message = $('<div></div>').css('display','table-cell').html(message);
 		var appendThis = $('<li></li>').attr('class','nodeChat_chat_message bg-info').append(label).append(message);
-		$('#nodeChat_messages').append( message );
+		$('#nodeChat_messages').append( appendThis );
 	}
 	
 	function appendToChat(username,message,color){
-		var label = $('<div></div>').css('color','rgb('+color+')').css('font-weight',300).css('display','table-cell').text(username + ': ');
+		var label = $('<div></div>').css('color','rgb('+color+')').css('font-weight',300).css('display','table-cell').css('padding-right','5px').text(username + ': ');
 		var message = $('<div></div>').css('display','table-cell').html(message);
 		var appendThis = $('<li></li>').attr('class','nodeChat_chat_message').append(label).append(message);
 		$('#nodeChat_messages').append( appendThis );

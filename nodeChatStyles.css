@@ -20,15 +20,12 @@ ul#nodeChat_messages, ul#nodeChat_userlist{
 	padding:0;
 }
 
-#nodeChat_messages > li {
+#nodeChat_messages > li .nodeChat_chat_message{
 	margin: 0;
 	padding: 5px;
 	background: #fff url('nodeChat_msgBG.jpg') repeat-x bottom;
 	font-size: 12px;
 	word-wrap: break-word;
-}
-#nodeChat_messages > li.nodeChat_system_message {
-	background: none;
 }
 
 #nodeChat_userlist > li{

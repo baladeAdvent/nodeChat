@@ -1,5 +1,6 @@
 var username = '';
 var loggedIn = false;
+var timestampStatus = false;
 var autoScroll = true;
 
 var host = location.origin.replace(/^http/,'ws');
@@ -143,7 +144,7 @@ $(document).ready(function(){
 				
 			// Chat
 			case 'SYSTEM_MESSAGE':
-				appendSystemToChat(edata.message,edata.color);
+				appendSystemToChat(edata.message,edata.color,edata.time);
 				break;
 				
 			case 'SYSTEM_UPDATE_USER_LIST':
@@ -155,7 +156,7 @@ $(document).ready(function(){
 				break;
 				
 			case 'SYSTEM_RESPONSE_CHAT_MESSAGE':
-				appendToChat(edata.username,edata.message,edata.color);
+				appendToChat(edata.username,edata.message,edata.color,edata.time);
 				break;
 				
 			// Heartbeat
@@ -302,6 +303,11 @@ $(document).ready(function(){
 ///////////////////////////////////////////////////////////////////
 	function startNodeChat(result,username,message,color){
 		if(result == 'success'){
+			updateTimestampStatus();
+			$('#nodeChat_timestamp_toggle').bind('change',function(){
+				updateTimestampStatus();
+			});
+			
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
 			
@@ -335,6 +341,15 @@ $(document).ready(function(){
 		}
 	}
 	
+	function updateTimestampStatus(){
+		timestampStatus = $('#nodeChat_timestamp_toggle').prop('checked');
+		if(timestampStatus == true){
+			$('.nodeChat_timestamp').show(500);
+		}else{
+			$('.nodeChat_timestamp').hide(500);
+		}
+	}
+	
 	// Requests
 	function requestChatLog(){
 		var obj = {
@@ -352,26 +367,36 @@ $(document).ready(function(){
 	// Utilities
 	function appendChatLog(log){
 			for(i=0;i<log.length;i++){
-				logProperties(log[i]);
-				var label = $('<div></div>').css('color','rgb('+log[i].color+')').css('font-weight',300).css('display','table-cell').text(log[i].username + ': ');
+				var timeStamp = $('<div></div>').attr('class','nodeChat_timestamp').html( processDateTime(log[i].time) ).css('display',get_timeStamp_display());
+				var label = $('<div></div>').css('color','rgb('+log[i].color+')').css('display','table-cell').text(log[i].username + ': ').append( timeStamp );
 				var message = $('<div></div>').css('display','table-cell').text(log[i].message);
 				var appendThis = $('<li></li>').attr('class','nodeChat_chat_message').append(label).append(message);
 				$('#nodeChat_messages').append( appendThis );
 			}
 	}
 	
-	function appendSystemToChat(message,color){
-		var label = $('<div></div>').css('color','rgb('+color+')').css('font-weight',400).css('display','table-cell').css('padding-right','5px').text('SYSTEM: ');
+	function appendSystemToChat(message,color,time){
+		var timeStamp = $('<div></div>').attr('class','nodeChat_timestamp').html( processDateTime(time) ).css('display',get_timeStamp_display());
+		var label = $('<div></div>').css('color','rgb('+color+')').css('display','table-cell').css('padding-right','5px').text('SYSTEM: ').append( timeStamp );
 		var message = $('<div></div>').css('display','table-cell').html(message);
 		var appendThis = $('<li></li>').attr('class','nodeChat_system_message bg-info').append(label).append(message);
 		$('#nodeChat_messages').append( appendThis );
 	}
 	
-	function appendToChat(username,message,color){
-		var label = $('<div></div>').css('color','rgb('+color+')').css('font-weight',300).css('display','table-cell').css('padding-right','5px').text(username + ': ');
+	function appendToChat(username,message,color,time){
+		var timeStamp = $('<div></div>').attr('class','nodeChat_timestamp').html( processDateTime(time) ).css('display',get_timeStamp_display());
+		var label = $('<div></div>').css('color','rgb('+color+')').css('display','table-cell').css('padding-right','5px').text(username + ': ').append( timeStamp );
 		var message = $('<div></div>').css('display','table-cell').html(message);
 		var appendThis = $('<li></li>').attr('class','nodeChat_chat_message').append(label).append(message);
 		$('#nodeChat_messages').append( appendThis );
+	}
+	
+	function get_timeStamp_display(){
+		if(timestampStatus == true){
+				return 'block';
+		}else{
+				return 'none';
+		}
 	}
 
 	function updateUserlist(data){
@@ -416,6 +441,29 @@ $(document).ready(function(){
 		}
 	}	
 	
+	//////////////////////////////
+	function processDateTime(dateString){
+		var d = new Date(dateString);
+		var month = d.getUTCMonth();
+		var date = d.getUTCDate();
+		var year = d.getUTCFullYear();
+		
+		var hours = d.getUTCHours();
+		if(hours > 12){
+			hours = (hours - 12);
+		}
+		var minutes = d.getUTCMinutes();
+		var seconds = d.getUTCSeconds();
+		
+		if(hours > 11 && hours < 24){
+			meridan = 'pm';
+		}else{
+			meridan = 'am';
+		}
+		
+		var returnThis = month + '/' + date + '/' + year + '<br />' + hours + ':' + minutes + ':' + seconds + ' ' + meridan;
+		return returnThis;
+	}
 	//////////////////////////////
 	function trim(str){
 		var pattern = /^( ){1,}|( ){1,}$/;

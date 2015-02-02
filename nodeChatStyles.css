@@ -20,24 +20,30 @@ ul#nodeChat_messages, ul#nodeChat_userlist{
 	padding:0;
 }
 
-#nodeChat_messages > li .nodeChat_chat_message{
-	margin: 2px 0;
-	padding: 5px;
+#nodeChat_messages li.nodeChat_chat_message{
 	background: #fff url('nodeChat_msgBG.jpg') repeat-x bottom;
 	font-size: 12px;
 	word-wrap: break-word;
 }
 
-#nodeChat_messages > li .nodeChat_system_message{
-	margin: 2px 0;
-	padding: 5px;
-	background: #fff url('nodeChat_msgBG.jpg') repeat-x bottom;
-	font-size: 10px;
-	word-wrap: break-word;
+#nodeChat_messages .nodeChat_system_message {
+	font-size: 11px;
 }
 
-#nodeChat_messages > li .nodeChat_chat_message label{
-	padding:0 5px;
+#nodeChat_messages li.nodeChat_chat_message, #nodeChat_messages li.nodeChat_system_message{
+	margin:0;
+	padding: 5px 2px;
+}
+
+#nodeChat_messages .nodeChat_chat_message div, #nodeChat_messages li.nodeChat_system_message div{
+	padding:0 5px 0 1px;
+	text-align:justify;
+}
+
+#nodeChat_messages .nodeChat_timestamp {
+	font-size:10px;
+	color:#666;
+	display: none;
 }
 
 #nodeChat_userlist > li{

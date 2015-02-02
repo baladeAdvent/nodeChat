@@ -115,7 +115,7 @@ function loginNewUser(type,data,connection,index){
 				processLogin(type,data.name,index);
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
-				obj.message = 'Invlaid login credentials...';
+				obj.message = 'Invalid login credentials...';
 			}
 			console.log('Connection Ready: ' + connection.readyState);
 			sendToOne(connection,obj);

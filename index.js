@@ -83,6 +83,11 @@ wss.on("connection", function(ws){
 				setUserColor(index,data.color);
 				break;
 				
+			//* Search Handling *//
+			case 'USER_REQUEST_SEARCH':
+				processSearch(data.request);
+				break;
+				
 			//* Heart beat *//
 			case 'USER_HEARTBEAT':
 				returnHeartbeat(ws);
@@ -283,6 +288,12 @@ function processChatMessage(id,data){
 		});
 }
 
+//////////////////////////////////////////
+// Search Functions
+//////////////////////////////////////////
+function processSearch(req){
+	
+}
 
 //////////////////////////////////////////
 // User Setters

@@ -22,6 +22,10 @@ $(document).ready(function(){
 		validateLogin();
 	});
 	
+	$('#nodeChat_search_submit').bind('click',function(){
+		requestSearch();
+	});
+	
 	// Empty containers for timers
 	loginCheck = '';
 	registrationCheck = '';
@@ -311,7 +315,6 @@ $(document).ready(function(){
 			$('#nodeChat_autoscroll_toggle').bind('change',function(){
 				updateTimestampStatus();
 			});
-			
 
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
@@ -445,9 +448,6 @@ $(document).ready(function(){
 		ws.send(JSON.stringify(obj));
 	}
 	
-	
-
-	//////////////////////////////
 	function scrollChat(){
 		if(autoscrollStatus === true){
 			el = $('#nodeChat_messages');
@@ -456,7 +456,6 @@ $(document).ready(function(){
 		}
 	}	
 	
-	//////////////////////////////
 	function processDateTime(dateString){
 		var d = new Date(dateString);
 		var month = d.getUTCMonth();
@@ -479,6 +478,27 @@ $(document).ready(function(){
 		var returnThis = month + '/' + date + '/' + year + '<br />' + hours + ':' + minutes + ':' + seconds + ' ' + meridan;
 		return returnThis;
 	}
+	
+///////////////////////////////////////////////////////////////////
+// Search
+///////////////////////////////////////////////////////////////////
+	function requestSearch(){	
+		var searchThis = $('#nodeChat_search_message').val();
+		var destination = $('#nodeChat_search_response').html('');
+
+		var row = $('<div></div>').attr('class','row').css('margin-top','5px');
+		var col = $('<div></div>').attr('class','col-xs-12').html('<div class="bg-danger" style="padding:5px;">Search Results For: <em>' + searchThis + '</em></div>');
+		row.append(col).appendTo(destination).animate({'height':'show'},1000);
+		
+		var obj = {
+			'type': 'USER_REQUEST_SEARCH',
+			'request': searchThis 
+		};
+		sendToServer(obj);	
+	}
+	
+	
+	
 	//////////////////////////////
 	function trim(str){
 		var pattern = /^( ){1,}|( ){1,}$/;

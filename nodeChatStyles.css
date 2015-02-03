@@ -1,5 +1,5 @@
 body { font: 13px Helvetica, Arial; }
-#nodeChat_container {
+#nodeChat_container,#nodeChat_search_container {
 	max-width:900px;
 	padding:5px;
 	margin: 10px auto;

@@ -16,6 +16,13 @@ exports.init = function(callback){
 	});	
 }
 
+/* Search functions */
+exports.searchMessage = function(requestString,callback){
+	console.log('searchMessage(): ' + requestString);
+	
+	//DB.chatlog.find
+}
+
 exports.checkUsername = function(name,callback){
 	console.log('Check Username:' + name);
 	status = 'default';
@@ -34,6 +41,9 @@ exports.checkUsername = function(name,callback){
 
 }
 
+
+
+/* Logging */
 exports.addToChatLog = function(doc,callback){
 	console.log('Mongo: Add message to chatlog DB');
 	status = true;

@@ -10,12 +10,19 @@ var app = express();
 var port = (process.env.PORT || 5000);
 
 var mongo = require('./mongo_lib.js');
+	mongo.init(function(err){
+		if(err){
+			console.log(err);
+		}
+	});
 
 var chatLog = new Array();
 var clients = new Array();
 var channels = new Array();
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
+
+console.log(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
@@ -36,8 +43,6 @@ wss.on("connection", function(ws){
 		'textColor': randomColor()
 	};
 	clients.push(userObj);
-	
-	console.log(clients);
 	
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);

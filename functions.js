@@ -1,7 +1,7 @@
 var username = '';
 var loggedIn = false;
 var timestampStatus = false;
-var autoScroll = true;
+var autoscrollStatus = false;
 
 var host = location.origin.replace(/^http/,'ws');
 ws = new WebSocket(host);
@@ -13,7 +13,7 @@ var missed_heartbeats = 0;
 // Update userlist
 var userlist_interval = null;
 
-$(document).ready(function(){
+$(document).ready(function(){	
 	$('#nodeChat_login_password, #nodeChat_registration_button').prop('disabled',true);
 	
 	// Login button
@@ -119,7 +119,7 @@ $(document).ready(function(){
 	// WS Response handling //
 	ws.onmessage = function(event){		
 		edata = JSON.parse(event.data);
-		logProperties(edata);
+		//logProperties(edata);
 		switch(edata.type){
 		
 			// Login
@@ -190,11 +190,11 @@ $(document).ready(function(){
 	}
 	
 	function validateLogin(){
-		console.log('validateLogin()');
+		//console.log('validateLogin()');
 		var errors = new Array();
 		validationStatus = true;
 		$('#nodeChat_loginForm input').each(function(index){
-			console.log($(this).attr('id') + ':' + trim($(this).val()) + ':' + $(this).prop('disabled'));
+			//console.log($(this).attr('id') + ':' + trim($(this).val()) + ':' + $(this).prop('disabled'));
 			if( trim($(this).val()) == '' && $(this).prop('disabled') == false){
 				validationStatus = false;	
 			}
@@ -261,7 +261,7 @@ $(document).ready(function(){
 		errors = new Array();
 		validationStatus = true;
 		$('#nodeChat_registerForm input').each(function(index){
-			console.log($(this).attr('id') + ':' + trim($(this).val()));
+			//console.log($(this).attr('id') + ':' + trim($(this).val()));
 			if($(this).attr('id') == 'nodeChat_register_email'){
 				emailReg =/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/i;
 				if(emailReg.test( trim($(this).val()) ) == false){
@@ -307,7 +307,12 @@ $(document).ready(function(){
 			$('#nodeChat_timestamp_toggle').bind('change',function(){
 				updateTimestampStatus();
 			});
+			updateAutoscrollStatus();
+			$('#nodeChat_autoscroll_toggle').bind('change',function(){
+				updateTimestampStatus();
+			});
 			
+
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
 			
@@ -350,6 +355,11 @@ $(document).ready(function(){
 		}
 	}
 	
+	function updateAutoscrollStatus(){
+			autoscrollStatus = $('#nodeChat_autoscroll_toggle').prop('checked');
+			scrollChat();
+	}
+	
 	// Requests
 	function requestChatLog(){
 		var obj = {
@@ -371,7 +381,9 @@ $(document).ready(function(){
 				var label = $('<div></div>').css('color','rgb('+log[i].color+')').css('display','table-cell').text(log[i].username + ': ').append( timeStamp );
 				var message = $('<div></div>').css('display','table-cell').text(log[i].message);
 				var appendThis = $('<li></li>').attr('class','nodeChat_chat_message').append(label).append(message);
-				$('#nodeChat_messages').append( appendThis );
+				$('#nodeChat_messages').append( appendThis.hide() );
+				appendThis.animate({'height':'show'},500);
+				scrollChat();
 			}
 	}
 	
@@ -380,7 +392,9 @@ $(document).ready(function(){
 		var label = $('<div></div>').css('color','rgb('+color+')').css('display','table-cell').css('padding-right','5px').text('SYSTEM: ').append( timeStamp );
 		var message = $('<div></div>').css('display','table-cell').html(message);
 		var appendThis = $('<li></li>').attr('class','nodeChat_system_message bg-info').append(label).append(message);
-		$('#nodeChat_messages').append( appendThis );
+		$('#nodeChat_messages').append( appendThis.hide() );
+		appendThis.animate({'height':'show'},500);
+		scrollChat();
 	}
 	
 	function appendToChat(username,message,color,time){
@@ -388,7 +402,9 @@ $(document).ready(function(){
 		var label = $('<div></div>').css('color','rgb('+color+')').css('display','table-cell').css('padding-right','5px').text(username + ': ').append( timeStamp );
 		var message = $('<div></div>').css('display','table-cell').html(message);
 		var appendThis = $('<li></li>').attr('class','nodeChat_chat_message').append(label).append(message);
-		$('#nodeChat_messages').append( appendThis );
+		$('#nodeChat_messages').append( appendThis.hide() );
+		appendThis.animate({'height':'show'},500);
+		scrollChat();		
 	}
 	
 	function get_timeStamp_display(){
@@ -411,7 +427,7 @@ $(document).ready(function(){
 	}
 
 	function checkAvailability(obj){
-		console.log('Check username availability');
+		//console.log('Check username availability');
 		sendToServer(obj);
 	}
 	
@@ -424,20 +440,19 @@ $(document).ready(function(){
 	}
 
 	function sendToServer(obj){
-		console.log('sendToServer()');
-		console.log(obj);
+		//console.log('sendToServer()');
+		//console.log(obj);
 		ws.send(JSON.stringify(obj));
 	}
 	
 	
 
 	//////////////////////////////
-	function scrollChat(scrollStatus){
-		if(scrollStatus === true){
+	function scrollChat(){
+		if(autoscrollStatus === true){
 			el = $('#nodeChat_messages');
-			height = el.prop('scrollHeight');
-			console.log('height: ' + height);
-			el.animate({ scrollTop:height},300);
+			height = el.prop('scrollHeight')+2;
+			el.animate({ scrollTop:height},500);
 		}
 	}	
 	

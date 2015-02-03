@@ -122,13 +122,20 @@
 									</label>
 								</div>
 							</li>
-							<li>Additional Options</li>
+							<li>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" value = "" id="nodeChat_autoscroll_toggle" checked>
+										Auto Scroll
+									</label>
+								</div>
+							</li>
 						</ul>
 					</div>			
 				</div>
 				<div class="col-xs-11">
 					<div class="input-group">
-						<input type="text" id="nodeChat_message" autocomplete="off" class="form-control" />
+						<input type="text" id="nodeChat_message" autocomplete="off" class="form-control" maxlength='255'/>
 						<span class="input-group-btn">
 							<button class="btn btn-primary" type="button" id="sendToChat">Submit</button>
 						</span>

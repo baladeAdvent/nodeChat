@@ -325,6 +325,11 @@ $(document).ready(function(){
 			$('#nodeChat_autoscroll_toggle').bind('change',function(){
 				updateTimestampStatus();
 			});
+			$('#nodeChat_message').bind('keypress',function(evt){
+				if(evt.keyCode == 13){
+					processChatMessage(ws);
+				}
+			});
 
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);

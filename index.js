@@ -296,6 +296,7 @@ function processSearch(searchTerms,connection){
 		if(err){
 			console.log(err);
 		}else{
+			console.log(results.length);
 			var obj = {
 				'type': 'SYSTEM_RESPONSE_SEARCH_RESULTS',
 				'results': results

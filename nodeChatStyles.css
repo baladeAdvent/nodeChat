@@ -71,10 +71,20 @@ ul#nodeChat_messages, ul#nodeChat_userlist{
 	background: url(../images/select.png) center;
 }
 
+#nodeChat_loginForm_register {
+	text-decoration:underline;
+	font-style:italic;
+	color:#00f;
+	cursor:pointer;
+}
+
 /* Initial display settings */
 #nodeChat_login {
 	display:block;
 }
 #nodeChat_client{
+	display:none;
+}
+#nodeChat_registerForm {
 	display:none;
 }

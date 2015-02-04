@@ -26,6 +26,10 @@ $(document).ready(function(){
 		requestSearch();
 	});
 	
+	$('#nodeChat_loginForm_register').bind('click',function(evt){
+		$('#nodeChat_registerForm').animate({height:'toggle'},500);
+	});
+	
 	// Empty containers for timers
 	loginCheck = '';
 	registrationCheck = '';
@@ -236,8 +240,9 @@ $(document).ready(function(){
 		registerButton = $('#nodeChat_registration_button');
 		message = $('<div></div>');
 		if(result == 'success'){
-			message.attr('class','alert alert-success').html('Success! The following username  has been registered and is available for your use! : ' + username);
+			message.attr('class','alert alert-success').html('Success! The following username has been registered and is available for your use! : ' + username);
 			registrationForm[0].reset();
+			$('#nodeChat_registerForm').delay(2000).animate({height:'hide'},500);
 		}else{
 			message.attr('class','alert alert-danger').html('An error has occured while trying to register this username! Please try a different username or use a different email account. : ' + username);
 			registerButton.prop('disabled',false);
@@ -481,17 +486,20 @@ $(document).ready(function(){
 	
 	function appendSearchResults(results){
 		var destination = $('#nodeChat_search_response');
-		for(i=0;i<results.length;i++){
-			logProperties(results[i]);
-			var row = $('<div></div>').attr('class','row');
-			var col = $('<div></div>');
-			
-			col.clone().attr('class','col-xs-1').html(i + ".").appendTo(row);
-			col.clone().attr('class','col-xs-2').html(results[i].username).appendTo(row);
-			col.clone().attr('class','col-xs-3').html( processDateTime(results[i].time) ).appendTo(row);
-			col.clone().attr('class','col-xs-6').html(results[i].message).appendTo(row);
-			row.appendTo(destination);
+		var row = $('<div></div>').attr('class','row');
+		var col = $('<div></div>');
+		if(results.length > 0){
+			for(i=0;i<results.length;i++){
+				col.clone().attr('class','col-xs-1').html(i + ".").appendTo(row);
+				col.clone().attr('class','col-xs-2').html(results[i].username).appendTo(row);
+				col.clone().attr('class','col-xs-3').html( processDateTime(results[i].time) ).appendTo(row);
+				col.clone().attr('class','col-xs-6').html(results[i].message).appendTo(row);
+				row.appendTo(destination);
+			}			
+		}else{
+				col.clone().attr('class','col-xs-12').html('No results found...').appendTo(row);
 		}
+		row.appendTo(destination);
 	}
 	
 	

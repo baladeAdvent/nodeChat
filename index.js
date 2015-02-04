@@ -85,7 +85,7 @@ wss.on("connection", function(ws){
 				
 			//* Search Handling *//
 			case 'USER_REQUEST_SEARCH':
-				processSearch(data.request);
+				processSearch(data.request,ws);
 				break;
 				
 			//* Heart beat *//
@@ -291,8 +291,18 @@ function processChatMessage(id,data){
 //////////////////////////////////////////
 // Search Functions
 //////////////////////////////////////////
-function processSearch(req){
-	
+function processSearch(searchTerms,connection){
+	mongo.searchMessage(searchTerms,function(err,results){
+		if(err){
+			console.log(err);
+		}else{
+			var obj = {
+				'type': 'SYSTEM_RESPONSE_SEARCH_RESULTS',
+				'results': results
+			};
+			sendToOne(connection,obj);
+		}
+	});
 }
 
 //////////////////////////////////////////

@@ -162,7 +162,12 @@ $(document).ready(function(){
 			case 'SYSTEM_RESPONSE_CHAT_MESSAGE':
 				appendToChat(edata.username,edata.message,edata.color,edata.time);
 				break;
-				
+			
+			// SEARCH
+			case 'SYSTEM_RESPONSE_SEARCH_RESULTS':
+				appendSearchResults(edata.results);
+				break;
+			
 			// Heartbeat
 			case 'SYSTEM_HEARTBEAT':
 				missed_heartbeats = 0;
@@ -455,30 +460,7 @@ $(document).ready(function(){
 			el.animate({ scrollTop:height},500);
 		}
 	}	
-	
-	function processDateTime(dateString){
-		var d = new Date(dateString);
-		var month = d.getUTCMonth();
-		var date = d.getUTCDate();
-		var year = d.getUTCFullYear();
-		
-		var hours = d.getUTCHours();
-		if(hours > 12){
-			hours = (hours - 12);
-		}
-		var minutes = d.getUTCMinutes();
-		var seconds = d.getUTCSeconds();
-		
-		if(hours > 11 && hours < 24){
-			meridan = 'pm';
-		}else{
-			meridan = 'am';
-		}
-		
-		var returnThis = month + '/' + date + '/' + year + '<br />' + hours + ':' + minutes + ':' + seconds + ' ' + meridan;
-		return returnThis;
-	}
-	
+
 ///////////////////////////////////////////////////////////////////
 // Search
 ///////////////////////////////////////////////////////////////////
@@ -497,8 +479,45 @@ $(document).ready(function(){
 		sendToServer(obj);	
 	}
 	
+	function appendSearchResults(results){
+		var destination = $('#nodeChat_search_response');
+		for(i=0;i<results.length;i++){
+			logProperties(results[i]);
+			var row = $('<div></div>').attr('class','row');
+			var col = $('<div></div>');
+			
+			col.clone().attr('class','col-xs-1').html(i + ".").appendTo(row);
+			col.clone().attr('class','col-xs-2').html(results[i].username).appendTo(row);
+			col.clone().attr('class','col-xs-3').html( processDateTime(results[i].time) ).appendTo(row);
+			col.clone().attr('class','col-xs-6').html(results[i].message).appendTo(row);
+			row.appendTo(destination);
+		}
+	}
 	
 	
+	//////////////////////////////
+	function processDateTime(dateString){
+		var d = new Date(dateString);
+		var month = d.getMonth();
+		var date = d.getDate();
+		var year = d.getFullYear();
+		
+		var hours = d.getHours();
+		if(hours > 12){
+			hours = (hours - 12);
+		}
+		var minutes = d.getMinutes();
+		var seconds = d.getSeconds();
+		
+		if(hours > 11 && hours < 24){
+			meridan = 'pm';
+		}else{
+			meridan = 'am';
+		}
+		
+		var returnThis = month + '/' + date + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + meridan;
+		return returnThis;
+	}
 	//////////////////////////////
 	function trim(str){
 		var pattern = /^( ){1,}|( ){1,}$/;
@@ -514,7 +533,6 @@ $(document).ready(function(){
 		return status;
 	}
 	//////////////////////////////
-
 	function logProperties(obj){
 		for(x in obj){
 			console.log('obj has property: ' + x + ': ' + obj[x]);

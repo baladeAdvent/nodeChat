@@ -19,8 +19,17 @@ exports.init = function(callback){
 /* Search functions */
 exports.searchMessage = function(requestString,callback){
 	console.log('searchMessage(): ' + requestString);
-	
-	//DB.chatlog.find
+	DB.collection('chatlog',function(err,docs){
+		if(err){
+			callback(err,null);
+		}	
+		docs.find({ $text: { $search: requestString}},function(err,cursor){			
+			if(err){
+				callback(err,null);
+			}	
+			cursor.sort({time: -1}).toArray(callback);
+		});
+	});
 }
 
 exports.checkUsername = function(name,callback){

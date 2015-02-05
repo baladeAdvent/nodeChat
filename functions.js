@@ -1,10 +1,19 @@
-var username = '';
+var user = {
+	'name':'',
+	'color':'',
+	'session':''
+};
 var loggedIn = false;
 var timestampStatus = false;
 var autoscrollStatus = false;
 
 var host = location.origin.replace(/^http/,'ws');
-ws = new WebSocket(host);
+var ws = null;
+createWebSocket();
+
+// Reconnect
+var reconnectInterval = null;
+var reconnecting = false;
 
 // Heartbeat
 var	heartbeat_interval = null;
@@ -28,6 +37,10 @@ $(document).ready(function(){
 	
 	$('#nodeChat_loginForm_register').bind('click',function(evt){
 		$('#nodeChat_registerForm').animate({height:'toggle'},500);
+	});
+	
+	$('#disconnect').bind('click',function(){
+		ws.close();		
 	});
 	
 	// Empty containers for timers
@@ -102,10 +115,33 @@ $(document).ready(function(){
 	
 });
 
-///////////////////////////////////////////////////////////////////
-// WebSocket handling
-///////////////////////////////////////////////////////////////////
+function createWebSocket(){
+	ws = new WebSocket(host);
+
+	///////////////////////////////////////////////////////////////////
+	// WebSocket handling
+	///////////////////////////////////////////////////////////////////
 	ws.onopen = function(event){
+		
+		// If reconnecting
+		if(reconnecting == true){
+			// Update new client entry to have my saved settings...?
+			logProperties(user);
+			
+			appendSystemToChat('Reconnected...','100,100,100');
+			
+			var obj = {
+				'type': 'USER_LOGIN_RECONNECT',
+				'name': user.name,
+				'password': user.password,
+				'textColor': user.textColor,
+				'session': user.session
+			};
+			sendToServer(obj);
+		}else{
+			console.log('Connected...');
+		}			
+		
 		if (heartbeat_interval === null){
 			missed_heartbeats = 0;
 			heartbeat_interval = setInterval(function(){
@@ -127,7 +163,7 @@ $(document).ready(function(){
 	// WS Response handling //
 	ws.onmessage = function(event){		
 		edata = JSON.parse(event.data);
-		//logProperties(edata);
+		logProperties(edata);
 		switch(edata.type){
 		
 			// Login
@@ -138,7 +174,7 @@ $(document).ready(function(){
 			case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 			case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
 				//console.log('login verification recieved');
-				startNodeChat(edata.result,edata.username,edata.message,edata.textColor);
+				startNodeChat(edata);
 				break;
 			
 			// Registration
@@ -179,11 +215,32 @@ $(document).ready(function(){
 		}
 	}
 	// WS Response handling //
+	
+	ws.onerror = function(event){
 
+		reconnecting = true;
+		var intervalTime = ( Math.floor((Math.random() * 29) + 1) )*1000;
+		console.log(intervalTime);
+		setTimeout(function(){
+			createWebSocket();
+		},intervalTime);
+	}
+	
 	ws.onclose = function(event){
+		console.log('Disconnected...');
 		appendSystemToChat('Connection closed...','100,100,100');
 		userlist_interval = null;
+		heartbeat_interval = null;
+		
+		reconnecting = true;
+		var intervalTime = ( Math.floor((Math.random() * 29) + 1) )*1000;
+		console.log(intervalTime);
+		setTimeout(function(){
+			createWebSocket();
+		},intervalTime);
 	}
+}
+
 
 
 ///////////////////////////////////////////////////////////////////
@@ -203,11 +260,9 @@ $(document).ready(function(){
 	}
 	
 	function validateLogin(){
-		//console.log('validateLogin()');
 		var errors = new Array();
 		validationStatus = true;
 		$('#nodeChat_loginForm input').each(function(index){
-			//console.log($(this).attr('id') + ':' + trim($(this).val()) + ':' + $(this).prop('disabled'));
 			if( trim($(this).val()) == '' && $(this).prop('disabled') == false){
 				validationStatus = false;	
 			}
@@ -315,8 +370,13 @@ $(document).ready(function(){
 ///////////////////////////////////////////////////////////////////
 // Chat functions
 ///////////////////////////////////////////////////////////////////
-	function startNodeChat(result,username,message,color){
-		if(result == 'success'){
+	function startNodeChat(res){
+		if(res.result == 'success'){
+			user.name = res.username;
+			user.color = res.color;
+			user.password = res.password;
+			user.session = res.session;
+			
 			updateTimestampStatus();
 			$('#nodeChat_timestamp_toggle').bind('change',function(){
 				updateTimestampStatus();
@@ -334,11 +394,11 @@ $(document).ready(function(){
 			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
 			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
 			
-			$('#nodeChat_header').find('span').html(username);
+			$('#nodeChat_header').find('span').html(res.username);
 			
-			parts = color.split(',');
+			parts = (res.textColor).split(',');
 			$('#textColor').ColorPickerSetColor({r:parts[0],g:parts[1],b:parts[2]});
-			$('#textColor div').css('backgroundColor', 'rgb(' + color + ')');
+			$('#textColor div').css('backgroundColor', 'rgb(' + res.color + ')');
 			requestChatLog();
 			requestUserlist();
 		
@@ -346,7 +406,7 @@ $(document).ready(function(){
 				requestUserlist();	
 			},15000);
 		}else{
-			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...' + message);
+			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...' + res.message);
 			$('#nodeChat_loginResponse').clearQueue().html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
 		}
 	}

@@ -66,6 +66,10 @@ wss.on("connection", function(ws){
 				loginNewUser(data['type'],data,ws,index);
 				break;
 				
+			case 'USER_LOGIN_RECONNECT':
+				loginReconnectUser(data,ws,index);
+				break;
+				
 			//* CHAT Handling *//
 			case 'USER_REQUEST_CHAT_LOG':
 				sendChatlog(ws);
@@ -113,8 +117,10 @@ function loginNewUser(type,data,connection,index){
 		time: (new Date()).getTime(),
 		result: '',
 		username: processUserName(data.name),
+		password: data.password,
 		textColor: getUserColor(index),
-		message: ''
+		message: '',
+		session: generateUUID()
 	};
 
 	// If user supplied password verify login authenticity
@@ -122,7 +128,7 @@ function loginNewUser(type,data,connection,index){
 		mongo.verifyUser(data.name,data.password,function(err,res){
 			if(res == true){ // If credentials are good log user in
 				obj.result = 'success';
-				processLogin(type,data.name,index);
+				processLogin(type,data.name,data.session,index);
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
 				obj.message = 'Invalid login credentials...';
@@ -149,7 +155,7 @@ function loginNewUser(type,data,connection,index){
 				obj.message = 'Username is registered, please choo choo choose another...';
 			}else{	// If username is not log user in
 				obj.result = 'success';
-				processLogin(type,data.name,index);
+				processLogin(type,data.name,data.session,index);
 			}
 			sendToOne(connection,obj);			
 		});
@@ -158,7 +164,7 @@ function loginNewUser(type,data,connection,index){
 	}
 }
 
-function processLogin(type,name,index){
+function processLogin(type,name,session,index){
 	// Disconnect any other user using this userName
 	for(x in clients){
 		if(clients[x]['username'] == name){			
@@ -167,7 +173,7 @@ function processLogin(type,name,index){
 				'type': 'SYSTEM_MESSAGE',
 				'username': 'System',
 				'message': 'Another user has logged in using this login',
-				'color': __SYSTEM_COLOR	
+				'color': __SYSTEM_COLOR	,
 			};
 			connection = clients[x]['ws'];
 			sendToOne(connection,obj);
@@ -177,13 +183,42 @@ function processLogin(type,name,index){
 	
 	// Update username
 	setUserName(index,name);
-
+	// Set Session
+	setSession(index,session);
 	// Set Client to active
 	setActive(index);
-	
 	// Send login notice to all active clients
 	systemNotice( name + ' has logged in...' );
 	sendUserList();
+}
+
+function loginReconnectUser(data,connection,index){
+	//If user has password verify credentials...?
+	
+	// Disconnect any other user using this userName
+	for(x in clients){
+		if(clients[x]['username'] == name){			
+			var obj = {
+				'time': (new Date()).getTime(),
+				'type': 'SYSTEM_MESSAGE',
+				'username': 'System',
+				'message': 'Another user has logged in using this login',
+				'color': __SYSTEM_COLOR	,
+			};
+			connection = clients[x]['ws'];
+			sendToOne(connection,obj);
+			connection.close();
+		}
+	}
+	// Update username
+	setUserName(index,data.name);
+	// Set Session
+	setSession(index,data.session);
+	// Set Client to active
+	setActive(index);
+	// Send login notice to all active clients
+	systemNotice( data.name + ' has logged in...' );
+	sendUserList();	
 }
 
 //////////////////////////////////////////
@@ -194,7 +229,8 @@ function registerNewUser(data,connection){
 		'type': 'user',
 		'username': data.name,
 		'password': data.password,
-		'email': data.email
+		'email': data.email,
+		'session':''
 	};
 	mongo.registernewUser(newUser,function(err,res){
 		console.log('mongo.registernewUser returned: ' + res);
@@ -338,6 +374,14 @@ function setInactive(index){
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['active'] = false;
+		}
+	}
+}
+function setSession(index,session){
+	console.log('setSession(' + index + ')');
+	for(x in clients){
+		if(clients[x]['id'] == index){
+			clients[x]['session'] = session;
 		}
 	}
 }
@@ -516,3 +560,13 @@ function randomColor(){
 	console.log('RGB: ' + randomRGB);
 	return randomRGB;
 }
+//////////////////////////////
+function generateUUID(){
+	var d = new Date().getTime();
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		var r = (d + Math.random()*16)%16 | 0;
+		d = Math.floor(d/16);
+		return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+	});
+	return uuid;
+};

@@ -128,8 +128,6 @@ function createWebSocket(){
 			// Update new client entry to have my saved settings...?
 			logProperties(user);
 			
-			appendSystemToChat('Reconnected...','100,100,100');
-			
 			var obj = {
 				'type': 'USER_LOGIN_RECONNECT',
 				'name': user.name,

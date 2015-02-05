@@ -44,15 +44,17 @@ wss.on("connection", function(ws){
 	};
 	clients.push(userObj);
 	
+	console.log('Connection: '+index);
+	
 	ws.onmessage = function(event){
 		var data = JSON.parse(event.data);
 		console.log(data);
-		switch(data['type']){
+		switch(data.type){
 			
 			//* Name Availability Checks *//
 			case 'USER_CHECK_LOGIN_AVAILABILITY':
 			case 'USER_CHECK_REGISTRATION_AVAILABILITY':
-				checkNameAvailability(data['type'],data['username'],ws);
+				checkNameAvailability(data.type,data.username,ws);
 				break;
 
 			//* Registration Request Handling *//
@@ -63,7 +65,7 @@ wss.on("connection", function(ws){
 			//* Login Request Handling *//
 			case 'USER_REQUEST_LOGIN_ANONYMOUS':
 			case 'USER_REQUEST_LOGIN_VERIFY':
-				loginNewUser(data['type'],data,ws,index);
+				loginNewUser(data,ws,index);
 				break;
 				
 			case 'USER_LOGIN_RECONNECT':
@@ -111,29 +113,27 @@ wss.on("connection", function(ws){
 //////////////////////////////////////////
 // Login functions
 //////////////////////////////////////////
-function loginNewUser(type,data,connection,index){
+function loginNewUser(data,connection,index){
 	var obj = {
-		type: (type).replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
+		type: (data.type).replace('USER','SYSTEM').replace('REQUEST','RESPONSE'),
 		time: (new Date()).getTime(),
 		result: '',
 		username: processUserName(data.name),
 		password: data.password,
 		textColor: getUserColor(index),
-		message: '',
-		session: generateUUID()
+		message: ''
 	};
 
 	// If user supplied password verify login authenticity
-	if(type == 'USER_REQUEST_LOGIN_VERIFY'){
+	if(data.type == 'USER_REQUEST_LOGIN_VERIFY'){
 		mongo.verifyUser(data.name,data.password,function(err,res){
 			if(res == true){ // If credentials are good log user in
 				obj.result = 'success';
-				processLogin(type,data.name,data.session,index);
+				processLogin(data,index);
 			}else{	// If credential fail deny and notify
 				obj.result = 'failed';
 				obj.message = 'Invalid login credentials...';
 			}
-			console.log('Connection Ready: ' + connection.readyState);
 			sendToOne(connection,obj);
 		});
 		
@@ -155,7 +155,7 @@ function loginNewUser(type,data,connection,index){
 				obj.message = 'Username is registered, please choo choo choose another...';
 			}else{	// If username is not log user in
 				obj.result = 'success';
-				processLogin(type,data.name,data.session,index);
+				processLogin(data,index);
 			}
 			sendToOne(connection,obj);			
 		});
@@ -164,40 +164,10 @@ function loginNewUser(type,data,connection,index){
 	}
 }
 
-function processLogin(type,name,session,index){
+function processLogin(data,index){
 	// Disconnect any other user using this userName
 	for(x in clients){
-		if(clients[x]['username'] == name){			
-			var obj = {
-				'time': (new Date()).getTime(),
-				'type': 'SYSTEM_MESSAGE',
-				'username': 'System',
-				'message': 'Another user has logged in using this login',
-				'color': __SYSTEM_COLOR	,
-			};
-			connection = clients[x]['ws'];
-			sendToOne(connection,obj);
-			connection.close();
-		}
-	}
-	
-	// Update username
-	setUserName(index,name);
-	// Set Session
-	setSession(index,session);
-	// Set Client to active
-	setActive(index);
-	// Send login notice to all active clients
-	systemNotice( name + ' has logged in...' );
-	sendUserList();
-}
-
-function loginReconnectUser(data,connection,index){
-	//If user has password verify credentials...?
-	
-	// Disconnect any other user using this userName
-	for(x in clients){
-		if(clients[x]['username'] == name){			
+		if(clients[x]['username'] == data.name){			
 			var obj = {
 				'time': (new Date()).getTime(),
 				'type': 'SYSTEM_MESSAGE',
@@ -212,13 +182,71 @@ function loginReconnectUser(data,connection,index){
 	}
 	// Update username
 	setUserName(index,data.name);
-	// Set Session
-	setSession(index,data.session);
 	// Set Client to active
 	setActive(index);
 	// Send login notice to all active clients
 	systemNotice( data.name + ' has logged in...' );
-	sendUserList();	
+	sendUserList();
+}
+
+//////////////////////////////////////////
+// Reconnect functions
+//////////////////////////////////////////
+function loginReconnectUser(data,connection,index){
+	var obj = {
+		type: 'SYSTEM_RECONNECT_RESPONSE',
+		result: '',
+		message: ''
+	};
+	
+	mongo.isNameReserved(data.name,function(res){
+		if(res == true){
+			// If username is reserved, revalidate login
+			mongo.verifyUser(data.name,data.password,function(err,res){
+				if(res === true){
+					// If verification passed...
+					obj.result = 'success';
+					processReconnect(data,index);
+				}else{
+					// If verification failed...
+					obj.result = 'failed';
+					obj.message = 'Invalid login credentials...';
+				}
+				sendToOne(connection,obj);
+			});
+		}else{
+			// If username is not reserved allow login...
+			obj.result = 'success';
+			obj.message = 'whatever...';
+			processReconnect(data,index);
+		}
+	});
+
+}
+
+function processReconnect(data,index){
+	// Disconnect any other user using this userName
+	for(x in clients){
+		if(clients[x]['username'] == data.name){
+			var obj = {
+				'time': (new Date()).getTime(),
+				'type': 'SYSTEM_MESSAGE',
+				'username': 'System',
+				'message': 'Another user has logged in using this login',
+				'color': __SYSTEM_COLOR	,
+			};
+			connection = clients[x]['ws'];
+			sendToOne(connection,obj);
+			connection.close();
+		}
+	}
+	// Update username
+	setUserName(index,data.name);
+	// Set Client to active
+	setActive(index);
+	// Send login notice to all active clients
+	systemNotice( data.name + ' has reconnected...' );
+	sendUserList();
 }
 
 //////////////////////////////////////////
@@ -427,9 +455,8 @@ function addToChatLog(obj){
 //////////////////////////////////////////
 function sendToAll(data){
 	for(i=0;i<clients.length;i++){
-		console.log("broadcast to: " + clients[i]['username']);
-		
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
+			console.log("broadcast to: " + clients[i]['username']);
 			var connection = clients[i]['ws']; 
 			connection.send(JSON.stringify(data));
 		}

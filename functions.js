@@ -174,6 +174,10 @@ function createWebSocket(){
 				//console.log('login verification recieved');
 				startNodeChat(edata);
 				break;
+				
+			case 'SYSTEM_RECONNECT_RESPONSE':
+				nodeChatReconnect(edata);
+				break;
 			
 			// Registration
 			case 'SYSTEM_REGISTRATION_RESPONSE':
@@ -389,8 +393,8 @@ function createWebSocket(){
 				}
 			});
 
-			loginContainer = $('#nodeChat_login').animate({height:'hide'},500);
-			chatContainer = $('#nodeChat_client').animate({height:'show'},500);
+			$('#nodeChat_login').animate({height:'hide'},500);
+			$('#nodeChat_client').animate({height:'show'},500);
 			
 			$('#nodeChat_header').find('span').html(res.username);
 			
@@ -406,6 +410,13 @@ function createWebSocket(){
 		}else{
 			message = $('<div></div>').attr('class','alert alert-danger').text('Unable to login...' + res.message);
 			$('#nodeChat_loginResponse').clearQueue().html('').append( message ).hide().animate({height:'show'},500).delay(8000).animate({height:'hide'},500);
+		}
+	}
+	
+	function nodeChatReconnect(data){
+		if(data.type == "failed"){
+			$('#nodeChat_login').animate({height:'show'},500);
+			$('#nodeChat_client').animate({height:'hide'},500);
 		}
 	}
 	

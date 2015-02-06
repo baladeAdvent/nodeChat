@@ -43,6 +43,10 @@ $(document).ready(function(){
 		ws.close();		
 	});
 	
+	$('#nodeChat_statistics_word_useage').bind('click',function(event){
+		requestChatStatistics();
+	});
+	
 	// Empty containers for timers
 	loginCheck = '';
 	registrationCheck = '';
@@ -240,8 +244,8 @@ function createWebSocket(){
 		
 		closeMessage = getCloseMessage(event.code);
 		appendSystemToChat(closeMessage,'100,100,100');
-		userlist_interval = null;
-		heartbeat_interval = null;
+		clearInterval(heartbeat_interval);
+		clearInterval(userlist_interval);
 		
 		reconnecting = true;
 		var intervalTime = ( Math.floor((Math.random() * 29) + 1) )*1000;
@@ -569,8 +573,15 @@ function getCloseMessage(code){
 	}	
 
 ///////////////////////////////////////////////////////////////////
-// Search
+// Statistics
 ///////////////////////////////////////////////////////////////////
+	function requestChatStatistics(){
+			var obj = {
+				type:'USER_REQUEST_CHAT_STATISTICS'
+			};
+			sendToServer(obj);
+	}
+	
 	function requestSearch(){	
 		var searchThis = $('#nodeChat_search_message').val();
 		var destination = $('#nodeChat_search_response').html('');

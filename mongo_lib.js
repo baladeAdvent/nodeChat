@@ -33,6 +33,24 @@ exports.searchMessage = function(requestString,callback){
 	});
 }
 
+/* Chat Statistics */
+exports.chatWordUsage = function(callback){
+
+	var collection = DB.collection('chatlog');
+	
+	var map = function(){ emit(this.message,1); };
+	var reduce = function(k,vals){ return 1; };
+	
+	collection.mapReduce(map,reduce,{ out: {replace: 'replacethiscollection'}, limit: 999 },function(err,tempCollection){
+		tempCollection.find().toArray(function(err,result){			
+			console.log('mapReduce count:' + result.length);
+			console.log(result);	
+		});
+		
+	});
+
+}
+
 exports.checkUsername = function(name,callback){
 	//console.log('Check Username:' + name);
 	status = 'default';

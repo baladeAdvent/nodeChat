@@ -91,6 +91,11 @@ mongo.init('nodechatsystem','nodechat123456nodechat','nodechattest',function(err
 					processSearch(data.request,ws);
 					break;
 					
+				//* Chat Statistics *//
+				case 'USER_REQUEST_CHAT_STATISTICS':
+					processChatStatistics();
+					break;
+					
 				//* Heart beat *//
 				case 'USER_HEARTBEAT':
 					returnHeartbeat(ws);
@@ -373,6 +378,13 @@ function processSearch(searchTerms,connection){
 			sendToOne(connection,obj);
 		}
 	});
+}
+
+//////////////////////////////////////////
+// Chat Statistics
+//////////////////////////////////////////
+function processChatStatistics(){
+		mongo.chatWordUsage();
 }
 
 //////////////////////////////////////////

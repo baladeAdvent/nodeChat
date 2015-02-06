@@ -9,20 +9,11 @@ var express = require('express');
 var app = express();
 var port = (process.env.PORT || 5000);
 
-var mongo = require('./mongo_lib.js');
-	mongo.init(function(err){
-		if(err){
-			console.log(err);
-		}
-	});
-
 var chatLog = new Array();
 var clients = new Array();
 var channels = new Array();
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
-
-console.log(express.static(__dirname + '/'));
 
 var conCheck = setInterval(function(){
 	checkConnections();
@@ -33,82 +24,91 @@ server.listen(port,function(){});
 console.log("http server listening on %d", port);
 var wss = new WebSocketServer({server: server});
 
-wss.on("connection", function(ws){
-	var index = clientID++;
-	var userObj = {
-		'id': index,
-		'username': 'new_user' + Math.floor(Math.random() * 10000),
-		'ws': ws,
-		'active': false,
-		'textColor': randomColor()
-	};
-	clients.push(userObj);
-	
-	console.log('Connection: '+index);
-	
-	ws.onmessage = function(event){
-		var data = JSON.parse(event.data);
-		console.log(data);
-		switch(data.type){
-			
-			//* Name Availability Checks *//
-			case 'USER_CHECK_LOGIN_AVAILABILITY':
-			case 'USER_CHECK_REGISTRATION_AVAILABILITY':
-				checkNameAvailability(data.type,data.username,ws);
-				break;
+var mongo = require('./mongo_lib.js');
+mongo.init('nodechatsystem','nodechat123456nodechat','nodechattest',function(err){
+	if(err){
+		console.log(err);
+	}
 
-			//* Registration Request Handling *//
-			case 'USER_REQUEST_REGISTRATION':
-				registerNewUser(data,ws);
-				break;
-			
-			//* Login Request Handling *//
-			case 'USER_REQUEST_LOGIN_ANONYMOUS':
-			case 'USER_REQUEST_LOGIN_VERIFY':
-				loginNewUser(data,ws,index);
-				break;
+	wss.on("connection", function(ws){
+		var index = clientID++;
+		var userObj = {
+			'id': index,
+			'username': 'new_user' + Math.floor(Math.random() * 10000),
+			'ws': ws,
+			'active': false,
+			'textColor': randomColor()
+		};
+		clients.push(userObj);
+		
+		//console.log('Connection: '+index);
+		
+		ws.onmessage = function(event){
+			var data = JSON.parse(event.data);
+			console.log(data);
+			switch(data.type){
 				
-			case 'USER_LOGIN_RECONNECT':
-				loginReconnectUser(data,ws,index);
-				break;
-				
-			//* CHAT Handling *//
-			case 'USER_REQUEST_CHAT_LOG':
-				sendChatlog(ws);
-				break;
-				
-			case 'USER_REQUEST_USER_LIST':
-				sendUserList(ws);
-				break;
-				
-			case 'USER_PUBLIC_CHAT_MESSAGE':
-				processChatMessage(index,data);
-				break;
-				
-			case 'USER_REQUEST_UPDATE_COLOR':
-				setUserColor(index,data.color);
-				break;
-				
-			//* Search Handling *//
-			case 'USER_REQUEST_SEARCH':
-				processSearch(data.request,ws);
-				break;
-				
-			//* Heart beat *//
-			case 'USER_HEARTBEAT':
-				returnHeartbeat(ws);
-				break;
+				//* Name Availability Checks *//
+				case 'USER_CHECK_LOGIN_AVAILABILITY':
+				case 'USER_CHECK_REGISTRATION_AVAILABILITY':
+					checkNameAvailability(data.type,data.username,ws);
+					break;
 
-		}
+				//* Registration Request Handling *//
+				case 'USER_REQUEST_REGISTRATION':
+					registerNewUser(data,ws);
+					break;
+				
+				//* Login Request Handling *//
+				case 'USER_REQUEST_LOGIN_ANONYMOUS':
+				case 'USER_REQUEST_LOGIN_VERIFY':
+					loginNewUser(data,ws,index);
+					break;
+					
+				case 'USER_LOGIN_RECONNECT':
+					loginReconnectUser(data,ws,index);
+					break;
+					
+				//* CHAT Handling *//
+				case 'USER_REQUEST_CHAT_LOG':
+					sendChatlog(ws);
+					break;
+					
+				case 'USER_REQUEST_USER_LIST':
+					sendUserList(ws);
+					break;
+					
+				case 'USER_PUBLIC_CHAT_MESSAGE':
+					processChatMessage(index,data);
+					break;
+					
+				case 'USER_REQUEST_UPDATE_COLOR':
+					setUserColor(index,data.color);
+					break;
+					
+				//* Search Handling *//
+				case 'USER_REQUEST_SEARCH':
+					processSearch(data.request,ws);
+					break;
+					
+				//* Heart beat *//
+				case 'USER_HEARTBEAT':
+					returnHeartbeat(ws);
+					break;
 
-	};
+			}
+
+		};
+		
+		/////////////
+		ws.onclose(function(event){
+			// Cannot get this event to trip... wth?
+			console.log('Close event detected for client(' + index + ')');
+		});
+	});	
 	
-	/////////////
-	ws.onclose(function(event){
-		// Cannot get this event to trip... wth?
-		console.log('Close event detected for client(' + index + ')');
-	});
 });
+
 
 //////////////////////////////////////////
 // Login functions
@@ -173,7 +173,7 @@ function processLogin(data,index){
 				'type': 'SYSTEM_MESSAGE',
 				'username': 'System',
 				'message': 'Another user has logged in using this login',
-				'color': __SYSTEM_COLOR	,
+				'textColor': __SYSTEM_COLOR	,
 			};
 			connection = clients[x]['ws'];
 			sendToOne(connection,obj);
@@ -225,15 +225,18 @@ function loginReconnectUser(data,connection,index){
 }
 
 function processReconnect(data,index){
+	//console.log(clients);
 	// Disconnect any other user using this userName
 	for(x in clients){
 		if(clients[x]['username'] == data.name){
+			//console.log('Disconnect This:');
+			//console.log(clients[x]);
 			var obj = {
 				'time': (new Date()).getTime(),
-				'type': 'SYSTEM_MESSAGE',
+				'type': 'SYSTEM_FORCE_DISCONNECT',
 				'username': 'System',
 				'message': 'Another user has logged in using this login',
-				'color': __SYSTEM_COLOR	,
+				'textColor': __SYSTEM_COLOR	,
 			};
 			connection = clients[x]['ws'];
 			sendToOne(connection,obj);
@@ -242,6 +245,8 @@ function processReconnect(data,index){
 	}
 	// Update username
 	setUserName(index,data.name);
+	// Update text color
+	setUserColor(index, data.color);
 	// Set Client to active
 	setActive(index);
 	// Send login notice to all active clients
@@ -261,7 +266,7 @@ function registerNewUser(data,connection){
 		'session':''
 	};
 	mongo.registernewUser(newUser,function(err,res){
-		console.log('mongo.registernewUser returned: ' + res);
+		//console.log('mongo.registernewUser returned: ' + res);
 		if(res != null){
 				var obj = {
 					time: (new Date()).getTime(),
@@ -309,7 +314,7 @@ function checkNameAvailability(type,name,connection){
 //////////////////////////////////////////
 function sendChatlog(connection){
 	var sendThis = chatLog.slice(-15);
-	console.log('sendChatlog(): '+sendThis);
+	//console.log('sendChatlog(): '+sendThis);
 	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_RESPONSE_CHAT_LOG',
@@ -318,27 +323,27 @@ function sendChatlog(connection){
 	sendToOne(connection,obj);
 }
 function systemNotice(msg){
-	console.log('systemNotice("' + msg + '")');
+	//console.log('systemNotice("' + msg + '")');
 	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_MESSAGE',
 		'message': msg,
-		'color': __SYSTEM_COLOR
+		'textColor': __SYSTEM_COLOR
 	};
 	sendToAll(obj);
 }
 
 
 function processChatMessage(id,data){
-		console.log('processChatMessage(): ' + id);
-		console.log(data);
+		//console.log('processChatMessage(): ' + id);
+		//console.log(data);
 		
 		var obj = {
 			'time': (new Date()).getTime(),
 			'type': 'SYSTEM_RESPONSE_CHAT_MESSAGE',
 			'username': getUserName(id),
 			'message': cleanString(data.message),
-			'color': getUserColor(id)	
+			'textColor': getUserColor(id)	
 		};
 		
 		addToChatLog(obj);
@@ -360,7 +365,7 @@ function processSearch(searchTerms,connection){
 		if(err){
 			console.log(err);
 		}else{
-			console.log(results.length);
+			//console.log(results.length);
 			var obj = {
 				'type': 'SYSTEM_RESPONSE_SEARCH_RESULTS',
 				'results': results
@@ -374,7 +379,7 @@ function processSearch(searchTerms,connection){
 // User Setters
 //////////////////////////////////////////
 function setUserName(index,userName){
-	console.log('setUsername(' + index + ')');
+	//console.log('setUsername(' + index + ')');
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['username'] = userName;
@@ -382,7 +387,7 @@ function setUserName(index,userName){
 	}
 }
 function setUserColor(index,color){
-	console.log('setUserColor(' + color + ') - ' + getUserName(index));
+	//console.log('setUserColor(' + color + ') - ' + getUserName(index));
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['textColor'] = color;
@@ -390,7 +395,7 @@ function setUserColor(index,color){
 	}
 }
 function setActive(index){
-	console.log('setActive(' + index + ')');
+	//console.log('setActive(' + index + ')');
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['active'] = true;
@@ -398,7 +403,7 @@ function setActive(index){
 	}
 }
 function setInactive(index){
-	console.log('setInactive(' + index + ')');
+	//console.log('setInactive(' + index + ')');
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['active'] = false;
@@ -406,7 +411,7 @@ function setInactive(index){
 	}
 }
 function setSession(index,session){
-	console.log('setSession(' + index + ')');
+	//console.log('setSession(' + index + ')');
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['session'] = session;
@@ -428,6 +433,7 @@ function getUserName(id){
 function getUserColor(id){
 		for(x in clients){
 			if(clients[x]['id'] == id){
+				console.log(clients[x]);
 				return clients[x]['textColor'];
 			}
 	}
@@ -456,7 +462,7 @@ function addToChatLog(obj){
 function sendToAll(data){
 	for(i=0;i<clients.length;i++){
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1'){
-			console.log("broadcast to: " + clients[i]['username']);
+			//console.log("broadcast to: " + clients[i]['username']);
 			var connection = clients[i]['ws']; 
 			connection.send(JSON.stringify(data));
 		}
@@ -494,9 +500,9 @@ function removeClient(index){
 	oldLength = clients.length;
 	var username = '';
 	for(i=0;i<clients.length;i++){
-		console.log('searching through clients:' + i + '....');
+		//console.log('searching through clients:' + i + '....');
 		if(clients[i].id == index){
-			console.log('Client found at:' + i);
+			//console.log('Client found at:' + i);
 			username = clients[i].username;
 			activeStatus = clients[i].active;
 			
@@ -520,10 +526,10 @@ function sendUserList(connection){
 	};
 	
 	if(connection == null){
-		console.log('sendUserList(): Update All');
+		//console.log('sendUserList(): Update All');
 		sendToAll(obj); 
 	}else{
-		console.log('sendUserList(): Update One');
+		//console.log('sendUserList(): Update One');
 		sendToOne(connection,obj);
 	}
 	
@@ -535,7 +541,7 @@ function getUserList(){
 		if(typeof clients[i]['ws'] != 'undefined' && clients[i]['ws']['readyState'] == '1' && clients[i].active === true){
 			output.push({
 				'name': clients[i]['username'],
-				'color': clients[i]['textColor']
+				'textColor': clients[i]['textColor']
 			});
 		}
 	}
@@ -561,8 +567,6 @@ function processUserName(name){
 		name = name.substr(0,__USERNAME_LENGTH);
 	}
 	
-
-
 	// return processed name
 	return name;
 }
@@ -584,9 +588,11 @@ function randomColor(){
 	var b = Math.floor((Math.random() * 255) + 1);
 	
 	randomRGB = r + ',' + g + ',' + b;
-	console.log('RGB: ' + randomRGB);
+	//console.log('RGB: ' + randomRGB);
 	return randomRGB;
 }
+
+// Delete this if you cant find a use for it somehow...
 //////////////////////////////
 function generateUUID(){
 	var d = new Date().getTime();

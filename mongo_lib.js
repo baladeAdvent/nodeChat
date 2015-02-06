@@ -3,22 +3,23 @@ var MongoClient = require('mongodb').MongoClient;
 var exports = module.exports = {};
 
 var DB = null;
-var MONGO_USER = 'nodechatsystem';
-var MONGO_PASS = 'nodechat123456nodechat';
-var MONGO_DB = 'nodechattest';
+var MONGO_USER = '';
+var MONGO_PASS = '';
+var MONGO_DB = '';
 
-exports.init = function(callback){
-	MongoClient.connect("mongodb://" + MONGO_USER + ":" + MONGO_PASS + "@ds031661.mongolab.com:31661/" + MONGO_DB ,function(err, db){
+exports.init = function(user,pass,database,callback){
+	MongoClient.connect("mongodb://" + user + ":" + pass + "@ds031661.mongolab.com:31661/" + database ,function(err, db){
 		if(err){
 			callback(err);
 		}
 		DB = db;
+		callback();
 	});	
 }
 
 /* Search functions */
 exports.searchMessage = function(requestString,callback){
-	console.log('searchMessage(): ' + requestString);
+	//console.log('searchMessage(): ' + requestString);
 	DB.collection('chatlog',function(err,docs){
 		if(err){
 			callback(err,null);
@@ -33,16 +34,16 @@ exports.searchMessage = function(requestString,callback){
 }
 
 exports.checkUsername = function(name,callback){
-	console.log('Check Username:' + name);
+	//console.log('Check Username:' + name);
 	status = 'default';
 	
 	var collection = DB.collection('users');
 	collection.findOne({'username':name},function(err,item){
 		if(item == null){
-			console.log(name + ': Not found in collection');
+			//console.log(name + ': Not found in collection');
 			status = 'false';
 		}else{
-			console.log(name + ': Found in collection');
+			//console.log(name + ': Found in collection');
 			status = 'true';	
 		}
 		callback(status);
@@ -54,7 +55,7 @@ exports.checkUsername = function(name,callback){
 
 /* Logging */
 exports.addToChatLog = function(doc,callback){
-	console.log('Mongo: Add message to chatlog DB');
+	//console.log('Mongo: Add message to chatlog DB');
 	status = true;
 	
 	var collection = DB.collection('chatlog');
@@ -68,16 +69,16 @@ exports.addToChatLog = function(doc,callback){
 }
 
 exports.isNameReserved = function(name,callback){
-	console.log('Mongo: Check if username is available');
+	//console.log('Mongo: Check if username is available');
 	status = true;
 		
 	var collection = DB.collection('users');
 	collection.findOne({'username':name},function(err,item){
 		if(item == null){
-			console.log(name + ': Not found in collection');
+			//console.log(name + ': Not found in collection');
 			status = false;
 		}else{
-			console.log(name + ': Found in collection');
+			//console.log(name + ': Found in collection');
 			status = true;	
 		}
 		callback(status);
@@ -86,10 +87,10 @@ exports.isNameReserved = function(name,callback){
 }
 
 exports.verifyUser = function(name, pass, callback){
-	console.log('Mongo: Verifying user credentials: ' + name + '/' + pass);
+	//console.log('Mongo: Verifying user credentials: ' + name + '/' + pass);
 	var collection = DB.collection('users');
 	collection.findOne({ $and:[{'username':name},{'password':pass}]},function(err,item){
-		console.log('Mongo: findOne / '+item);
+		//console.log('Mongo: findOne / '+item);
 		if(item == null){
 			callback(err,false);
 		}else{
@@ -99,7 +100,7 @@ exports.verifyUser = function(name, pass, callback){
 }
 
 exports.registernewUser = function (doc,callback){
-	console.log('Mongo: Registering new user...');
+	//console.log('Mongo: Registering new user...');
 	var collection = DB.collection('users');
 	collection.findOne({ $or:[{'username':doc.username},{'email':doc.email}]},function(err,item){
 		if(item == null){

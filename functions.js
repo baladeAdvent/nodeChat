@@ -1,6 +1,6 @@
 var user = {
 	'name':'',
-	'color':'',
+	'textColor':'',
 	'session':''
 };
 var loggedIn = false;
@@ -122,7 +122,7 @@ function createWebSocket(){
 	// WebSocket handling
 	///////////////////////////////////////////////////////////////////
 	ws.onopen = function(event){
-		
+		console.log(event);
 		// If reconnecting
 		if(reconnecting == true){
 			// Update new client entry to have my saved settings...?
@@ -161,7 +161,7 @@ function createWebSocket(){
 	// WS Response handling //
 	ws.onmessage = function(event){		
 		edata = JSON.parse(event.data);
-		logProperties(edata);
+		//logProperties(edata);
 		switch(edata.type){
 		
 			// Login
@@ -178,6 +178,10 @@ function createWebSocket(){
 			case 'SYSTEM_RECONNECT_RESPONSE':
 				nodeChatReconnect(edata);
 				break;
+				
+			case 'SYSTEM_FORCE_DISCONNECT':
+				nodeChatDisconnect(edata);
+				break;
 			
 			// Registration
 			case 'SYSTEM_REGISTRATION_RESPONSE':
@@ -190,7 +194,7 @@ function createWebSocket(){
 				
 			// Chat
 			case 'SYSTEM_MESSAGE':
-				appendSystemToChat(edata.message,edata.color,edata.time);
+				appendSystemToChat(edata.message,edata.textColor,edata.time);
 				break;
 				
 			case 'SYSTEM_UPDATE_USER_LIST':
@@ -202,7 +206,7 @@ function createWebSocket(){
 				break;
 				
 			case 'SYSTEM_RESPONSE_CHAT_MESSAGE':
-				appendToChat(edata.username,edata.message,edata.color,edata.time);
+				appendToChat(edata.username,edata.message,edata.textColor,edata.time);
 				break;
 			
 			// SEARCH
@@ -218,8 +222,9 @@ function createWebSocket(){
 	}
 	// WS Response handling //
 	
+	/*
 	ws.onerror = function(event){
-
+		console.log('Reconnect on error');
 		reconnecting = true;
 		var intervalTime = ( Math.floor((Math.random() * 29) + 1) )*1000;
 		console.log(intervalTime);
@@ -227,23 +232,40 @@ function createWebSocket(){
 			createWebSocket();
 		},intervalTime);
 	}
+	*/
 	
 	ws.onclose = function(event){
-		console.log('Disconnected...');
-		appendSystemToChat('Connection closed...','100,100,100');
+		console.log('Reconnect on close');
+		console.log(event);
+		
+		closeMessage = getCloseMessage(event.code);
+		appendSystemToChat(closeMessage,'100,100,100');
 		userlist_interval = null;
 		heartbeat_interval = null;
 		
 		reconnecting = true;
 		var intervalTime = ( Math.floor((Math.random() * 29) + 1) )*1000;
 		console.log(intervalTime);
-		setTimeout(function(){
+		reconnectInterval = setTimeout(function(){
 			createWebSocket();
 		},intervalTime);
 	}
 }
 
-
+function getCloseMessage(code){
+	messages = {
+		1000: 'Disconnected...',
+		1001: 'Server temporarily unavailable...',
+		1002: 'Protocol Error...',
+		1003: 'Unsupported data...',
+		1005: 'Unexpected error...',
+		1006: 'Adbnormal disconnect...',
+		1007: 'Non-UTF-8 Data...',
+		1008: 'Recieved a message which violates policy...',
+		1009: 'Data too large...'
+	};
+	return messages[code];
+}
 
 ///////////////////////////////////////////////////////////////////
 // Login functions
@@ -375,7 +397,7 @@ function createWebSocket(){
 	function startNodeChat(res){
 		if(res.result == 'success'){
 			user.name = res.username;
-			user.color = res.color;
+			user.textColor = res.textColor;
 			user.password = res.password;
 			user.session = res.session;
 			
@@ -400,7 +422,7 @@ function createWebSocket(){
 			
 			parts = (res.textColor).split(',');
 			$('#textColor').ColorPickerSetColor({r:parts[0],g:parts[1],b:parts[2]});
-			$('#textColor div').css('backgroundColor', 'rgb(' + res.color + ')');
+			$('#textColor div').css('backgroundColor', 'rgb(' + res.textColor + ')');
 			requestChatLog();
 			requestUserlist();
 		
@@ -418,6 +440,11 @@ function createWebSocket(){
 			$('#nodeChat_login').animate({height:'show'},500);
 			$('#nodeChat_client').animate({height:'hide'},500);
 		}
+	}
+	
+	function nodeChatDisconnect(data){
+		clearTimeout(reconnectInterval);
+		appendSystemToChat(data.message,'100,100,100',data.time);
 	}
 	
 	function processChatMessage(){
@@ -465,7 +492,7 @@ function createWebSocket(){
 	function appendChatLog(log){
 			for(i=0;i<log.length;i++){
 				var timeStamp = $('<div></div>').attr('class','nodeChat_timestamp').html( processDateTime(log[i].time) ).css('display',get_timeStamp_display());
-				var label = $('<div></div>').css('color','rgb('+log[i].color+')').css('display','table-cell').text(log[i].username + ': ').append( timeStamp );
+				var label = $('<div></div>').css('color','rgb('+log[i].textColor+')').css('display','table-cell').text(log[i].username + ': ').append( timeStamp );
 				var message = $('<div></div>').css('display','table-cell').text(log[i].message);
 				var appendThis = $('<li></li>').attr('class','nodeChat_chat_message').append(label).append(message);
 				$('#nodeChat_messages').append( appendThis.hide() );
@@ -508,7 +535,7 @@ function createWebSocket(){
 		
 		for(i=0;i<data.length;i++){
 			logProperties(data[i]);
-			var item = $('<li></li>').css('color','rgb('+data[i].color+')').html(data[i].name);
+			var item = $('<li></li>').css('color','rgb('+data[i].textColor+')').html(data[i].name);
 			destination.append( item );
 		}
 	}
@@ -523,6 +550,7 @@ function createWebSocket(){
 			'type': 'USER_REQUEST_UPDATE_COLOR',
 			'color': color.r + ',' + color.g + ',' + color.b
 		};
+		user.textColor = color.r + ',' + color.g + ',' + color.b;
 		sendToServer(obj);
 	}
 

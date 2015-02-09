@@ -38,15 +38,24 @@ exports.chatWordUsage = function(callback){
 
 	var collection = DB.collection('chatlog');
 	
-	var map = function(){ emit(this.message,1); };
-	var reduce = function(k,vals){ return 1; };
+	collection.find().toArray(function(err,result){
+		console.log('collection count: '+result.length);
+	});
 	
-	collection.mapReduce(map,reduce,{ out: {replace: 'replacethiscollection'}, limit: 999 },function(err,tempCollection){
-		tempCollection.find().toArray(function(err,result){			
+	var map = function(){ 
+		emit(this.message,1); 
+	};
+	
+	var reduce = function(val,k){ 
+		
+		return {k:val};
+	};
+	
+	collection.mapReduce( map,reduce,{ out: {replace:"tempCollection"} },function(err,res){
+		res.find().toArray(function(err,result){			
 			console.log('mapReduce count:' + result.length);
 			console.log(result);	
 		});
-		
 	});
 
 }

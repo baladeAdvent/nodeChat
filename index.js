@@ -93,7 +93,7 @@ mongo.init('nodechatsystem','nodechat123456nodechat','nodechattest',function(err
 					
 				//* Chat Statistics *//
 				case 'USER_REQUEST_CHAT_STATISTICS':
-					processChatStatistics();
+					processChatStatistics(ws);
 					break;
 					
 				//* Heart beat *//
@@ -383,8 +383,15 @@ function processSearch(searchTerms,connection){
 //////////////////////////////////////////
 // Chat Statistics
 //////////////////////////////////////////
-function processChatStatistics(){
-		mongo.chatWordUsage();
+function processChatStatistics(connection){
+		mongo.chatWordUsage(function(err,wordUseArray){
+			console.log(wordUseArray);
+			var obj = {
+				'type': 'SYSTEM_RESPONSE_CHAT_STATISTICS_WORDUSAGE',
+				'wordUseage': wordUseArray
+			};
+			sendToOne(connection,obj);
+		});
 }
 
 //////////////////////////////////////////

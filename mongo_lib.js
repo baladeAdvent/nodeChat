@@ -35,26 +35,25 @@ exports.searchMessage = function(requestString,callback){
 
 /* Chat Statistics */
 exports.chatWordUsage = function(callback){
-
-	var collection = DB.collection('chatlog');
-	
-	collection.find().toArray(function(err,result){
-		console.log('collection count: '+result.length);
-	});
-	
+	var collection = DB.collection('chatlog');	
 	var map = function(){ 
-		emit(this.message,1); 
+		words = (this.message).split(' ');
+		for(i in words){
+			emit( words[i],{count:1});
+		}
 	};
 	
-	var reduce = function(val,k){ 
-		
-		return {k:val};
+	var reduce = function(k,val){ 
+		var count = 0;
+		val.forEach(function(v){
+			count += v['count'];
+		});
+		return {count:count};
 	};
 	
-	collection.mapReduce( map,reduce,{ out: {replace:"tempCollection"} },function(err,res){
+	collection.mapReduce( map, reduce, { out: {replace:"tempCollection",sort:{'count':-1}} }, function( err,res ){
 		res.find().toArray(function(err,result){			
-			console.log('mapReduce count:' + result.length);
-			console.log(result);	
+			callback(err,result);
 		});
 	});
 

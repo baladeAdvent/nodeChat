@@ -217,6 +217,11 @@ function createWebSocket(){
 			case 'SYSTEM_RESPONSE_SEARCH_RESULTS':
 				appendSearchResults(edata.results);
 				break;
+				
+			// Chat Statistics
+			case 'SYSTEM_RESPONSE_CHAT_STATISTICS_WORDUSAGE':
+				postWordUseage(edata.wordUseage);
+				break;
 			
 			// Heartbeat
 			case 'SYSTEM_HEARTBEAT':
@@ -615,6 +620,23 @@ function getCloseMessage(code){
 		row.appendTo(destination);
 	}
 	
+	function postWordUseage(data){
+		logProperties(data);
+		
+		destination = $('#nodeChat_statistics_word_useage > .results').html('');
+		var row = $('<div></div>').attr('class','row');
+		var col = $('<div></div>');
+		
+		for(i=0;i<data.length;i++){
+			logProperties(data[i].value);
+			cell = row.clone();
+			col.clone().attr('class','col-xs-1').html( i + '.').appendTo(cell);
+			col.clone().attr('class','col-xs-2').html( data[i]._id ).appendTo(cell);
+			col.clone().attr('class','col-xs-2').html( data[i].value.count ).appendTo(cell);
+			cell.appendTo(destination);
+		}
+		
+	}
 	
 	//////////////////////////////
 	function processDateTime(dateString){

@@ -40,21 +40,25 @@ exports.chatWordUsage = function(callback){
 	var map = function(){ 
 		words = (this.message).split(' ');
 		for(i in words){
-			emit( words[i],{count:1});
+			var strLen = words[i].length;
+			emit( words[i],{count:1,length:strLen} );
 		}
 	};
 	
 	var reduce = function(k,val){ 
 		var count = 0;
 		val.forEach(function(v){
-			count += v['count'];
+			count += v['value']['count'];
 		});
-		return count;
+		return {'count':count};
 	};
 	
 	collection.mapReduce( map, reduce, { out: {replace:"tempCollection"}}, function(err,cursor){
-		var find = { 'value': {$gt: 1}	};
-		var options = { 'sort': [['value','desc']]};
+		var find = {
+			'value.count':{$gt:0},
+			'value.length':{$gt:0}
+		};
+		var options = { 'sort': [['value.count','desc']]};
 		cursor.find( find,options ).toArray(callback);
 	});
 

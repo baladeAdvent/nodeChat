@@ -43,7 +43,7 @@ $(document).ready(function(){
 		ws.close();		
 	});
 	
-	$('#nodeChat_statistics_word_useage').bind('click',function(event){
+	$('#nodeChat_statistics_word_useage button').bind('click',function(event){
 		requestChatStatistics();
 	});
 	
@@ -621,18 +621,19 @@ function getCloseMessage(code){
 	}
 	
 	function postWordUseage(data){
-		logProperties(data);
+		//logProperties(data);
 		
 		destination = $('#nodeChat_statistics_word_useage > .results').html('');
 		var row = $('<div></div>').attr('class','row');
 		var col = $('<div></div>');
 		
 		for(i=0;i<data.length;i++){
-			logProperties(data[i].value);
+			//logProperties(data[i].value);
 			cell = row.clone();
-			col.clone().attr('class','col-xs-2').html( i + '.').appendTo(cell);
-			col.clone().attr('class','col-xs-5').html( data[i]._id ).appendTo(cell);
-			col.clone().attr('class','col-xs-5').html( data[i].value ).appendTo(cell);
+			col.clone().attr('class','col-xs-3').html( i + '.').appendTo(cell);
+			col.clone().attr('class','col-xs-3').html( data[i]._id ).appendTo(cell);
+			col.clone().attr('class','col-xs-3').html( data[i].value.count ).appendTo(cell);
+			col.clone().attr('class','col-xs-3').html( data[i].value.length ).appendTo(cell);
 			cell.appendTo(destination);
 		}
 	}

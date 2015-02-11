@@ -386,6 +386,7 @@ function processSearch(searchTerms,connection){
 function processChatStatistics(connection){
 	console.log('Calculate word useage...');
 		mongo.chatWordUsage(function(err,wordUseArray){
+			console.log(err);
 			console.log(wordUseArray);
 			var obj = {
 				'type': 'SYSTEM_RESPONSE_CHAT_STATISTICS_WORDUSAGE',

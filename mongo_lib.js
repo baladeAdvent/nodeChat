@@ -48,7 +48,7 @@ exports.chatWordUsage = function(callback){
 	var reduce = function(k,val){ 
 		var count = 0;
 		val.forEach(function(v){
-			count += v['value']['count'];
+			count += v['count'];
 		});
 		return {'count':count};
 	};

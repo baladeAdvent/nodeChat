@@ -630,12 +630,11 @@ function getCloseMessage(code){
 		for(i=0;i<data.length;i++){
 			logProperties(data[i].value);
 			cell = row.clone();
-			col.clone().attr('class','col-xs-1').html( i + '.').appendTo(cell);
-			col.clone().attr('class','col-xs-2').html( data[i]._id ).appendTo(cell);
-			col.clone().attr('class','col-xs-2').html( data[i].value.count ).appendTo(cell);
+			col.clone().attr('class','col-xs-2').html( i + '.').appendTo(cell);
+			col.clone().attr('class','col-xs-5').html( data[i]._id ).appendTo(cell);
+			col.clone().attr('class','col-xs-5').html( data[i].value ).appendTo(cell);
 			cell.appendTo(destination);
 		}
-		
 	}
 	
 	//////////////////////////////

@@ -35,6 +35,7 @@ exports.searchMessage = function(requestString,callback){
 
 /* Chat Statistics */
 exports.chatWordUsage = function(callback){
+	console.log('MONGO: Calculating word useage...');
 	var collection = DB.collection('chatlog');	
 	var map = function(){ 
 		words = (this.message).split(' ');
@@ -48,13 +49,13 @@ exports.chatWordUsage = function(callback){
 		val.forEach(function(v){
 			count += v['count'];
 		});
-		return {count:count};
+		return count;
 	};
 	
-	collection.mapReduce( map, reduce, { out: {replace:"tempCollection",sort:{'count':-1}} }, function( err,res ){
-		res.find().toArray(function(err,result){			
-			callback(err,result);
-		});
+	collection.mapReduce( map, reduce, { out: {replace:"tempCollection"}}, function(err,cursor){
+		var find = { 'value': {$gt: 1}	};
+		var options = { 'sort': [['value','desc']]};
+		cursor.find( find,options ).toArray(callback);
 	});
 
 }

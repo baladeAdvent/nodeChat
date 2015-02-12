@@ -26,7 +26,7 @@
 	<!-- Client  Header -->
 	<div class="row">
 		<div class="col-xs-12" id="nodeChat_header">
-			<div class="alert bg-primary">Welcome to nodeChat: <span class="pull-right"></span></div>
+			<div class="alert bg-primary"><span id="nodeChat_chatroom_topic">Welcome to nodeChat:</span> <span class="pull-right"></span></div>
 		</div>
 	</div>
 	<!-- Client  Header -->
@@ -44,6 +44,11 @@
 				</div>
 				<div class="form-group">
 					<input type="password" id="nodeChat_login_password" name="loginPassword" placeholder="password" class="form-control" disabled />
+				</div>
+				<div class="form-group">
+					<label for="nodeChat_login_channel">Channel:</label>
+						<select class="form-control" id="nodeChat_login_channel">
+						</select>
 				</div>
 			</form>	
 				<div class="row">

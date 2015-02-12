@@ -40,8 +40,7 @@ exports.chatWordUsage = function(callback){
 	var map = function(){ 
 		words = (this.message).split(' ');
 		for(i in words){
-			var strLen = words[i].length;
-			emit( words[i],{count:1,length:strLen} );
+			emit( words[i],{count:1} );
 		}
 	};
 	
@@ -50,13 +49,14 @@ exports.chatWordUsage = function(callback){
 		val.forEach(function(v){
 			count += v['count'];
 		});
-		return {'count':count};
+		var strLen = k.length;
+		return {'count':count,length:strLen};
 	};
 	
 	collection.mapReduce( map, reduce, { out: {replace:"tempCollection"}}, function(err,cursor){
 		var find = {
 			'value.count':{$gt:0},
-			'value.length':{$gt:0}
+			'value.length':{$gt:3}
 		};
 		var options = { 'sort': [['value.count','desc']]};
 		cursor.find( find,options ).toArray(callback);

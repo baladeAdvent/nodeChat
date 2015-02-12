@@ -1,7 +1,7 @@
 var user = {
 	'name':'',
-	'textColor':'',
-	'session':''
+	'channel':0,
+	'textColor':''
 };
 var loggedIn = false;
 var timestampStatus = false;
@@ -126,6 +126,12 @@ function createWebSocket(){
 	// WebSocket handling
 	///////////////////////////////////////////////////////////////////
 	ws.onopen = function(event){
+		//Retrieve Channel List
+		var obj = {
+			'type':'USER_REQUEST_CHANNEL_LIST'
+		}
+		sendToServer(obj);
+		
 		console.log(event);
 		// If reconnecting
 		if(reconnecting == true){
@@ -136,8 +142,8 @@ function createWebSocket(){
 				'type': 'USER_LOGIN_RECONNECT',
 				'name': user.name,
 				'password': user.password,
-				'textColor': user.textColor,
-				'session': user.session
+				'channel': user.channel,
+				'textColor': user.textColor
 			};
 			sendToServer(obj);
 		}else{
@@ -165,7 +171,7 @@ function createWebSocket(){
 	// WS Response handling //
 	ws.onmessage = function(event){		
 		edata = JSON.parse(event.data);
-		//logProperties(edata);
+		logProperties(edata);
 		switch(edata.type){
 		
 			// Login
@@ -175,7 +181,6 @@ function createWebSocket(){
 				
 			case 'SYSTEM_RESPONSE_LOGIN_VERIFY':
 			case 'SYSTEM_RESPONSE_LOGIN_ANONYMOUS':
-				//console.log('login verification recieved');
 				startNodeChat(edata);
 				break;
 				
@@ -211,6 +216,11 @@ function createWebSocket(){
 				
 			case 'SYSTEM_RESPONSE_CHAT_MESSAGE':
 				appendToChat(edata.username,edata.message,edata.textColor,edata.time);
+				break;
+				
+			// Channel List
+			case 'SYSTEM_RESPONSE_CHANNEL_LIST':
+				processChannelList(edata);
 				break;
 			
 			// SEARCH
@@ -314,10 +324,24 @@ function getCloseMessage(code){
 				'type': type,
 				'name':	trim($('#nodeChat_login_username').val()),
 				'password': trim($('#nodeChat_login_password').val()),
+				'channel': trim($('#nodeChat_login_channel').val())
 			};
 			// Note: Disable Login Form at this point, wait for response from server
 			sendToServer(obj);
 		}
+	}
+	
+	function processChannelList(data){
+		var option = $('<option></option>');
+		var destination = $('#nodeChat_login_channel');
+		
+		for(i=0;i<data.channelist.length;i++){
+			var name = data.channelist[i].name;
+			var topic = data.channelist[i].topic;
+			
+			option.clone().text( name + ': ' + topic).val(i).appendTo(destination);
+		}
+		
 	}
 	
 ///////////////////////////////////////////////////////////////////
@@ -408,6 +432,7 @@ function getCloseMessage(code){
 			user.name = res.username;
 			user.textColor = res.textColor;
 			user.password = res.password;
+			user.channel = res.channel;
 			user.session = res.session;
 			
 			updateTimestampStatus();
@@ -427,7 +452,8 @@ function getCloseMessage(code){
 			$('#nodeChat_login').animate({height:'hide'},500);
 			$('#nodeChat_client').animate({height:'show'},500);
 			
-			$('#nodeChat_header').find('span').html(res.username);
+			$('#nodeChat_header').find('span').first().html(res.topic);
+			$('#nodeChat_header').find('span').last().html(res.username);
 			
 			parts = (res.textColor).split(',');
 			$('#textColor').ColorPickerSetColor({r:parts[0],g:parts[1],b:parts[2]});
@@ -462,7 +488,8 @@ function getCloseMessage(code){
 		if( validateMessage(message) == true){
 			var obj = {
 				'type': 'USER_PUBLIC_CHAT_MESSAGE',
-				'message': message
+				'message': message,
+				'channel': user.channel
 			};
 			sendToServer(obj);
 			$('#nodeChat_message').val('');

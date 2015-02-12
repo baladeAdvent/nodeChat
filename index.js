@@ -11,7 +11,20 @@ var port = (process.env.PORT || 5000);
 
 var chatLog = new Array();
 var clients = new Array();
-var channels = new Array();
+
+var channels = new Array(
+	{
+		'name':'Lobby',
+		'topic':'Welcome to nodeChat Lobby!',
+		'key':false
+	},
+	{
+		'name':'Chatroom1',
+		'topic':'Somewhere to go that isn\'t the lobby...',
+		'key':false
+	}
+);
+
 var clientID = 0;
 app.use(express.static(__dirname + '/'));
 
@@ -35,13 +48,12 @@ mongo.init('nodechatsystem','nodechat123456nodechat','nodechattest',function(err
 		var userObj = {
 			'id': index,
 			'username': 'new_user' + Math.floor(Math.random() * 10000),
+			'channel':0,
 			'ws': ws,
 			'active': false,
 			'textColor': randomColor()
 		};
 		clients.push(userObj);
-		
-		//console.log('Connection: '+index);
 		
 		ws.onmessage = function(event){
 			var data = JSON.parse(event.data);
@@ -71,7 +83,7 @@ mongo.init('nodechatsystem','nodechat123456nodechat','nodechattest',function(err
 					
 				//* CHAT Handling *//
 				case 'USER_REQUEST_CHAT_LOG':
-					sendChatlog(ws);
+					sendChatlog(ws,getUserChannel(index));
 					break;
 					
 				case 'USER_REQUEST_USER_LIST':
@@ -85,7 +97,12 @@ mongo.init('nodechatsystem','nodechat123456nodechat','nodechattest',function(err
 				case 'USER_REQUEST_UPDATE_COLOR':
 					setUserColor(index,data.color);
 					break;
-					
+				
+				//* Channel List Request *//
+				case 'USER_REQUEST_CHANNEL_LIST':
+					sendChannelList(ws);
+					break;
+				
 				//* Search Handling *//
 				case 'USER_REQUEST_SEARCH':
 					processSearch(data.request,ws);
@@ -125,6 +142,8 @@ function loginNewUser(data,connection,index){
 		result: '',
 		username: processUserName(data.name),
 		password: data.password,
+		channel: data.channel,
+		topic: channels[data.channel].topic,
 		textColor: getUserColor(index),
 		message: ''
 	};
@@ -187,6 +206,8 @@ function processLogin(data,index){
 	}
 	// Update username
 	setUserName(index,data.name);
+	// Set Client Channel
+	setChannel(index,data.channel);
 	// Set Client to active
 	setActive(index);
 	// Send login notice to all active clients
@@ -252,11 +273,24 @@ function processReconnect(data,index){
 	setUserName(index,data.name);
 	// Update text color
 	setUserColor(index, data.color);
+	// Set Client Channel
+	setChannel(index,data.channel);
 	// Set Client to active
 	setActive(index);
 	// Send login notice to all active clients
 	systemNotice( data.name + ' has reconnected...' );
 	sendUserList();
+}
+
+//////////////////////////////////////////
+// Channel list
+//////////////////////////////////////////
+function sendChannelList(connection){
+		var obj = {
+			'type':'SYSTEM_RESPONSE_CHANNEL_LIST',
+			'channelist':channels			
+		};
+		sendToOne(connection,obj);	
 }
 
 //////////////////////////////////////////
@@ -317,21 +351,29 @@ function checkNameAvailability(type,name,connection){
 //////////////////////////////////////////
 // Chat Functions
 //////////////////////////////////////////
-function sendChatlog(connection){
-	var sendThis = chatLog.slice(-15);
-	//console.log('sendChatlog(): '+sendThis);
+function sendChatlog(connection,channel){
+	var sendThis = new Array();
+	for(x in chatLog){
+		if(chatLog[x].channel == channel){
+			sendThis.push(chatLog[x]);
+		}
+	}
+	sendThis = sendThis.slice(-15);
+	
 	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_RESPONSE_CHAT_LOG',
+		'channel':channel,
 		'chatlog': sendThis
 	};
 	sendToOne(connection,obj);
 }
-function systemNotice(msg){
+function systemNotice(msg,channel){
 	//console.log('systemNotice("' + msg + '")');
 	var obj = {
 		'time': (new Date()).getTime(),
 		'type': 'SYSTEM_MESSAGE',
+		'channel':channel,
 		'message': msg,
 		'textColor': __SYSTEM_COLOR
 	};
@@ -348,6 +390,7 @@ function processChatMessage(id,data){
 			'type': 'SYSTEM_RESPONSE_CHAT_MESSAGE',
 			'username': getUserName(id),
 			'message': cleanString(data.message),
+			'channel': data.channel,
 			'textColor': getUserColor(id)	
 		};
 		
@@ -387,7 +430,7 @@ function processChatStatistics(connection){
 	console.log('Calculate word useage...');
 		mongo.chatWordUsage(function(err,wordUseArray){
 			//console.log(err);
-			//console.log(wordUseArray);
+			console.log(wordUseArray);
 			var obj = {
 				'type': 'SYSTEM_RESPONSE_CHAT_STATISTICS_WORDUSAGE',
 				'wordUseage': wordUseArray
@@ -404,6 +447,13 @@ function setUserName(index,userName){
 	for(x in clients){
 		if(clients[x]['id'] == index){
 			clients[x]['username'] = userName;
+		}
+	}
+}
+function setChannel(index,channel){
+	for(x in clients){
+		if(clients[x]['id'] == index){
+			clients[x]['channel'] = channel;
 		}
 	}
 }
@@ -452,13 +502,21 @@ function getUserName(id){
 	return 'Default_Username';
 }
 function getUserColor(id){
-		for(x in clients){
-			if(clients[x]['id'] == id){
-				console.log(clients[x]);
-				return clients[x]['textColor'];
-			}
+	for(x in clients){
+		if(clients[x]['id'] == id){
+			console.log(clients[x]);
+			return clients[x]['textColor'];
+		}
 	}
 	return '0,0,0';
+}
+function getUserChannel(id){
+	for(x in clients){
+		if(clients[x]['id'] == id){
+			return clients[x]['channel'];
+		}
+	}
+	return 0;	
 }
 
 //////////////////////////////////////////

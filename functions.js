@@ -171,7 +171,7 @@ function createWebSocket(){
 	// WS Response handling //
 	ws.onmessage = function(event){		
 		edata = JSON.parse(event.data);
-		logProperties(edata);
+		//logProperties(edata);
 		switch(edata.type){
 		
 			// Login
@@ -435,6 +435,8 @@ function getCloseMessage(code){
 			user.channel = res.channel;
 			user.session = res.session;
 			
+			logProperties(res.channel);
+			
 			updateTimestampStatus();
 			$('#nodeChat_timestamp_toggle').bind('change',function(){
 				updateTimestampStatus();
@@ -452,7 +454,7 @@ function getCloseMessage(code){
 			$('#nodeChat_login').animate({height:'hide'},500);
 			$('#nodeChat_client').animate({height:'show'},500);
 			
-			$('#nodeChat_header').find('span').first().html(res.topic);
+			$('#nodeChat_header').find('span').first().html(res.channel.name + ": " +res.channel.topic);
 			$('#nodeChat_header').find('span').last().html(res.username);
 			
 			parts = (res.textColor).split(',');

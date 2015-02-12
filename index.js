@@ -14,14 +14,16 @@ var clients = new Array();
 
 var channels = new Array(
 	{
+		'id':0,
 		'name':'Lobby',
 		'topic':'Welcome to nodeChat Lobby!',
-		'key':false
+		'pass':false
 	},
 	{
+		'id':1,
 		'name':'Chatroom1',
 		'topic':'Somewhere to go that isn\'t the lobby...',
-		'key':false
+		'pass':false
 	}
 );
 
@@ -142,8 +144,7 @@ function loginNewUser(data,connection,index){
 		result: '',
 		username: processUserName(data.name),
 		password: data.password,
-		channel: data.channel,
-		topic: channels[data.channel].topic,
+		channel: channels[data.channel],
 		textColor: getUserColor(index),
 		message: ''
 	};
@@ -513,6 +514,7 @@ function getUserColor(id){
 function getUserChannel(id){
 	for(x in clients){
 		if(clients[x]['id'] == id){
+			console.log('User is in channel:' + x);
 			return clients[x]['channel'];
 		}
 	}
